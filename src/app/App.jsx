@@ -27,14 +27,14 @@ export const router = createBrowserRouter(
           </AuthGuard>
         }
       >
-        <Route path="/jobs" exact element={<JobsView />} loader={jobsListLoader} end/>
+        <Route path="/" exact element={<JobsView />} loader={jobsListLoader} end/>
         <Route
           path="/jobs/:id"
           element={<FullJobView />}
           loader={fullJobLoader}
         />
       </Route>
-      <Route path="/" exact element={<Navigate to={"/jobs"} replace />} />
+      {/* <Route path="/" exact element={<Navigate to={"/jobs"} replace />} /> */}
       <Route path="/welcome" element={<Welcome />} />
       <Route path="session/signin" element={<JwtLogin />} />
       <Route path="session/signup" element={<JwtRegister />} />

@@ -11,7 +11,7 @@ const Welcome = () => {
 		justifyContent: "center",
 		flexDirection: "column"
 	}}>
-		<NavLink to={'/jobs'}>
+		<NavLink to={'/'}>
 			<Box
 				src="/assets/images/home-sweet-home-relaxed.gif"
 				component={'img'}

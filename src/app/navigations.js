@@ -1,7 +1,7 @@
 export const navigations = [
   { label: 'Страницы', type: 'label' },
   { name: 'Начальная', path: '/welcome', icon: 'dashboard' },
-  { name: 'Список стажировок', path: '/jobs', icon: 'dashboard' },
+  { name: 'Список стажировок', path: '/', icon: 'dashboard' },
   { name: 'Отдельная стажировка', path: '/jobs/1', icon: 'dashboard' },
   {
     name: 'Авторизация',
