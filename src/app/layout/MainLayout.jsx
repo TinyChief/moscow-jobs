@@ -94,16 +94,20 @@ const MainLayout = () => {
     updateSettings({ layoutSettings: { leftSidebar: { ...sidebarSettings } } });
   };
 
+  const closeSidebar = () => {
+    if (isLgScreen) updateSidebarMode({ mode: "close" });
+  };
+
   return (
     <Layout1Root className={layoutClasses}>
       {showSidenav && sidenavMode !== "close" && (
         <LayoutSidenav
-          onNavigation={() => updateSidebarMode({ mode: "close" })}
+          onNavigation={closeSidebar}
         />
       )}
 
       {showSidenav && sidenavMode !== "close" && isLgScreen && (
-        <SideNavOverlay onClick={() => updateSidebarMode({ mode: "close" })} />
+        <SideNavOverlay onClick={closeSidebar} />
       )}
       <LayoutContainer width={sidenavWidth}>
         <Topbar fixed={true} className="elevation-z8" />

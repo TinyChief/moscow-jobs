@@ -1,12 +1,24 @@
 import * as React from "react";
-import {Box, Avatar, Menu, MenuItem, ListItemIcon, Divider, IconButton, Tooltip} from "@mui/material";
+import {
+  Box,
+  Avatar,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  Divider,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import useAuth from "@/app/hooks/useAuth";
 import { getUserInitials } from "../utils/utils";
+import { Brightness4, Brightness7 } from "@mui/icons-material";
+import { ColorModeContext } from "../theme/ProjectTheme";
 
 export default function AccountMenu() {
+  const colorMode = React.useContext(ColorModeContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { logout, user } = useAuth();
 
@@ -19,7 +31,7 @@ export default function AccountMenu() {
   };
   const handleLogout = () => {
     handleClose();
-    logout()
+    logout();
   };
   return (
     <React.Fragment>
@@ -33,7 +45,9 @@ export default function AccountMenu() {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>{getUserInitials(user.name)}</Avatar>
+            <Avatar sx={{ width: 32, height: 32 }}>
+              {getUserInitials(user.name)}
+            </Avatar>
           </IconButton>
         </Tooltip>
       </Box>
@@ -87,6 +101,16 @@ export default function AccountMenu() {
             <Settings fontSize="small" />
           </ListItemIcon>
           Настройки
+        </MenuItem>
+        <MenuItem onClick={() => colorMode.toggleColorMode()}>
+          <ListItemIcon>
+            {colorMode.currentMode === "dark" ? (
+              <Brightness7 />
+            ) : (
+              <Brightness4 />
+            )}
+          </ListItemIcon>
+          {colorMode.currentMode === "dark" ? "Светлая тема" : "Тёмная тема"}
         </MenuItem>
         <MenuItem onClick={handleLogout}>
           <ListItemIcon>

@@ -131,17 +131,6 @@ const JwtLogin = () => {
                       />
 
                       <FlexBox justifyContent="space-between">
-                        {/* <FlexBox gap={1}>
-                          <Checkbox
-                            size="small"
-                            name="remember"
-                            onChange={handleChange}
-                            checked={values.remember}
-                            sx={{ padding: 0 }}
-                          />
-
-                          <Paragraph>Remember Me</Paragraph>
-                        </FlexBox> */}
 
                         <NavLink
                           to="/session/forgot-password"
