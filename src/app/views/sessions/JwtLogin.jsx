@@ -21,7 +21,7 @@ const ContentBox = styled(Box)(() => ({
 }));
 
 const JWTRoot = styled(JustifyBox)(() => ({
-  background: "#1A2038",
+  // background: "#1A2038",
   minHeight: "100vh !important",
   "& .card": {
     maxWidth: 800,
@@ -52,17 +52,6 @@ const validationSchema = Yup.object().shape({
     .required("Email is required!"),
 });
 
-const CURRENT_THEME = 'whiteBlue'
-
-const whiteBlue = createTheme({
-  ...themeColors[CURRENT_THEME],
-
-  typography: {
-    fontSize: 14,
-    body1: { fontSize: '14px' },
-  },
-})
-
 const JwtLogin = () => {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -82,7 +71,6 @@ const JwtLogin = () => {
   };
 
   return (
-    <ThemeProvider theme={whiteBlue}>
       <JWTRoot>
         <Card className="card">
           <Grid container>
@@ -117,7 +105,7 @@ const JwtLogin = () => {
                         size="small"
                         type="email"
                         name="email"
-                        label="Email"
+                        label="Электронная почта или логин"
                         variant="outlined"
                         onBlur={handleBlur}
                         value={values.email}
@@ -132,7 +120,7 @@ const JwtLogin = () => {
                         size="small"
                         name="password"
                         type="password"
-                        label="Password"
+                        label="Пароль"
                         variant="outlined"
                         onBlur={handleBlur}
                         value={values.password}
@@ -143,7 +131,7 @@ const JwtLogin = () => {
                       />
 
                       <FlexBox justifyContent="space-between">
-                        <FlexBox gap={1}>
+                        {/* <FlexBox gap={1}>
                           <Checkbox
                             size="small"
                             name="remember"
@@ -153,27 +141,27 @@ const JwtLogin = () => {
                           />
 
                           <Paragraph>Remember Me</Paragraph>
-                        </FlexBox>
+                        </FlexBox> */}
 
                         <NavLink
                           to="/session/forgot-password"
                         >
-                          Forgot password?
+                          Забыли пароль?
                         </NavLink>
                       </FlexBox>
 
                       <LoadingButton
                         type="submit"
-                        color="primary"
                         loading={loading}
                         variant="contained"
+                        fullWidth
                         sx={{ my: 2 }}
                       >
-                        Login
+                        Войти
                       </LoadingButton>
 
                       <Paragraph>
-                        Don't have an account?
+                        Ещё нет аккаунта?
                         <NavLink
                           to="/session/signup"
                           style={{
@@ -181,7 +169,7 @@ const JwtLogin = () => {
                             marginLeft: 5,
                           }}
                         >
-                          Register
+                          Зарегистрироваться
                         </NavLink>
                       </Paragraph>
                     </form>
@@ -192,7 +180,6 @@ const JwtLogin = () => {
           </Grid>
         </Card>
       </JWTRoot>
-    </ThemeProvider>
   );
 };
 

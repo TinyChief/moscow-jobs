@@ -35,10 +35,10 @@ const NotFound = () => {
         <Button
           color="primary"
           variant="contained"
-          sx={{ textTransform: 'capitalize' }}
+          sx={{ textTransform: 'uppercase' }}
           onClick={() => navigate(-1)}
         >
-          Go Back
+          Вернуться
         </Button>
       </JustifyBox>
     </NotFoundRoot>

@@ -5,22 +5,15 @@ import {
   styled,
   useTheme,
   useMediaQuery,
+  AppBar,
 } from "@mui/material";
 
-import { topBarHeight } from "@/app/utils/constant";
 import useSettings from "../hooks/useSettings";
 import AccountMenu from "../components/AccountMenu.jsx";
 
 const StyledIconButton = styled(IconButton)(({ theme }) => ({
   color: theme.palette.text.primary,
 }));
-
-const TopbarRoot = styled("header")({
-  top: 0,
-  zIndex: 96,
-  height: topBarHeight,
-  transition: "all 0.3s ease",
-});
 
 const TopbarContainer = styled(Box)(({ theme }) => ({
   padding: "8px",
@@ -30,7 +23,6 @@ const TopbarContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  background: theme.palette.primary.main,
   [theme.breakpoints.down("sm")]: {
     paddingLeft: 16,
     paddingRight: 16,
@@ -58,45 +50,50 @@ const LayoutTopbar = () => {
 
   const handleSidebarToggle = () => {
     let { layoutSettings } = settings;
-    let mode
+    let mode;
     if (isMdScreen) {
-      mode = layoutSettings.leftSidebar.mode === 'close' ? 'mobile' : 'close';
+      mode = layoutSettings.leftSidebar.mode === "close" ? "mobile" : "close";
     } else {
-      mode = layoutSettings.leftSidebar.mode === 'close' ? 'full' : 'close';
+      mode = layoutSettings.leftSidebar.mode === "close" ? "full" : "close";
     }
     updateSidebarMode({ mode });
   };
 
   return (
-    <TopbarRoot>
-      <TopbarContainer>
-        <Box display="flex">
-          <IconBox>
-            {isLgScreen && (
-              <StyledIconButton onClick={handleSidebarToggle}>
-                <Icon>menu</Icon>
+    <AppBar
+      component={"header"}
+      color="primary"
+      position="static"
+      sx={{ zIndex: 96 }}
+    >
+        <TopbarContainer>
+          <Box display="flex">
+            <IconBox>
+              {isLgScreen && (
+                <StyledIconButton onClick={handleSidebarToggle}>
+                  <Icon>menu</Icon>
+                </StyledIconButton>
+              )}
+
+              <StyledIconButton>
+                <Icon>mail_outline</Icon>
               </StyledIconButton>
-            )}
 
-            <StyledIconButton>
-              <Icon>mail_outline</Icon>
-            </StyledIconButton>
+              <StyledIconButton>
+                <Icon>web_asset</Icon>
+              </StyledIconButton>
 
-            <StyledIconButton>
-              <Icon>web_asset</Icon>
-            </StyledIconButton>
+              <StyledIconButton>
+                <Icon>star_outline</Icon>
+              </StyledIconButton>
+            </IconBox>
+          </Box>
 
-            <StyledIconButton>
-              <Icon>star_outline</Icon>
-            </StyledIconButton>
-          </IconBox>
-        </Box>
-
-        <Box display="flex" alignItems="center">
-          <AccountMenu/>
-        </Box>
-      </TopbarContainer>
-    </TopbarRoot>
+          <Box display="flex" alignItems="center">
+            <AccountMenu />
+          </Box>
+        </TopbarContainer>
+    </AppBar>
   );
 };
 

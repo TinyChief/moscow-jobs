@@ -16,10 +16,7 @@ const StyledScrollBar = styled(Scrollbar)(() => ({
 const Sidenav = ({ children }) => {
   return (
     <Fragment>
-      <StyledScrollBar options={{ suppressScrollX: true }}>
-        {children}
-        <VerticalNav items={navigations} />
-      </StyledScrollBar>
+
 
     </Fragment>
   );

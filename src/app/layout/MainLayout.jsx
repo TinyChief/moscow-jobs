@@ -96,7 +96,11 @@ const MainLayout = () => {
 
   return (
     <Layout1Root className={layoutClasses}>
-      {showSidenav && sidenavMode !== "close" && <LayoutSidenav />}
+      {showSidenav && sidenavMode !== "close" && (
+        <LayoutSidenav
+          onNavigation={() => updateSidebarMode({ mode: "close" })}
+        />
+      )}
 
       {showSidenav && sidenavMode !== "close" && isLgScreen && (
         <SideNavOverlay onClick={() => updateSidebarMode({ mode: "close" })} />
@@ -106,9 +110,9 @@ const MainLayout = () => {
 
         <ContentBox>
           {/* <StyledScrollBar> */}
-            <Box flexGrow={1} position="relative" mb={8}>
-              <Outlet />
-            </Box>
+          <Box flexGrow={1} position="relative" mb={8}>
+            <Outlet />
+          </Box>
           {/* </StyledScrollBar> */}
         </ContentBox>
 

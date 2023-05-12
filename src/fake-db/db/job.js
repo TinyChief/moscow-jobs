@@ -93,7 +93,6 @@ Mock.onGet(/\/api\/jobs\/\d+/).reply((config) => {
   // the actual id can be grabbed from config.url
   const parts = config.url.split("/");
   const id = +parts[parts.length - 1];
-  console.log(id);
 
   const job = jobs.find((el) => el.id === id);
 

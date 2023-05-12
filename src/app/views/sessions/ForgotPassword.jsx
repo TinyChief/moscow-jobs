@@ -12,12 +12,12 @@ const JustifyBox = styled(FlexBox)(() => ({
 }));
 
 const ContentBox = styled(Box)(({ theme }) => ({
-  padding: 32,
-  background: theme.palette.background.default,
+  padding: 32
+  // background: theme.palette.background.default,
 }));
 
 const ForgotPasswordRoot = styled(JustifyBox)(() => ({
-  background: '#1A2038',
+  // background: '#1A2038',
   minHeight: '100vh !important',
   '& .card': {
     maxWidth: 800,
@@ -49,7 +49,7 @@ const ForgotPassword = () => {
                   type="email"
                   name="email"
                   size="small"
-                  label="Email"
+                  label="Электронная почта"
                   value={email}
                   variant="outlined"
                   onChange={(e) => setEmail(e.target.value)}
@@ -57,7 +57,7 @@ const ForgotPassword = () => {
                 />
 
                 <Button fullWidth variant="contained" color="primary" type="submit">
-                  Reset Password
+                  Сбросить пароль
                 </Button>
 
                 <Button
@@ -67,7 +67,7 @@ const ForgotPassword = () => {
                   onClick={() => navigate(-1)}
                   sx={{ mt: 2 }}
                 >
-                  Go Back
+                  Вернуться
                 </Button>
               </form>
             </ContentBox>

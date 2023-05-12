@@ -72,7 +72,7 @@ const BadgeValue = styled('div')(() => ({
   borderRadius: '300px',
 }));
 
-const VerticalNav = ({ items }) => {
+const VerticalNav = ({ items, onNavigation }) => {
   const { mode } = 'compact';
 
   const renderLevels = (data) => {
@@ -125,6 +125,7 @@ const VerticalNav = ({ items }) => {
                   ? `navItemActive ${mode === 'compact' && 'compactNavItem'}`
                   : `${mode === 'compact' && 'compactNavItem'}`
               }
+              onClick={onNavigation}
             >
               <ButtonBase key={item.name} name="child" sx={{ width: '100%' }}>
                 {item?.icon ? (

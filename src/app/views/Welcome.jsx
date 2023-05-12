@@ -9,12 +9,13 @@ const Welcome = () => {
 		display: "flex",
 		alignItems: "center",
 		justifyContent: "center",
-		flexDirection: "column"
+		flexDirection: "column",
 	}}>
-		<NavLink to={'/'}>
+		<NavLink to={'/jobs'}>
 			<Box
 				src="/assets/images/home-sweet-home-relaxed.gif"
 				component={'img'}
+				maxWidth={"100%"}
 			/>
 		</NavLink>
 		<Box sx={{marginTop: '10px'}}>

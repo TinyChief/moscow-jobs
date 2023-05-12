@@ -24,7 +24,7 @@ export default function JobListItem({ data }) {
               width={"70px"}
               height={"70px"}
               sx={{
-                background: "center / contain",
+                background: "center / contain no-repeat",
                 backgroundImage: `url(${data.preview})`,
               }}
             ></Box>

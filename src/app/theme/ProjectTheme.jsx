@@ -6,7 +6,16 @@ import { themeColors } from './themeColors';
 const CURRENT_THEME = 'slateDark1'
 
 const whiteBlue = createTheme({
-  ...themeColors[CURRENT_THEME],
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#3f51b5',
+    },
+    secondary: {
+      main: '#f50057',
+    },
+  },
+  // ...themeColors[CURRENT_THEME],
 
   typography: {
     fontSize: 14,

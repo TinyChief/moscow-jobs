@@ -10,14 +10,16 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   Outlet,
+  createHashRouter,
 } from "react-router-dom";
 import "../fake-db";
 import JobsView from "./views/JobsView";
 import Welcome from "./views/Welcome";
 import { apiService } from "./services/useApiService";
 import FullJobView from "./views/FullJobView";
+import { useEffect } from "react";
 
-export const router = createBrowserRouter(
+export const router = createHashRouter(
   createRoutesFromElements(
     <>
       <Route
@@ -27,7 +29,13 @@ export const router = createBrowserRouter(
           </AuthGuard>
         }
       >
-        <Route path="/" exact element={<JobsView />} loader={jobsListLoader} end/>
+        <Route
+          path="/jobs"
+          exact
+          element={<JobsView />}
+          loader={jobsListLoader}
+          end
+        />
         <Route
           path="/jobs/:id"
           element={<FullJobView />}
@@ -35,7 +43,8 @@ export const router = createBrowserRouter(
         />
       </Route>
       {/* <Route path="/" exact element={<Navigate to={"/jobs"} replace />} /> */}
-      <Route path="/welcome" element={<Welcome />} />
+      <Route path="/" element={<Welcome />} />
+      <Route path="welcome" element={<Welcome />} />
       <Route path="session/signin" element={<JwtLogin />} />
       <Route path="session/signup" element={<JwtRegister />} />
       <Route path="session/forgot-password" element={<ForgotPassword />} />
@@ -56,3 +65,23 @@ async function jobsListLoader() {
 
   return data.jobs;
 }
+
+// export function App() {
+//   useEffect((_) => {
+//     const token = localStorage.getItem("token");
+//     if (token) {
+//       return api
+//         .getUserData()
+//         .then((res) => {
+//           setUser(res);
+//           setLoggedIn(true);
+//           getOrders();
+//         })
+//         .catch((err) => {
+//           setLoggedIn(false);
+//           history.push("/signin");
+//         });
+//     }
+//     setLoggedIn(false);
+//   }, []);
+// }

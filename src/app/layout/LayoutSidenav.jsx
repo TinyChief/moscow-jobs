@@ -5,6 +5,40 @@ import { sidenavCompactWidth, sideNavWidth } from "@/app/utils/constant";
 import Sidenav from "./Sidenav";
 import useSettings from "../hooks/useSettings";
 import Brand from "../components/Brand";
+import Scrollbar from "react-perfect-scrollbar";
+import VerticalNav from "../components/VerticalNav/VerticalNav";
+import { navigations } from "@/app/navigations";
+
+const LayoutSidenav = ({ onNavigation }) => {
+  const theme = useTheme();
+  const { settings } = useSettings();
+  const leftSidebar = settings.layoutSettings.leftSidebar;
+  const { mode, bgImgURL } = leftSidebar;
+
+  const getSidenavWidth = () => {
+    switch (mode) {
+      case "compact":
+        return sidenavCompactWidth;
+
+      default:
+        return sideNavWidth;
+    }
+  };
+
+  const primaryRGB = convertHexToRGB(theme.palette.background.default);
+
+  return (
+    <SidebarNavRoot image={bgImgURL} bg={primaryRGB} width={getSidenavWidth()}>
+      <NavListBox>
+        <Brand></Brand>
+        <Sidenav />
+        <StyledScrollBar options={{ suppressScrollX: true }}>
+          <VerticalNav items={navigations} onNavigation={onNavigation} />
+        </StyledScrollBar>
+      </NavListBox>
+    </SidebarNavRoot>
+  );
+};
 
 const SidebarNavRoot = styled(Box)(({ theme, width, bg, image }) => ({
   position: "fixed",
@@ -39,33 +73,10 @@ const NavListBox = styled(Box)({
   flexDirection: "column",
 });
 
-const LayoutSidenav = () => {
-  const theme = useTheme();
-  const { settings } = useSettings();
-  const leftSidebar = settings.layoutSettings.leftSidebar;
-  const { mode, bgImgURL } = leftSidebar;
-
-  const getSidenavWidth = () => {
-    switch (mode) {
-      case "compact":
-        return sidenavCompactWidth;
-
-      default:
-        return sideNavWidth;
-    }
-  };
-
-  const primaryRGB = convertHexToRGB(theme.palette.primary.main);
-
-  return (
-    <SidebarNavRoot image={bgImgURL} bg={primaryRGB} width={getSidenavWidth()}>
-      <NavListBox>
-        <Brand>
-        </Brand>
-        <Sidenav />
-      </NavListBox>
-    </SidebarNavRoot>
-  );
-};
+const StyledScrollBar = styled(Scrollbar)(() => ({
+  paddingLeft: "1rem",
+  paddingRight: "1rem",
+  position: "relative",
+}));
 
 export default LayoutSidenav;

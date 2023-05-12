@@ -1,48 +1,60 @@
-import Mock from '../mock';
+import Mock from "../mock";
+import * as jose from "jose";
 
+const alg = "HS256";
+// const JWT_SECRET = "jwt_secret_key";
+const JWT_SECRET = new TextEncoder().encode("jwt_secret_key");
+const JWT_VALIDITY = "7 days";
 
 const userList = [
   {
     id: 1,
-    role: 'SA',
-    name: 'Jason Alexander',
-    username: 'jason_alexander',
-    email: 'jason@ui-lib.com',
-    avatar: '/assets/images/face-6.jpg',
-    age: 25
-  }
+    role: "SA",
+    name: "Jason Alexander",
+    username: "jason_alexander",
+    email: "jason@ui-lib.com",
+    avatar: "/assets/images/face-6.jpg",
+    age: 25,
+  },
 ];
 
-Mock.onPost('/api/auth/login').reply(async (config) => {
+Mock.onPost("/api/auth/login").reply(async (config) => {
   try {
     const { email } = JSON.parse(config.data);
     const user = userList.find((u) => u.email === email);
 
-    if (!user) return [400, { message: 'Invalid email or password' }];
+    if (!user) return [400, { message: "Invalid email or password" }];
+    const accessToken = await new jose.SignJWT({ userId: user.id })
+      .setProtectedHeader({ alg })
+      .setExpirationTime(JWT_VALIDITY)
+      .sign(JWT_SECRET);
+    // , {
+    //   expiresIn: JWT_VALIDITY,
+    // });
 
-    const payload = { user: userList[0] };
+    const payload = { user: userList[0], accessToken };
     return [200, payload];
   } catch (err) {
     console.error(err);
-    return [500, { message: 'Internal server error' }];
+    return [500, { message: "Internal server error" }];
   }
 });
 
-Mock.onPost('/api/auth/register').reply((config) => {
+Mock.onPost("/api/auth/register").reply((config) => {
   try {
     const { email, username } = JSON.parse(config.data);
     const user = userList.find((u) => u.email === email);
 
-    if (user) return [400, { message: 'User already exists!' }];
+    if (user) return [400, { message: "User already exists!" }];
 
     const newUser = {
       id: 2,
-      role: 'GUEST',
-      name: 'Unknown',
+      role: "GUEST",
+      name: "Unknown",
       age: 25,
       email: email,
       username: username,
-      avatar: '/assets/images/face-6.jpg'
+      avatar: "/assets/images/face-6.jpg",
     };
 
     userList.push(newUser);
@@ -51,29 +63,29 @@ Mock.onPost('/api/auth/register').reply((config) => {
     return [200, payload];
   } catch (err) {
     console.error(err);
-    return [500, { message: 'Internal server error' }];
+    return [500, { message: "Internal server error" }];
   }
 });
 
-Mock.onGet('/api/auth/profile').reply((config) => {
+Mock.onGet("/api/auth/profile").reply(async (config) => {
   try {
-    // const { Authorization } = config.headers;
-    // if (!Authorization) {
-    //   return [401, { message: 'Invalid Authorization token' }];
-    // }
+    const { Authorization } = config.headers;
+    if (!Authorization) {
+      return [401, { message: "Invalid Authorization token" }];
+    }
 
-    // const accessToken = Authorization.split(' ')[1];
-    // const { userId } = jwt.verify(accessToken, JWT_SECRET);
-    // const user = userList.find((u) => u.id === userId);
+    const accessToken = Authorization.split(" ")[1];
+    const { payload: verifyResult } = await jose.jwtVerify(accessToken, JWT_SECRET);
+    const user = userList.find((u) => u.id === verifyResult.userId);
 
-    // if (!user) {
-    //   return [401, { message: 'Invalid authorization token' }];
-    // }
+    if (!user) {
+      return [401, { message: "Invalid authorization token" }];
+    }
 
     const payload = { user: userList[0] };
     return [200, payload];
   } catch (err) {
     console.error(err);
-    return [500, { message: 'Internal server error' }];
+    return [500, { message: "Internal server error" }];
   }
 });
