@@ -6,7 +6,7 @@ import LayoutSidenav from "./LayoutSidenav";
 import Topbar from "./LayoutTopbar";
 import useSettings from "../hooks/useSettings";
 import { useEffect, useRef } from "react";
-// import PerfectScrollbar from "react-perfect-scrollbar";
+import PerfectScrollbar from "react-perfect-scrollbar";
 
 const Layout1Root = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -34,17 +34,25 @@ const SideNavOverlay = styled("div")(() => ({
   background: "rgba(0, 0, 0, 0.44)",
 }));
 
-// const StyledScrollBar = styled(PerfectScrollbar)(() => ({
-//   paddingLeft: "1rem",
-//   paddingRight: "1rem",
-//   position: "relative",
-// }));
+const StyledScrollBar = styled(PerfectScrollbar)(() => ({
+  paddingLeft: "1rem",
+  paddingRight: "1rem",
+  position: "relative",
+  ".ps__rail-y":
+    { opacity: 0.3 },
+  ".ps__rail-y:hover > .ps__thumb-y, .ps__rail-y:focus > .ps__thumb-y, .ps__rail-y.ps--clicking .ps__thumb-y": {
+    backgroundColor: "#999",
+    width: "10px"
+  },
+  ".ps__rail-x:hover, .ps__rail-y:hover, .ps__rail-x:focus, .ps__rail-y:focus, .ps__rail-x.ps--clicking, .ps__rail-y.ps--clicking": {
+    backgroundColor: "transparent !important",
+
+  }
+}));
 
 const ContentBox = styled(Container)(() => ({
   height: "100%",
   display: "flex",
-  overflowY: "auto",
-  overflowX: "hidden",
   flexDirection: "column",
   justifyContent: "space-between",
 }));
@@ -101,9 +109,7 @@ const MainLayout = () => {
   return (
     <Layout1Root className={layoutClasses}>
       {showSidenav && sidenavMode !== "close" && (
-        <LayoutSidenav
-          onNavigation={closeSidebar}
-        />
+        <LayoutSidenav onNavigation={closeSidebar} />
       )}
 
       {showSidenav && sidenavMode !== "close" && isLgScreen && (
@@ -112,13 +118,13 @@ const MainLayout = () => {
       <LayoutContainer width={sidenavWidth}>
         <Topbar fixed={true} className="elevation-z8" />
 
-        <ContentBox>
-          {/* <StyledScrollBar> */}
-          <Box flexGrow={1} position="relative" mb={8}>
-            <Outlet />
-          </Box>
-          {/* </StyledScrollBar> */}
-        </ContentBox>
+        <StyledScrollBar>
+          <ContentBox>
+            <Box flexGrow={1} position="relative" mb={8}>
+              <Outlet />
+            </Box>
+          </ContentBox>
+        </StyledScrollBar>
 
         <LayoutFooter />
       </LayoutContainer>

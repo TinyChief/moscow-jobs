@@ -6,7 +6,10 @@ import {
   useTheme,
   useMediaQuery,
   AppBar,
+  Badge,
+  Divider,
 } from "@mui/material";
+import { Crop54, StarOutline, WebAsset } from "@mui/icons-material";
 
 import useSettings from "../hooks/useSettings";
 import AccountMenu from "../components/AccountMenu.jsx";
@@ -38,6 +41,16 @@ const IconBox = styled("div")(({ theme }) => ({
   // [theme.breakpoints.down("md")]: { display: "none !important" },
 }));
 
+const TopBarItemsDivider = () => {
+  return (
+    <Divider
+      orientation="vertical"
+      flexItem
+      sx={{ margin: "0px 10px" }}
+    ></Divider>
+  );
+};
+
 const LayoutTopbar = () => {
   const theme = useTheme();
   const { settings, updateSettings } = useSettings();
@@ -66,33 +79,31 @@ const LayoutTopbar = () => {
       position="static"
       sx={{ zIndex: 96 }}
     >
-        <TopbarContainer>
-          <Box display="flex">
-            <IconBox>
-              {isLgScreen && (
-                <StyledIconButton onClick={handleSidebarToggle}>
-                  <Icon>menu</Icon>
-                </StyledIconButton>
-              )}
+      <TopbarContainer>
+        <Box display="flex">
+          {isLgScreen && (
+            <StyledIconButton onClick={handleSidebarToggle}>
+              <Icon>menu</Icon>
+            </StyledIconButton>
+          )}
+        </Box>
 
-              <StyledIconButton>
-                <Icon>mail_outline</Icon>
-              </StyledIconButton>
-
-              <StyledIconButton>
-                <Icon>web_asset</Icon>
-              </StyledIconButton>
-
-              <StyledIconButton>
-                <Icon>star_outline</Icon>
-              </StyledIconButton>
-            </IconBox>
-          </Box>
-
-          <Box display="flex" alignItems="center">
-            <AccountMenu />
-          </Box>
-        </TopbarContainer>
+        <Box display="flex" alignItems="center">
+          <StyledIconButton>
+            <Badge color="secondary" badgeContent={0} showZero>
+              <StarOutline />
+            </Badge>
+          </StyledIconButton>
+          <TopBarItemsDivider />
+          <StyledIconButton>
+            <Badge color="secondary" badgeContent={0} showZero>
+              <WebAsset />
+            </Badge>
+          </StyledIconButton>
+          <TopBarItemsDivider />
+          <AccountMenu />
+        </Box>
+      </TopbarContainer>
     </AppBar>
   );
 };

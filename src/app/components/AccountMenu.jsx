@@ -8,14 +8,17 @@ import {
   Divider,
   IconButton,
   Tooltip,
+  Stack,
+  ButtonBase,
 } from "@mui/material";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import useAuth from "@/app/hooks/useAuth";
 import { getUserInitials } from "../utils/utils";
-import { Brightness4, Brightness7 } from "@mui/icons-material";
+import { Brightness4, Brightness7, KeyboardArrowDown } from "@mui/icons-material";
 import { ColorModeContext } from "../theme/ProjectTheme";
+import { Small, Span } from "./Typography";
 
 export default function AccountMenu() {
   const colorMode = React.useContext(ColorModeContext);
@@ -37,18 +40,26 @@ export default function AccountMenu() {
     <React.Fragment>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
         <Tooltip title="Account settings">
-          <IconButton
+          <ButtonBase
             onClick={handleClick}
-            size="small"
-            sx={{ ml: 2 }}
             aria-controls={open ? "account-menu" : undefined}
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>
+            {/* <IconButton size="small" sx={{ ml: 2 }}> */}
+            <Avatar sx={{ width: 32, height: 32, marginRight: "10px" }}>
               {getUserInitials(user.name)}
             </Avatar>
-          </IconButton>
+            {/* </IconButton> */}
+            <Stack textAlign={"left"} marginRight={"10px"}>
+              <Span fontWeight={"bold"} ellipsis="true" maxWidth={"100px"}>{user.name}</Span>
+              <Small color="text.secondary">кандидат</Small>
+            </Stack>
+            <KeyboardArrowDown sx={{
+              transform: open ? "rotate(90deg)" : "none",
+              transition: "transform 0.5s ease"
+            }}/>
+          </ButtonBase>
         </Tooltip>
       </Box>
       <Menu
