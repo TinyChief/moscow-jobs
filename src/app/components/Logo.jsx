@@ -7,7 +7,7 @@ const Logo = ({ className }) => {
   return (
     <Box
       component={"img"}
-      src={"/assets/images/proryv.jpg"}
+      src={"/assets/images/logo-circle.jpg"}
       alt={"техно-прорыв"}
       sx={{
         width: "40px",

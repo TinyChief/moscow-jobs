@@ -30,12 +30,12 @@ const ProjectTheme = ({ children }) => {
 
   const lightPalette = {
     primary: {
-      main: "#ff9800",
+      main: "#ffbe55",
       light: "#ffca7c",
       dark: "#ef6c00",
     },
     secondary: {
-      main: "#26a69a",
+      main: "#663398",
     },
   };
 
