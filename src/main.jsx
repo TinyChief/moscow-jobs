@@ -7,7 +7,8 @@ import ProjectTheme from "@/app/theme/ProjectTheme.jsx";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 import { SettingsProvider } from "./app/contexts/SettingsContext";
 import { AuthProvider } from "./app/contexts/JWTAuthContext";
-import { router } from "./app/App";
+import App, { router } from "./app/App";
+import NavigationScroll from "./app/layout/NavigationScroll";
 
 const root = createRoot(document.getElementById("root"));
 
@@ -17,9 +18,10 @@ root.render(
         <AuthProvider>
           <ProjectTheme>
             <CssBaseline />
-            <RouterProvider router={router}>
+            <App/>
+            {/* <RouterProvider router={router}>
 
-            </RouterProvider>
+            </RouterProvider> */}
           </ProjectTheme>
         </AuthProvider>
       </SettingsProvider>

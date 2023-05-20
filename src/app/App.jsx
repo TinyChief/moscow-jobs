@@ -5,19 +5,16 @@ import ForgotPassword from "./views/sessions/ForgotPassword";
 import NotFound from "./views/sessions/NotFound";
 import Layout from "./layout/MainLayout";
 import {
-  Navigate,
   Route,
-  createBrowserRouter,
   createRoutesFromElements,
-  Outlet,
   createHashRouter,
+  RouterProvider,
 } from "react-router-dom";
 import "../fake-db";
 import JobsView from "./views/JobsView";
 import Welcome from "./views/Welcome";
 import { apiService } from "./services/useApiService";
 import FullJobView from "./views/FullJobView";
-import { useEffect } from "react";
 
 export const router = createHashRouter(
   createRoutesFromElements(
@@ -50,9 +47,15 @@ export const router = createHashRouter(
       <Route path="session/forgot-password" element={<ForgotPassword />} />
       <Route path="session/404" element={<NotFound />} />
       <Route path="*" element={<NotFound />} />
+      {/* <ScrollRestoration/> */}
     </>
   )
 );
+
+
+export default function App() {
+  return <RouterProvider router={router} />;
+}
 
 async function fullJobLoader({ params }) {
   const { data } = await apiService.getFullJob(params.id);
@@ -65,23 +68,3 @@ async function jobsListLoader() {
 
   return data.jobs;
 }
-
-// export function App() {
-//   useEffect((_) => {
-//     const token = localStorage.getItem("token");
-//     if (token) {
-//       return api
-//         .getUserData()
-//         .then((res) => {
-//           setUser(res);
-//           setLoggedIn(true);
-//           getOrders();
-//         })
-//         .catch((err) => {
-//           setLoggedIn(false);
-//           history.push("/signin");
-//         });
-//     }
-//     setLoggedIn(false);
-//   }, []);
-// }
