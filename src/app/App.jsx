@@ -15,6 +15,9 @@ import JobsView from "./views/JobsView";
 import Welcome from "./views/Welcome";
 import { apiService } from "./services/useApiService";
 import FullJobView from "./views/FullJobView";
+import ApplicationsView from "./views/ApplicationsView";
+import MentorsView from "./views/MentorsView.jsx";
+import StatisticsView from "./views/StatisticsView.jsx";
 
 export const router = createHashRouter(
   createRoutesFromElements(
@@ -26,6 +29,11 @@ export const router = createHashRouter(
           </AuthGuard>
         }
       >
+        <Route path="/applications" exact element={<ApplicationsView isIntern={false} />} end />
+        <Route path="/applications/interns" element={<ApplicationsView isIntern={true} />} end />
+        <Route path="/mentors" element={<MentorsView />} end />
+        <Route path="/statistics" exact element={<StatisticsView isIntern={false} />} end />
+        <Route path="/statistics/interns" element={<StatisticsView isIntern={true} />} end />
         <Route
           path="/jobs"
           exact

@@ -4,6 +4,17 @@ export const navigations = [
   { name: 'Список стажировок', path: '/jobs', icon: 'dashboard' },
   { name: 'Отдельная стажировка', path: '/jobs/1', icon: 'dashboard' },
   {
+    name: 'Куратор',
+    icon: 'checkbox',
+    children: [
+      { name: 'Заявки от кандидатов', path: '/applications', icon: 'dashboard' },
+      { name: 'Заявки от стажеров', path: '/applications/interns', icon: 'dashboard' },
+      { name: 'Список наставников', path: '/mentors', icon: 'dashboard' },
+      { name: 'Статистика по кандидатам', path: '/statistics', icon: 'dashboard' },
+      { name: 'Статистика по стажёрам', path: '/statistics/interns', icon: 'dashboard' },
+    ],
+  },
+  {
     name: 'Авторизация',
     icon: 'security',
     children: [
