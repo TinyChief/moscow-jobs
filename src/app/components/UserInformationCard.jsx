@@ -1,4 +1,4 @@
-import { Box, CardContent, Grid } from "@mui/material";
+import { Box, CardContent, Divider, Grid } from "@mui/material";
 import { H2, Span } from "./Typography";
 import { CommonCard } from "./CommonCard";
 import * as React from "react";
@@ -10,6 +10,7 @@ import { CommonTextField } from "./CommonTextField";
 import { DatePicker, LoadingButton } from "@mui/lab";
 import CustomDateFormat from "./DatePicker";
 import PhoneNumberInput from "./PhoneNumberInput";
+import CitizenInput from "./CitizenInput";
 
 export const UserInformationCard = () => {
   return (
@@ -50,17 +51,19 @@ export default function BasicTabs() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const initialValues = {
+  let initialValues = {
     surname: "Юлдашбаев",
     name: "Вадим",
     secondname: "Русланович",
     birthday: "10-10-1997",
     phone: "+7 (960) 384-22-73",
+    citizen: "РФ",
   };
 
-  const handleFormSubmit = async (values) => {
+  const handleFormSubmit = async (values, { resetForm }) => {
     try {
       console.log(values);
+      resetForm({ values });
     } catch (e) {
       console.log("login error", e);
     }
@@ -80,26 +83,37 @@ export default function BasicTabs() {
       </Box>
       <TabPanel value={value} index={0}>
         <Box>
-          <Formik onSubmit={handleFormSubmit} initialValues={initialValues}>
+          <Formik
+            onSubmit={handleFormSubmit}
+            initialValues={initialValues}
+            enableReinitialize
+          >
             {({
               values,
               handleChange,
               handleBlur,
               handleSubmit,
               handleReset,
+              isSubmitting,
+              dirty,
             }) => (
               <form onSubmit={handleSubmit} onReset={handleReset}>
-                <Grid container spacing={4}>
+                <Grid container spacing={4} textAlign={"left"}>
                   <Grid item xs={12} textAlign={"end"}>
                     <LoadingButton
                       type="reset"
                       variant="outlined"
                       sx={{ marginRight: 2 }}
                       color="error"
+                      disabled={!dirty}
                     >
                       Отменить изменения
                     </LoadingButton>
-                    <LoadingButton type="submit" variant="contained">
+                    <LoadingButton
+                      type="submit"
+                      variant="contained"
+                      disabled={!dirty || isSubmitting}
+                    >
                       Сохранить
                     </LoadingButton>
                   </Grid>
@@ -149,6 +163,16 @@ export default function BasicTabs() {
                       value={values.phone}
                       onChange={handleChange}
                       sx={{ mb: 1.5 }}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Divider />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <CitizenInput
+                      onBlur={handleBlur}
+                      value={values.citizen}
+                      onChange={handleChange}
                     />
                   </Grid>
                 </Grid>
