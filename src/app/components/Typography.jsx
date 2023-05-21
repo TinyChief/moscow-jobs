@@ -27,6 +27,11 @@ export const H1 = ({ children, className, ellipsis, textTransform, ...props }) =
   );
 };
 
+/**
+ * 
+ * @param {import('@mui/material').BoxProps} param0 
+ * @returns 
+ */
 export const H2 = ({ children, className, ellipsis, textTransform, ...props }) => {
   return (
     <StyledBox

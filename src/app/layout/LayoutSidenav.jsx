@@ -1,8 +1,7 @@
-import { Box, Hidden, Switch, styled, useTheme } from "@mui/material";
+import { Box, styled, useTheme } from "@mui/material";
 import { themeShadows } from "@/app/theme/themeColors";
 import { convertHexToRGB } from "@/app/utils/utils";
 import { sidenavCompactWidth, sideNavWidth } from "@/app/utils/constant";
-import Sidenav from "./Sidenav";
 import useSettings from "../hooks/useSettings";
 import Brand from "../components/Brand";
 import Scrollbar from "react-perfect-scrollbar";
@@ -31,7 +30,6 @@ const LayoutSidenav = ({ onNavigation }) => {
     <SidebarNavRoot image={bgImgURL} bg={primaryRGB} width={getSidenavWidth()}>
       <NavListBox>
         <Brand></Brand>
-        <Sidenav />
         <StyledScrollBar options={{ suppressScrollX: true }}>
           <VerticalNav items={navigations} onNavigation={onNavigation} />
         </StyledScrollBar>

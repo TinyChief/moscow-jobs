@@ -9,6 +9,7 @@ import {
   createRoutesFromElements,
   createHashRouter,
   RouterProvider,
+  Navigate,
 } from "react-router-dom";
 import "../fake-db";
 import JobsView from "./views/JobsView";
@@ -18,6 +19,10 @@ import FullJobView from "./views/FullJobView";
 import ApplicationsView from "./views/ApplicationsView";
 import MentorsView from "./views/MentorsView.jsx";
 import StatisticsView from "./views/StatisticsView.jsx";
+import ProfileView from "./views/Profile";
+
+import "@fontsource/nunito"
+
 
 export const router = createHashRouter(
   createRoutesFromElements(
@@ -46,9 +51,13 @@ export const router = createHashRouter(
           element={<FullJobView />}
           loader={fullJobLoader}
         />
+        <Route
+          path="/profile"
+          element={<ProfileView />}
+        />
       </Route>
-      {/* <Route path="/" exact element={<Navigate to={"/jobs"} replace />} /> */}
-      <Route path="/" element={<Welcome />} />
+      <Route path="/" exact element={<Navigate to={"/jobs"} replace />} />
+      {/* <Route path="/" element={<Welcome />} /> */}
       <Route path="welcome" element={<Welcome />} />
       <Route path="session/signin" element={<JwtLogin />} />
       <Route path="session/signup" element={<JwtRegister />} />

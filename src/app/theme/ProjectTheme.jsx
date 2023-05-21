@@ -53,12 +53,16 @@ const ProjectTheme = ({ children }) => {
       createTheme({
         palette: {
           mode,
-          ...(mode === 'dark' ? darkPalette : lightPalette)
+          ...(mode === "dark" ? darkPalette : lightPalette),
         },
         // ...themeColors[CURRENT_THEME],
 
         typography: {
+          fontFamily: `"Nunito", "Roboto", "Helvetica", "Arial", sans-serif`,
           fontSize: 14,
+          fontWeightLight: 300,
+          fontWeightRegular: 400,
+          fontWeightMedium: 500,
           body1: { fontSize: "14px" },
         },
 

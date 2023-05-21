@@ -1,6 +1,7 @@
 export const navigations = [
   { label: 'Страницы', type: 'label' },
   { name: 'Начальная', path: '/', icon: 'dashboard' },
+  { name: 'Профиль и настройки', path: '/profile', icon: 'account_circle' },
   { name: 'Список стажировок', path: '/jobs', icon: 'dashboard' },
   { name: 'Отдельная стажировка', path: '/jobs/1', icon: 'dashboard' },
   {
@@ -23,5 +24,5 @@ export const navigations = [
       { name: 'Забыл пароль', iconText: 'FP', path: '/session/forgot-password' },
       { name: 'Ошибка', iconText: '404', path: '/session/404' }
     ]
-  },
+},
 ];
