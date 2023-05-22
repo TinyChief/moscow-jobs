@@ -22,9 +22,10 @@ import StatisticsView from "./views/StatisticsView.jsx";
 import ProfileView from "./views/Profile";
 
 import "@fontsource/nunito"
+import ApplicationView from "./views/ApplicationView";
 
 
-export const router = createHashRouter(
+const router = createHashRouter(
   createRoutesFromElements(
     <>
       <Route
@@ -34,6 +35,7 @@ export const router = createHashRouter(
           </AuthGuard>
         }
       >
+        <Route path="/application" exact element={<ApplicationView />} end />
         <Route path="/applications" exact element={<ApplicationsView isIntern={false} />} end />
         <Route path="/applications/interns" element={<ApplicationsView isIntern={true} />} end />
         <Route path="/mentors" element={<MentorsView />} end />
@@ -57,14 +59,12 @@ export const router = createHashRouter(
         />
       </Route>
       <Route path="/" exact element={<Navigate to={"/jobs"} replace />} />
-      {/* <Route path="/" element={<Welcome />} /> */}
       <Route path="welcome" element={<Welcome />} />
       <Route path="session/signin" element={<JwtLogin />} />
       <Route path="session/signup" element={<JwtRegister />} />
       <Route path="session/forgot-password" element={<ForgotPassword />} />
       <Route path="session/404" element={<NotFound />} />
       <Route path="*" element={<NotFound />} />
-      {/* <ScrollRestoration/> */}
     </>
   )
 );
