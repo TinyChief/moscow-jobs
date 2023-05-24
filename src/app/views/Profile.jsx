@@ -1,7 +1,4 @@
-import {
-  Grid,
-  Stack,
-} from "@mui/material";
+import { Grid, Stack } from "@mui/material";
 import { UserCard } from "../components/UserCard";
 import { HelpCard } from "../components/HelpCard";
 import { ProgressCard } from "../components/ProgressCard";
@@ -9,9 +6,11 @@ import { UserInformationCard } from "../components/UserInformationCard";
 import { useEffect } from "react";
 import useUser from "../hooks/useUser";
 import useError from "../hooks/useError";
+import { useSnackbar } from "../contexts/snackbarContext";
 
 const ProfileView = () => {
   const { user, userInfo, getInfo, updateUserData, updateUserInfo } = useUser();
+  const { showSnackbar } = useSnackbar();
   const { setError } = useError();
 
   useEffect(() => {
@@ -32,9 +31,10 @@ const ProfileView = () => {
         default:
           throw new Error("invalid type: " + type);
       }
+      showSnackbar("Настройки успешно сохранены.");
     } catch (error) {
       setError(error);
-    console.error(error);
+      console.error(error);
     }
   };
 

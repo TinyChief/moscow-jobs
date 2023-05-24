@@ -24,9 +24,11 @@ import { ColorModeContext } from "../theme/ProjectTheme";
 import { Small, Span } from "./Typography";
 import useAuth from "../hooks/useAuth";
 import useUser from "../hooks/useUser";
+import { useNavigate } from "react-router-dom";
 
 export default function AccountMenu() {
   const colorMode = React.useContext(ColorModeContext);
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { logout } = useAuth();
   const { user } = useUser();
@@ -107,16 +109,16 @@ export default function AccountMenu() {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={() => navigate('/profile')}>
           <Avatar /> Профиль
         </MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>
+        {/* <MenuItem onClick={handleClose}>
           <ListItemIcon>
             <PersonAdd fontSize="small" />
           </ListItemIcon>
           Добавить другой аккаунт
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem onClick={handleClose}>
           <ListItemIcon>
             <Settings fontSize="small" />

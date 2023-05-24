@@ -13,6 +13,8 @@ import { CommonTextField } from "../../components/CommonTextField";
 import { TextFieldsWrapper } from "../../components/TextFieldsWrapper";
 import PhoneNumberInput from "../../components/PhoneNumberInput";
 import useError from "../../hooks/useError";
+import { useSnackbar } from "../../contexts/snackbarContext";
+import { userDataValidationSchema } from "../../utils/validations";
 
 const FlexBox = styled(Box)(() => ({ display: "flex", alignItems: "center" }));
 
@@ -34,21 +36,6 @@ const initialValues = {
   phone: "+79252502525",
 };
 
-// form field validation schema
-const validationSchema = Yup.object().shape({
-  surname: Yup.string()
-    .min(2, "Минимальная длина 2 символа")
-    .required("Поле обязательно к заполнению!"),
-  name: Yup.string()
-    .min(2, "Минимальная длина 2 символа")
-    .required("Поле обязательно к заполнению!"),
-  password: Yup.string()
-    .min(6, "Минимальная длина пароля 6 символов")
-    .required("Поле обязательно к заполнению!"),
-  email: Yup.string()
-    .email("Укажите валидный адрес эл. почты")
-    .required("Поле обязательно к заполнению!"),
-});
 
 const JwtRegister = () => {
   const theme = useTheme();
@@ -56,16 +43,21 @@ const JwtRegister = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { setError } = useError();
+  const { showSnackbar } = useSnackbar();
 
   const handleFormSubmit = async (values) => {
     setLoading(true);
 
     try {
       await register(values);
-      navigate("/");
+      showSnackbar(
+        "Пользователь успешно зарегистрирован, войдите на платформу по указанным E-mail и паролю.",
+        "success"
+      );
+      navigate("/session/signin");
       setLoading(false);
     } catch (e) {
-      setError(e)
+      setError(e);
       console.log(e);
       setLoading(false);
     }
@@ -89,7 +81,7 @@ const JwtRegister = () => {
             <Formik
               onSubmit={handleFormSubmit}
               initialValues={initialValues}
-              validationSchema={validationSchema}
+              validationSchema={userDataValidationSchema}
             >
               {({
                 values,

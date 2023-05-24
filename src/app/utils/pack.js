@@ -36,17 +36,21 @@ export function unpackUserInfo({
   birthday,
   university_name: universityName,
   university_year: universityYear,
-  job_experience: jobExpericence,
+  job_experience: jobExperience,
+  job_status: jobStatus,
   skills,
   departments,
+  citizenship: citizen
 }) {
   return {
     birthday,
     universityName,
     universityYear,
-    jobExpericence,
+    jobExperience,
+    jobStatus,
     skills,
     departments,
+    citizen
   };
 }
 
@@ -54,7 +58,9 @@ export function packUserInfo({
   birthday,
   universityName: university_name,
   universityYear: university_year,
-  jobExpericence: job_experience,
+  jobExperience: job_experience,
+  jobStatus: job_status,
+  citizen: citizenship,
   skills,
   departments,
 }) {
@@ -63,8 +69,10 @@ export function packUserInfo({
     university_name,
     university_year,
     job_experience,
+    job_status,
     skills,
     departments,
+    citizenship
   };
 }
 

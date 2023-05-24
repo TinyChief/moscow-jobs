@@ -1,4 +1,13 @@
-import { Box, CardContent, Grid } from "@mui/material";
+import {
+  Box,
+  CardContent,
+  FormControl,
+  Grid,
+  InputLabel,
+  Menu,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import { CommonCard } from "./CommonCard";
 import * as React from "react";
 import Tabs from "@mui/material/Tabs";
@@ -6,9 +15,11 @@ import Tab from "@mui/material/Tab";
 import { Formik } from "formik";
 import { CommonTextField } from "./CommonTextField";
 import { LoadingButton } from "@mui/lab";
-import CustomDateFormat from "./DatePicker";
+import CustomDateFormat from "./CustomDateFormat";
 import PhoneNumberInput from "./PhoneNumberInput";
 import CitizenInput from "./CitizenInput";
+import { H3 } from "./Typography";
+import { userDataValidationSchema } from "../utils/validations";
 
 export const UserInformationCard = ({ ...props }) => {
   return (
@@ -59,12 +70,14 @@ export default function BasicTabs({ user, userInfo, onChange }) {
   };
 
   const initialUserInfo = {
-    birthday: userInfo.birthday,
-    citizen: userInfo.citizen,
-    universityName: userInfo.universityName,
-    universityYear: userInfo.universityYear,
-    jobExperience: userInfo.jobExperience,
-    departments: userInfo.departments,
+    birthday: userInfo.birthday || "",
+    citizen: userInfo.citizen || "",
+    universityName: userInfo.universityName || undefined,
+    universityYear: userInfo.universityYear || undefined,
+    jobExperience: userInfo.jobExperience || "",
+    jobStatus: userInfo.jobStatus || "",
+    skills: userInfo.skills || "",
+    departments: userInfo.departments || "",
   };
 
   const handleFormSubmit = async (type, values) => {
@@ -87,8 +100,9 @@ export default function BasicTabs({ user, userInfo, onChange }) {
         <UserDataForm
           userData={initialUser}
           onSubmit={(values) => handleFormSubmit("user", values)}
+          validationSchema={userDataValidationSchema.omit(["password"])}
         >
-          {({ values, handleChange, handleBlur }) => (
+          {({ values, handleChange, handleBlur, touched, errors }) => (
             <>
               <Grid item xs={12} md={4}>
                 <CommonTextField
@@ -98,7 +112,8 @@ export default function BasicTabs({ user, userInfo, onChange }) {
                   onBlur={handleBlur}
                   value={values.surname}
                   onChange={handleChange}
-                  sx={{ mb: 1.5 }}
+                  helperText={touched.surname && errors.surname}
+                  error={Boolean(errors.surname && touched.surname)}
                 />
               </Grid>
               <Grid item xs={12} md={4}>
@@ -109,7 +124,8 @@ export default function BasicTabs({ user, userInfo, onChange }) {
                   onBlur={handleBlur}
                   value={values.name}
                   onChange={handleChange}
-                  sx={{ mb: 1.5 }}
+                  helperText={touched.name && errors.name}
+                  error={Boolean(errors.name && touched.name)}
                 />
               </Grid>
               <Grid item xs={12} md={4}>
@@ -120,7 +136,6 @@ export default function BasicTabs({ user, userInfo, onChange }) {
                   onBlur={handleBlur}
                   value={values.secondname}
                   onChange={handleChange}
-                  sx={{ mb: 1.5 }}
                 />
               </Grid>
               <Grid item xs={12} md={5}>
@@ -131,7 +146,8 @@ export default function BasicTabs({ user, userInfo, onChange }) {
                   onBlur={handleBlur}
                   value={values.email}
                   onChange={handleChange}
-                  sx={{ mb: 1.5 }}
+                  helperText={touched.email && errors.email}
+                  error={Boolean(errors.email && touched.email)}
                 />
               </Grid>
               <Grid item xs={12} md={7}>
@@ -139,7 +155,8 @@ export default function BasicTabs({ user, userInfo, onChange }) {
                   onBlur={handleBlur}
                   value={values.phone}
                   onChange={handleChange}
-                  sx={{ mb: 1.5 }}
+                  helperText={touched.phone && errors.phone}
+                  error={Boolean(errors.phone && touched.phone)}
                 />
               </Grid>
             </>
@@ -153,7 +170,7 @@ export default function BasicTabs({ user, userInfo, onChange }) {
         >
           {({ values, handleChange, handleBlur }) => (
             <>
-              <Grid item xs={12} md={5}>
+              <Grid item xs={12}>
                 <CustomDateFormat
                   onBlur={handleBlur}
                   value={values.birthday}
@@ -165,6 +182,99 @@ export default function BasicTabs({ user, userInfo, onChange }) {
                   onBlur={handleBlur}
                   value={values.citizen}
                   onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <H3>Образование</H3>
+                <CommonTextField
+                  name="universityName"
+                  label="Учебное заведение"
+                  variant="standard"
+                  onBlur={handleBlur}
+                  value={values.universityName}
+                  onChange={handleChange}
+                  helperText={
+                    "Полное наименование без аббрeвиатур и сокращений"
+                  }
+                />
+                <CommonTextField
+                  name="universityYear"
+                  label="Курс"
+                  variant="standard"
+                  onBlur={handleBlur}
+                  value={values.universityYear}
+                  onChange={handleChange}
+                  // helperText="Нынешний курс обучения или кол-во отученных курсов"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <H3>О себе</H3>
+                <CommonTextField
+                  name="skills"
+                  label="Области экспертизы"
+                  variant="standard"
+                  multiline
+                  minRows={3}
+                  onBlur={handleBlur}
+                  value={values.skills}
+                  onChange={handleChange}
+                  helperText="Перечислите через запятую soft и hard skills"
+                />
+                <CommonTextField
+                  name="departments"
+                  label="Ведомства"
+                  variant="standard"
+                  multiline
+                  minRows={3}
+                  onBlur={handleBlur}
+                  value={values.departments}
+                  onChange={handleChange}
+                  helperText={
+                    <>
+                      {"Перечислите через запятую интересные вам "}
+                      <Box
+                        component={"a"}
+                        href="https://www.mos.ru/pgu/ru/departments/"
+                        target="_blank"
+                        sx={{
+                          color: "secondary.main",
+                        }}
+                      >
+                        ведомства
+                      </Box>
+                    </>
+                  }
+                  // helperText={"Перечислите через запятую ведомства"}
+                />
+              </Grid>{" "}
+              <Grid item xs={12}>
+                <H3>Опыт работы</H3>
+                <FormControl variant="standard" sx={{ minWidth: 200 }}>
+                  <InputLabel id="demo-simple-select-standard-label">
+                    Статус
+                  </InputLabel>
+                  <Select
+                    name="jobStatus"
+                    id="demo-simple-select-standard"
+                    value={values.jobStatus}
+                    onChange={handleChange}
+                    size="small"
+                    variant="standard"
+                  >
+                    <MenuItem value="1">Трудоустроен</MenuItem>
+                    <MenuItem value="2">В поиске работы</MenuItem>
+                  </Select>
+                </FormControl>
+                <CommonTextField
+                  name="jobExperience"
+                  label="Место работы"
+                  variant="standard"
+                  onBlur={handleBlur}
+                  value={values.jobExperience}
+                  onChange={handleChange}
+                  multiline
+                  minRows={2}
+                  helperText="Укажите последние 3 (максимум) места работы, начиная с последнего."
                 />
               </Grid>
             </>
@@ -180,10 +290,15 @@ export default function BasicTabs({ user, userInfo, onChange }) {
  * @param {{onSubmit: import("formik").FormikConfig['onSubmit']}} param0
  * @returns
  */
-function UserDataForm({ userData, onSubmit, children }) {
+function UserDataForm({ userData, onSubmit, validationSchema, children }) {
   return (
     <Box>
-      <Formik onSubmit={onSubmit} initialValues={userData} enableReinitialize>
+      <Formik
+        onSubmit={onSubmit}
+        initialValues={userData}
+        enableReinitialize
+        validationSchema={validationSchema}
+      >
         {({
           values,
           handleChange,
@@ -191,6 +306,8 @@ function UserDataForm({ userData, onSubmit, children }) {
           handleSubmit,
           handleReset,
           isSubmitting,
+          touched,
+          errors,
           dirty,
         }) => (
           <form onSubmit={handleSubmit} onReset={handleReset}>
@@ -217,8 +334,9 @@ function UserDataForm({ userData, onSubmit, children }) {
                 values,
                 handleChange,
                 handleBlur,
+                touched,
+                errors,
               })}
-              {/* <Component {...{ values, handleChange, handleBlur }} /> */}
             </Grid>
           </form>
         )}

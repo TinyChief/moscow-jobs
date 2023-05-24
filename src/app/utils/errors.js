@@ -19,7 +19,7 @@ export class ApiError extends Error {
       case 400:
         return Object.entries(this.data)
           .reduce((acc, [key, value]) => {
-            acc.push(...value);
+            acc.push(...value.map(v => `${v} (${key})`));
             return acc;
           }, [])
           .map((val, i) => `${i + 1}) ${val}`)

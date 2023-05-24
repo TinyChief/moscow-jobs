@@ -35,25 +35,38 @@ export default function CitizenInput({ ...props }) {
   };
 
   return (
-    <FormControl fullWidth>
-      <FormLabel id="citizen-input">Гражданство</FormLabel>
+    <FormControl>
+      <FormLabel size="small" id="citizen-input" sx={{
+        fontSize: 11
+      }}>
+        Гражданство
+      </FormLabel>
       <RadioGroup
         aria-labelledby="citizen-input"
         name="citizen"
         onChange={handleChangeRadio}
         value={radioValue}
-        sx={{ flexDirection: "row", "> *": { marginRight: 6 } }}
+        sx={{ flexDirection: "row", flexWrap: "nowrap", "> *": { marginRight: 6 } }}
       >
-        <FormControlLabel value="РФ" control={<Radio />} label="РФ" />
-        <FormControlLabel value="other" control={<Radio />} label="Другое" />
+        <FormControlLabel
+          value="РФ"
+          control={<Radio size="small" />}
+          label="РФ"
+        />
+        <FormControlLabel
+          value="other"
+          control={<Radio size="small" />}
+          label="Другое"
+        />
         <Select
           disabled={radioValue !== "other"}
           value={citizenValue}
           style={{ marginTop: 0 }}
           variant="standard"
+          size="small"
           onChange={handleOtherCitizenSelect}
           inputProps={{ "aria-label": "Выберете другое гражданство" }}
-          sx={{ width: "200px" }}
+          sx={{ width: "300px" }}
         >
           {contries.map((name) => (
             <MenuItem key={name} value={name}>

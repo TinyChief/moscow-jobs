@@ -9,6 +9,7 @@ import { SettingsProvider } from "./app/contexts/SettingsContext";
 import { AuthProvider } from "./app/contexts/JWTAuthContext";
 import App from "./app/App";
 import { ErrorProvider } from "./app/contexts/ErrorContext";
+import { SnackbarProvider } from "./app/contexts/snackbarContext";
 
 const root = createRoot(document.getElementById("root"));
 
@@ -18,9 +19,11 @@ root.render(
       <AuthProvider>
         <ProjectTheme>
           <CssBaseline />
-          <ErrorProvider>
-            <App />
-          </ErrorProvider>
+          <SnackbarProvider>
+            <ErrorProvider>
+              <App />
+            </ErrorProvider>
+          </SnackbarProvider>
         </ProjectTheme>
       </AuthProvider>
     </SettingsProvider>

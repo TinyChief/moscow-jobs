@@ -9,17 +9,12 @@ const {
 } = import.meta.env;
 
 const baseUrl = mode === "production" ? API_PREFIX : API_URL.concat(API_PREFIX);
-// const baseUrl = API_URL.concat(API_PREFIX);
 
 export const axiosInstance = axios.create({
   baseURL: baseUrl,
   withCredentials: false,
   headers: {
     "Content-Type": "application/json",
-    // "Access-Control-Allow-Origin": "*",
-    // "Access-Control-Allow-Credentials": true,
-    // "Access-Control-Allow-Headers": true,
-    // "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
   },
 });
 
