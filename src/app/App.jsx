@@ -11,7 +11,6 @@ import {
   RouterProvider,
   Navigate,
 } from "react-router-dom";
-import "../fake-db";
 import JobsView from "./views/JobsView";
 import Welcome from "./views/Welcome";
 import { apiService } from "./services/useApiService";
@@ -21,9 +20,9 @@ import MentorsView from "./views/MentorsView.jsx";
 import StatisticsView from "./views/StatisticsView.jsx";
 import ProfileView from "./views/Profile";
 
-import "@fontsource/nunito"
+import "@fontsource/nunito";
 import ApplicationView from "./views/ApplicationView";
-
+import { UserProvider } from "./contexts/UserContext";
 
 const router = createHashRouter(
   createRoutesFromElements(
@@ -31,16 +30,36 @@ const router = createHashRouter(
       <Route
         element={
           <AuthGuard>
-            <Layout />
+            <UserProvider>
+              <Layout />
+            </UserProvider>
           </AuthGuard>
         }
       >
         <Route path="/application" exact element={<ApplicationView />} end />
-        <Route path="/applications" exact element={<ApplicationsView isIntern={false} />} end />
-        <Route path="/applications/interns" element={<ApplicationsView isIntern={true} />} end />
+        <Route
+          path="/applications"
+          exact
+          element={<ApplicationsView isIntern={false} />}
+          end
+        />
+        <Route
+          path="/applications/interns"
+          element={<ApplicationsView isIntern={true} />}
+          end
+        />
         <Route path="/mentors" element={<MentorsView />} end />
-        <Route path="/statistics" exact element={<StatisticsView isIntern={false} />} end />
-        <Route path="/statistics/interns" element={<StatisticsView isIntern={true} />} end />
+        <Route
+          path="/statistics"
+          exact
+          element={<StatisticsView isIntern={false} />}
+          end
+        />
+        <Route
+          path="/statistics/interns"
+          element={<StatisticsView isIntern={true} />}
+          end
+        />
         <Route
           path="/jobs"
           exact
@@ -53,12 +72,9 @@ const router = createHashRouter(
           element={<FullJobView />}
           loader={fullJobLoader}
         />
-        <Route
-          path="/profile"
-          element={<ProfileView />}
-        />
+        <Route path="/profile" element={<ProfileView />} />
       </Route>
-      <Route path="/" exact element={<Navigate to={"/jobs"} replace />} />
+      <Route path="/" exact element={<Navigate to={"/profile"} replace />} />
       <Route path="welcome" element={<Welcome />} />
       <Route path="session/signin" element={<JwtLogin />} />
       <Route path="session/signup" element={<JwtRegister />} />
@@ -68,7 +84,6 @@ const router = createHashRouter(
     </>
   )
 );
-
 
 export default function App() {
   return <RouterProvider router={router} />;

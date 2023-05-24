@@ -40,27 +40,29 @@ Mock.onPost("/api/auth/login").reply(async (config) => {
   }
 });
 
-Mock.onPost("/api/auth/register").reply((config) => {
+Mock.onPost("/registration").reply((config) => {
   try {
-    const { email, username } = JSON.parse(config.data);
-    const user = userList.find((u) => u.email === email);
+    const userData = JSON.parse(config.data);
+    const user = userList.find((u) => u.email === userData.email);
 
-    if (user) return [400, { message: "User already exists!" }];
+    if (user)
+      return [
+        400,
+        {
+          email: [
+            "пользователь с таким адрес электронной почты уже существует.",
+          ],
+        },
+      ];
 
     const newUser = {
       id: 2,
-      role: "GUEST",
-      name: "Unknown",
-      age: 25,
-      email: email,
-      username: username,
-      avatar: "/assets/images/face-6.jpg",
+      ...userData
     };
 
     userList.push(newUser);
 
-    const payload = { user: { ...newUser } };
-    return [200, payload];
+    return [200, newUser];
   } catch (err) {
     console.error(err);
     return [500, { message: "Internal server error" }];
@@ -75,7 +77,10 @@ Mock.onGet("/api/auth/profile").reply(async (config) => {
     }
 
     const accessToken = Authorization.split(" ")[1];
-    const { payload: verifyResult } = await jose.jwtVerify(accessToken, JWT_SECRET);
+    const { payload: verifyResult } = await jose.jwtVerify(
+      accessToken,
+      JWT_SECRET
+    );
     const user = userList.find((u) => u.id === verifyResult.userId);
 
     if (!user) {

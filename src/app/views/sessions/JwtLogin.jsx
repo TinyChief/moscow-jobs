@@ -1,15 +1,8 @@
 import { LoadingButton } from "@mui/lab";
 import {
-  Card,
-  Checkbox,
   Grid,
-  TextField,
-  ThemeProvider,
-  createTheme,
 } from "@mui/material";
-import { Box, styled, useTheme } from "@mui/material";
-import { Paragraph } from "@/app/components/Typography";
-import useAuth from "@/app/hooks/useAuth";
+import { Box, styled } from "@mui/material";
 import { Formik } from "formik";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -17,6 +10,8 @@ import * as Yup from "yup";
 import LoginRegisterLayout from "../../layout/LoginRegisterLayout";
 import { CommonTextField } from "../../components/CommonTextField";
 import { TextFieldsWrapper } from "../../components/TextFieldsWrapper";
+import useAuth from "../../hooks/useAuth";
+import useError from "../../hooks/useError";
 
 const FlexBox = styled(Box)(() => ({ display: "flex", alignItems: "center" }));
 
@@ -31,9 +26,8 @@ const ContentBox = styled(Box)(() => ({
 
 // inital login credentials
 const initialValues = {
-  email: "jason@ui-lib.com",
-  password: "dummyPass",
-  remember: true,
+  email: "hello@world.ru",
+  password: "examplepw"
 };
 
 // form field validation schema
@@ -51,13 +45,15 @@ const JwtLogin = () => {
   const [loading, setLoading] = useState(false);
 
   const { login } = useAuth();
+  const { setError } = useError();
 
   const handleFormSubmit = async (values) => {
     setLoading(true);
     try {
       await login(values.email, values.password);
-      navigate("/jobs");
+      navigate("/");
     } catch (e) {
+      setError(e)
       console.log("login error", e);
       setLoading(false);
     }
@@ -132,18 +128,6 @@ const JwtLogin = () => {
                     Забыли пароль?
                   </NavLink>
 
-                  {/* <Paragraph>
-                    Ещё нет аккаунта?
-                    <NavLink
-                      to="/session/signup"
-                      style={{
-                        color: theme.palette.primary.main,
-                        marginLeft: 5,
-                      }}
-                    >
-                      Зарегистрироваться
-                    </NavLink>
-                  </Paragraph> */}
                 </form>
               )}
             </Formik>

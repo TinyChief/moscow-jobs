@@ -7,7 +7,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateField } from "@mui/x-date-pickers/DateField";
 
 export default function CustomDateFormat({ ...props }) {
-  const [value, setValue] = React.useState(dayjs(props.value));
+  const [value, setValue] = React.useState(props.value ? dayjs(props.value) : '');
 
   const handleDateChange = (newValue) => {
     setValue(newValue);

@@ -12,7 +12,7 @@ const StyledLoading = styled('div')({
   },
   '& .circleProgress': {
     position: 'absolute',
-    left: -7,
+    left: -9,
     right: 0,
     top: 'calc(50% - 25px)'
   }
@@ -22,7 +22,7 @@ const Loading = () => {
   return (
     <StyledLoading>
       <Box position="relative">
-        <img src="/assets/images/logo-circle.svg" alt="" />
+        <img src="/assets/images/mguu-logo.jpg" alt="mguu-logo" />
         <CircularProgress className="circleProgress" />
       </Box>
     </StyledLoading>

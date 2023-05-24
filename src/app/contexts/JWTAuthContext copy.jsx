@@ -1,8 +1,9 @@
 import { createContext, useEffect, useReducer } from "react";
 import Loading from "@/app/components/Loading";
+import axios from "axios";
 import * as jose from "jose";
 import { apiService, axiosInstance } from "../services/useApiService";
-import { packUser } from "../utils/pack";
+import { packUser, unpackUser, unpackUserInfo } from "../utils/pack";
 
 /**
  * @typedef state
@@ -12,6 +13,8 @@ import { packUser } from "../utils/pack";
 
 /** @type {{user: {name: string, surname: string, role: string, secondname: string}}} */
 const initialState = {
+  user: null,
+  userInfo: null,
   isInitialised: false,
   isAuthenticated: false,
 };
@@ -39,21 +42,30 @@ const setSession = (accessToken) => {
 const reducer = (state, action) => {
   switch (action.type) {
     case "INIT": {
-      const { isAuthenticated } = action.payload;
-      return { ...state, isAuthenticated, isInitialised: true };
+      const { isAuthenticated, user } = action.payload;
+      return { ...state, isAuthenticated, isInitialised: true, user };
     }
 
     case "LOGIN": {
-      return { ...state, isAuthenticated: true };
+      const { user } = action.payload;
+      return { ...state, isAuthenticated: true, user };
     }
 
     case "LOGOUT": {
-      return { ...state, isAuthenticated: false };
+      return { ...state, isAuthenticated: false, user: null };
     }
 
     case "REGISTER": {
-      return { ...state, isAuthenticated: true };
+      const { user } = action.payload;
+
+      return { ...state, isAuthenticated: true, user };
     }
+
+    case "SET_INFO": {
+      const { info } = action.payload;
+      return { ...state, userInfo: info };
+    }
+
     default:
       return state;
   }
@@ -65,6 +77,7 @@ const AuthContext = createContext({
   login: async () => {},
   logout: async () => {},
   register: async () => {},
+  getInfo: async () => {},
 });
 
 export const AuthProvider = ({ children }) => {
@@ -75,7 +88,9 @@ export const AuthProvider = ({ children }) => {
     if (data.access) {
       setSession(data.access);
 
-      dispatch({ type: "LOGIN" });
+      const { data: data2 } = await apiService.getProfile();
+
+      dispatch({ type: "LOGIN", payload: { user: unpackUser(data2) } });
     } else {
       console.log("no auth_token");
       // setLoggedIn(false);
@@ -86,12 +101,20 @@ export const AuthProvider = ({ children }) => {
     const response = await apiService.register(packUser(userData));
     const user = response.data;
 
-    dispatch({ type: "REGISTER" });
+    dispatch({ type: "REGISTER", payload: { user: unpackUser(user) } });
   };
 
   const logout = () => {
     setSession(null);
     dispatch({ type: "LOGOUT" });
+  };
+
+  const getInfo = async () => {
+    const response = await apiService.getInfo();
+
+    const info = unpackUserInfo(response.data);
+
+    dispatch({ type: "SET_INFO", payload: { info } });
   };
 
   useEffect(() => {
@@ -108,6 +131,7 @@ export const AuthProvider = ({ children }) => {
             type: "INIT",
             payload: {
               isAuthenticated: true,
+              user,
             },
           });
         } else {
@@ -115,6 +139,7 @@ export const AuthProvider = ({ children }) => {
             type: "INIT",
             payload: {
               isAuthenticated: false,
+              user: null,
             },
           });
         }
@@ -124,6 +149,7 @@ export const AuthProvider = ({ children }) => {
           type: "INIT",
           payload: {
             isAuthenticated: false,
+            user: null,
           },
         });
       }
@@ -135,7 +161,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ ...state, method: "JWT", login, logout, register }}
+      value={{ ...state, method: "JWT", login, logout, register, getInfo }}
     >
       {children}
     </AuthContext.Provider>

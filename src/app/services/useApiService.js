@@ -1,19 +1,42 @@
 import axios from "axios";
+import { ApiError } from "../utils/errors";
+
+const {
+  VITE_API_URL: API_URL,
+  VITE_FAKE_DB: USE_FAKE_DB,
+  VITE_API_PREFIX: API_PREFIX,
+  mode,
+} = import.meta.env;
+
+const baseUrl = mode === "production" ? API_PREFIX : API_URL.concat(API_PREFIX);
+// const baseUrl = API_URL.concat(API_PREFIX);
+
+export const axiosInstance = axios.create({
+  baseURL: baseUrl,
+  withCredentials: false,
+  headers: {
+    "Content-Type": "application/json",
+    // "Access-Control-Allow-Origin": "*",
+    // "Access-Control-Allow-Credentials": true,
+    // "Access-Control-Allow-Headers": true,
+    // "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+  },
+});
 
 const handleFetch = async (url, body, options = {}) => {
-  return axios(url, { ...options, data: body })
+  return axiosInstance(url, { ...options, data: body })
     .then((response) => {
-      if (response.status !== 200) throw response;
+      console.log(response);
+      if (response.status >= 400) throw response;
 
       return response;
     })
     .catch(async (err) => {
-      console.log(err);
-
-      throw {
-        status: err.response.status,
-        message: err.response.data.message,
-      };
+      if (err.response) {
+        throw new ApiError(err.response.status, err.response.data);
+      } else if (err.code) {
+        throw new ApiError("", err.message);
+      }
     });
 };
 
@@ -35,19 +58,22 @@ const fetchService = {
   },
 };
 
-const login = (params) => fetchService.post(`/api/auth/login`, params);
-
-const register = (params) => fetchService.post(`/api/auth/register`, params);
-
-const getProfile = () => fetchService.get(`/api/auth/profile`);
-
+const login = (params) => fetchService.post(`/token/create/`, params);
+const register = (params) => fetchService.post(`/registration/`, params);
+const getProfile = () => fetchService.get(`users/me/`);
+const getInfo = () => fetchService.get(`users/me/info/`);
+const updateUserData = (params) => fetchService.put(`users/me/`, params);
+const updateUserInfo = (params) => fetchService.post(`users/me/info/`, params);
 const getJobs = () => fetchService.get(`/api/jobs`);
 const getFullJob = (id) => fetchService.get(`/api/jobs/${id}`);
 
 export const apiService = {
   getProfile,
   login,
+  getInfo,
   register,
+  updateUserData,
+  updateUserInfo,
   getJobs,
-  getFullJob
+  getFullJob,
 };

@@ -14,16 +14,22 @@ import {
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
-import useAuth from "@/app/hooks/useAuth";
 import { getUserInitials } from "../utils/utils";
-import { Brightness4, Brightness7, KeyboardArrowDown } from "@mui/icons-material";
+import {
+  Brightness4,
+  Brightness7,
+  KeyboardArrowDown,
+} from "@mui/icons-material";
 import { ColorModeContext } from "../theme/ProjectTheme";
 import { Small, Span } from "./Typography";
+import useAuth from "../hooks/useAuth";
+import useUser from "../hooks/useUser";
 
 export default function AccountMenu() {
   const colorMode = React.useContext(ColorModeContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const { logout, user } = useAuth();
+  const { logout } = useAuth();
+  const { user } = useUser();
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -48,17 +54,21 @@ export default function AccountMenu() {
           >
             {/* <IconButton size="small" sx={{ ml: 2 }}> */}
             <Avatar sx={{ width: 32, height: 32, marginRight: "10px" }}>
-              {getUserInitials(user.name)}
+              {getUserInitials(user.name, user.surname)}
             </Avatar>
             {/* </IconButton> */}
             <Stack textAlign={"left"} marginRight={"10px"}>
-              <Span fontWeight={"bold"} ellipsis="true" maxWidth={"100px"}>{user.name}</Span>
-              <Small color="text.secondary">кандидат</Small>
+              <Span fontWeight={"bold"} ellipsis="true" maxWidth={"100px"}>
+                {user.name}
+              </Span>
+              <Small color="text.secondary">{user.role}</Small>
             </Stack>
-            <KeyboardArrowDown sx={{
-              transform: open ? "rotate(90deg)" : "none",
-              transition: "transform 0.5s ease"
-            }}/>
+            <KeyboardArrowDown
+              sx={{
+                transform: open ? "rotate(90deg)" : "none",
+                transition: "transform 0.5s ease",
+              }}
+            />
           </ButtonBase>
         </Tooltip>
       </Box>

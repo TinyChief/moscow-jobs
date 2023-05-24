@@ -10,15 +10,20 @@ const TextMaskCustom = React.forwardRef(function TextMaskCustom(props, ref) {
       mask="+0 (000) 000-00-00"
       inputRef={ref}
       onAccept={(value) => onChange({ target: { name: props.name, value } })}
+      onChange={() => ({})}
       overwrite
     />
   );
 });
 
+/**
+ * 
+ * @param {import("@mui/material").TextFieldProps} param0 
+ * @returns 
+ */
 export default function PhoneNumberInput({ ...props }) {
   return (
     <TextField
-      {...props}
       fullWidth
       variant="standard"
       label="Номер телефона"
@@ -27,6 +32,7 @@ export default function PhoneNumberInput({ ...props }) {
       InputProps={{
         inputComponent: TextMaskCustom,
       }}
+      {...props}
     />
   );
 }

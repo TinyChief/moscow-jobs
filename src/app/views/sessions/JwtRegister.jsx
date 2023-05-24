@@ -11,6 +11,8 @@ import * as Yup from "yup";
 import LoginRegisterLayout from "../../layout/LoginRegisterLayout";
 import { CommonTextField } from "../../components/CommonTextField";
 import { TextFieldsWrapper } from "../../components/TextFieldsWrapper";
+import PhoneNumberInput from "../../components/PhoneNumberInput";
+import useError from "../../hooks/useError";
 
 const FlexBox = styled(Box)(() => ({ display: "flex", alignItems: "center" }));
 
@@ -24,13 +26,12 @@ const ContentBox = styled(JustifyBox)(() => ({
 
 // inital login credentials
 const initialValues = {
-  surname: "",
-  name: "",
-  secondname: "",
-  email: "",
-  password: "",
-  username: "",
-  remember: true,
+  surname: "Иванов",
+  name: "Иван",
+  secondname: "Иванович",
+  email: "hello@world.ru",
+  password: "examplepw",
+  phone: "+79252502525",
 };
 
 // form field validation schema
@@ -54,15 +55,17 @@ const JwtRegister = () => {
   const { register } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const { setError } = useError();
 
-  const handleFormSubmit = (values) => {
+  const handleFormSubmit = async (values) => {
     setLoading(true);
 
     try {
-      register(values.email, values.username, values.password);
+      await register(values);
       navigate("/");
       setLoading(false);
     } catch (e) {
+      setError(e)
       console.log(e);
       setLoading(false);
     }
@@ -120,10 +123,17 @@ const JwtRegister = () => {
                       name="secondname"
                       label="Отчество"
                       onBlur={handleBlur}
-                      value={values.secondame}
+                      value={values.secondname}
                       onChange={handleChange}
                       helperText={touched.secondname && errors.secondname}
                       error={Boolean(errors.secondname && touched.secondname)}
+                    />
+                    <PhoneNumberInput
+                      variant="outlined"
+                      size="small"
+                      onBlur={handleBlur}
+                      value={values.phone}
+                      onChange={handleChange}
                     />
                     <CommonTextField
                       name="email"

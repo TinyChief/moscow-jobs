@@ -120,8 +120,6 @@ export function scrollTo(scrollableElement, elmID) {
   return false;
 }
 
-export function getUserInitials (name) {
-  return name.split(' ').reduce((acc, cur) => {
-    return acc += cur[0]
-  }, '')
+export function getUserInitials (name, surname) {
+  return `${name[0]}${surname[0]}`.toUpperCase()
 }
