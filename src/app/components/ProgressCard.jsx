@@ -9,7 +9,13 @@ import {
 } from "@mui/material";
 import { H2, Span } from "./Typography";
 import { CommonCard } from "./CommonCard";
-import { Check, GroupAdd, NextWeek, Rule, School, Settings, SupervisorAccount, TextSnippetOutlined, VideoLabel } from "@mui/icons-material";
+import {
+  NextWeek,
+  Rule,
+  School,
+  SupervisorAccount,
+  TextSnippetOutlined,
+} from "@mui/icons-material";
 import styled from "@emotion/styled";
 import { StyledScrollBar } from "./StyledScrollBar";
 
@@ -89,7 +95,7 @@ const steps = [
   "Тестовое задание и собеседование с работодателями",
 ];
 
-export const ProgressCard = () => {
+export const ProgressCard = ({ activeStep }) => {
   return (
     <CommonCard>
       <CardContent>
@@ -106,7 +112,7 @@ export const ProgressCard = () => {
               minWidth: "500px",
             }}
             alternativeLabel
-            activeStep={4}
+            activeStep={activeStep}
             connector={<ColorlibConnector />}
             // orientation="vertical"
           >

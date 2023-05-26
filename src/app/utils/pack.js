@@ -76,6 +76,14 @@ export function packUserInfo({
   };
 }
 
+export const roleNames = {
+  CANDIDATE: "кандидат",
+  INTERN: "стажер",
+  CURATOR: "куратор",
+  STAFF: "кадры",
+  MENTOR: "наставник",
+};
+
 function getRoleName(role) {
   const roleNames = {
     CANDIDATE: "кандидат",

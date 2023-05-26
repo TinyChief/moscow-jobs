@@ -6,12 +6,10 @@ import {
   MenuItem,
   ListItemIcon,
   Divider,
-  IconButton,
   Tooltip,
   Stack,
   ButtonBase,
 } from "@mui/material";
-import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import { getUserInitials } from "../utils/utils";
@@ -25,6 +23,7 @@ import { Small, Span } from "./Typography";
 import useAuth from "../hooks/useAuth";
 import useUser from "../hooks/useUser";
 import { useNavigate } from "react-router-dom";
+import LetterAvatar from "./LetterAvatar";
 
 export default function AccountMenu() {
   const colorMode = React.useContext(ColorModeContext);
@@ -47,32 +46,31 @@ export default function AccountMenu() {
   return (
     <React.Fragment>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
-        <Tooltip title="Account settings">
-          <ButtonBase
-            onClick={handleClick}
-            aria-controls={open ? "account-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-          >
-            {/* <IconButton size="small" sx={{ ml: 2 }}> */}
-            <Avatar sx={{ width: 32, height: 32, marginRight: "10px" }}>
-              {getUserInitials(user.name, user.surname)}
-            </Avatar>
-            {/* </IconButton> */}
-            <Stack textAlign={"left"} marginRight={"10px"}>
-              <Span fontWeight={"bold"} ellipsis="true" maxWidth={"100px"}>
-                {user.name}
-              </Span>
-              <Small color="text.secondary">{user.role}</Small>
-            </Stack>
-            <KeyboardArrowDown
-              sx={{
-                transform: open ? "rotate(90deg)" : "none",
-                transition: "transform 0.5s ease",
-              }}
-            />
-          </ButtonBase>
-        </Tooltip>
+        <ButtonBase
+          onClick={handleClick}
+          aria-controls={open ? "account-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+        >
+          {/* <IconButton size="small" sx={{ ml: 2 }}> */}
+          {/* <Avatar >
+            {getUserInitials(user.name, user.surname)}
+          </Avatar> */}
+          <LetterAvatar sx={{ width: 32, height: 32, marginRight: "10px" }} name={user.name} surname={user.surname} />
+          {/* </IconButton> */}
+          <Stack textAlign={"left"} marginRight={"10px"}>
+            <Span fontWeight={"bold"} ellipsis="true" maxWidth={"100px"}>
+              {user.name}
+            </Span>
+            <Small color="text.secondary">{user.role}</Small>
+          </Stack>
+          <KeyboardArrowDown
+            sx={{
+              transform: open ? "rotate(90deg)" : "none",
+              transition: "transform 0.5s ease",
+            }}
+          />
+        </ButtonBase>
       </Box>
       <Menu
         anchorEl={anchorEl}
@@ -109,7 +107,7 @@ export default function AccountMenu() {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={() => navigate('/profile')}>
+        <MenuItem onClick={() => navigate("/profile")}>
           <Avatar /> Профиль
         </MenuItem>
         <Divider />

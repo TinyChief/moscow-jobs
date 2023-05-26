@@ -10,22 +10,25 @@ import { AuthProvider } from "./app/contexts/JWTAuthContext";
 import App from "./app/App";
 import { ErrorProvider } from "./app/contexts/ErrorContext";
 import { SnackbarProvider } from "./app/contexts/snackbarContext";
+import { ApiProvider } from "./app/contexts/apiContext";
 
 const root = createRoot(document.getElementById("root"));
 
 root.render(
   <StyledEngineProvider injectFirst>
     <SettingsProvider>
-      <AuthProvider>
-        <ProjectTheme>
-          <CssBaseline />
-          <SnackbarProvider>
-            <ErrorProvider>
-              <App />
-            </ErrorProvider>
-          </SnackbarProvider>
-        </ProjectTheme>
-      </AuthProvider>
+      <ApiProvider>
+        <AuthProvider>
+          <ProjectTheme>
+            <CssBaseline />
+            <SnackbarProvider>
+              <ErrorProvider>
+                <App />
+              </ErrorProvider>
+            </SnackbarProvider>
+          </ProjectTheme>
+        </AuthProvider>
+      </ApiProvider>
     </SettingsProvider>
   </StyledEngineProvider>
 );

@@ -21,8 +21,10 @@ import StatisticsView from "./views/StatisticsView.jsx";
 import ProfileView from "./views/Profile";
 
 import "@fontsource/nunito";
-import ApplicationView from "./views/ApplicationView";
+import MakeApplication from "./views/ApplicationView";
 import { UserProvider } from "./contexts/UserContext";
+import { ApplicationProvider } from "./contexts/ApplicationContext";
+import AlreadAuthGuard from "./auth/AlreadyAuthGuard";
 
 const router = createHashRouter(
   createRoutesFromElements(
@@ -36,7 +38,16 @@ const router = createHashRouter(
           </AuthGuard>
         }
       >
-        <Route path="/application" exact element={<ApplicationView />} end />
+        <Route
+          path="/application"
+          exact
+          element={
+            <ApplicationProvider>
+              <MakeApplication />
+            </ApplicationProvider>
+          }
+          end
+        />
         <Route
           path="/applications"
           exact
@@ -76,9 +87,30 @@ const router = createHashRouter(
       </Route>
       <Route path="/" exact element={<Navigate to={"/profile"} replace />} />
       <Route path="welcome" element={<Welcome />} />
-      <Route path="session/signin" element={<JwtLogin />} />
-      <Route path="session/signup" element={<JwtRegister />} />
-      <Route path="session/forgot-password" element={<ForgotPassword />} />
+      <Route
+        path="session/signin"
+        element={
+          <AlreadAuthGuard>
+            <JwtLogin />
+          </AlreadAuthGuard>
+        }
+      />
+      <Route
+        path="session/signup"
+        element={
+          <AlreadAuthGuard>
+            <JwtRegister />
+          </AlreadAuthGuard>
+        }
+      />
+      <Route
+        path="session/forgot-password"
+        element={
+          <AlreadAuthGuard>
+            <ForgotPassword />
+          </AlreadAuthGuard>
+        }
+      />
       <Route path="session/404" element={<NotFound />} />
       <Route path="*" element={<NotFound />} />
     </>

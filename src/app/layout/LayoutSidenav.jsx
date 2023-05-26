@@ -6,7 +6,7 @@ import useSettings from "../hooks/useSettings";
 import Brand from "../components/Brand";
 import Scrollbar from "react-perfect-scrollbar";
 import VerticalNav from "../components/VerticalNav/VerticalNav";
-import { navigations } from "@/app/navigations";
+import { internNavigations } from "../navigations";
 
 const LayoutSidenav = ({ onNavigation }) => {
   const theme = useTheme();
@@ -31,7 +31,7 @@ const LayoutSidenav = ({ onNavigation }) => {
       <NavListBox>
         <Brand></Brand>
         <StyledScrollBar options={{ suppressScrollX: true }}>
-          <VerticalNav items={navigations} onNavigation={onNavigation} />
+          <VerticalNav items={internNavigations} onNavigation={onNavigation} />
         </StyledScrollBar>
       </NavListBox>
     </SidebarNavRoot>

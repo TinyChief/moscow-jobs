@@ -3,8 +3,13 @@ import { CommonCard } from "./CommonCard";
 import { ContactSupport } from "@mui/icons-material";
 import { H2, Small } from "./Typography";
 import { grey } from "@mui/material/colors";
+import { useSnackbar } from "../contexts/snackbarContext";
 
 export const HelpCard = () => {
+  const {showSnackbar} = useSnackbar()
+  function handleWriteUs () {
+    showSnackbar("Мы работаем над этой функцией. Скоро вы сможете сообщать нам о миллионах найденных багов.", "warning")
+  }
   return (
     <CommonCard>
       <CardContent
@@ -30,6 +35,7 @@ export const HelpCard = () => {
           fullWidth
           variant="contained"
           sx={{ textTransform: "uppercase" }}
+          onClick={handleWriteUs}
         >
           Напишите нам
         </Button>

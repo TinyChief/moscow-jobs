@@ -112,7 +112,7 @@ const MainLayout = () => {
           }}
         >
           <ContentBox>
-            <Box flexGrow={1} position="relative" my={4}>
+            <Box flexGrow={1} position="relative" py={4}>
               <NavigationScroll onNavigation={() => perfectScrollBar.updateScroll()}>
                 <Outlet />
               </NavigationScroll>

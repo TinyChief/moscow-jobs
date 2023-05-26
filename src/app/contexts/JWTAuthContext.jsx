@@ -1,8 +1,9 @@
 import { createContext, useEffect, useReducer } from "react";
 import Loading from "@/app/components/Loading";
 import * as jose from "jose";
-import { apiService, axiosInstance } from "../services/useApiService";
+import { apiService } from "../services/useApiService";
 import { packUser } from "../utils/pack";
+import TokenService from "../services/TokenService";
 
 /**
  * @typedef state
@@ -26,13 +27,17 @@ const isValidToken = (accessToken) => {
   return decodedToken.exp > currentTime;
 };
 
-const setSession = (accessToken) => {
+const setSession = (accessToken, refreshToken) => {
+  if (refreshToken) {
+    TokenService.updateLocalRefreshToken(refreshToken);
+  }
+
   if (accessToken) {
-    localStorage.setItem("accessToken", accessToken);
-    axiosInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+    TokenService.updateLocalAccessToken(accessToken);
   } else {
     localStorage.removeItem("accessToken");
-    delete axiosInstance.defaults.headers.common.Authorization;
+    localStorage.removeItem("refreshToken");
+    // delete axiosInstance.defaults.headers.common.Authorization;
   }
 };
 
@@ -73,7 +78,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     const { data } = await apiService.login({ email, password });
     if (data.access) {
-      setSession(data.access);
+      setSession(data.access, data.refresh);
 
       dispatch({ type: "LOGIN" });
     } else {
@@ -89,6 +94,25 @@ export const AuthProvider = ({ children }) => {
     dispatch({ type: "REGISTER" });
   };
 
+  const tryToRefreshToken = async () => {
+    const token = window.localStorage.getItem("refreshToken");
+    if (!token) {
+      console.log("no refresh token, redirect to login");
+
+      dispatch({ type: "LOGOUT" });
+    }
+
+    const { data } = await apiService.refreshToken(token);
+    if (data.access) {
+      setSession(data.access);
+
+      dispatch({ type: "LOGIN" });
+    } else {
+      console.log("no auth_token, redirect to login");
+      dispatch({ type: "LOGOUT" });
+    }
+  };
+
   const logout = () => {
     setSession(null);
     dispatch({ type: "LOGOUT" });
@@ -97,13 +121,12 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     (async () => {
       try {
-        const accessToken = window.localStorage.getItem("accessToken");
+        const accessToken = TokenService.getLocalAccessToken();
 
-        if (accessToken && isValidToken(accessToken)) {
-          setSession(accessToken);
-          // const response = await apiService.getProfile();
-          // const user = unpackUser(response.data);
-
+        if (accessToken) {
+          if (!isValidToken(accessToken)) {
+            await apiService.refreshToken();
+          }
           dispatch({
             type: "INIT",
             payload: {
@@ -111,6 +134,7 @@ export const AuthProvider = ({ children }) => {
             },
           });
         } else {
+          console.log("no local token");
           dispatch({
             type: "INIT",
             payload: {
@@ -135,7 +159,14 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ ...state, method: "JWT", login, logout, register }}
+      value={{
+        ...state,
+        method: "JWT",
+        login,
+        logout,
+        register,
+        refreshToken: tryToRefreshToken,
+      }}
     >
       {children}
     </AuthContext.Provider>

@@ -1,15 +1,10 @@
-import {
-  Avatar,
-  Box,
-  CardContent,
-  Divider,
-  Typography,
-} from "@mui/material";
+import { Avatar, Box, CardContent, Divider, Typography } from "@mui/material";
 import { H3, Paragraph, Span } from "./Typography";
 import { CommonCard } from "./CommonCard";
 import { grey } from "@mui/material/colors";
+import LetterAvatar from "./LetterAvatar";
 
-export const UserCard = ({ name, email, title }) => {
+export const UserCard = ({ name, email, title, surname }) => {
   return (
     <CommonCard>
       <CardContent
@@ -20,13 +15,15 @@ export const UserCard = ({ name, email, title }) => {
           minHeight: "240px",
         }}
       >
-        <Avatar
-          src={"https://i.pravatar.cc/300"}
+        <LetterAvatar
           sx={{
             width: "100px",
             height: "100px",
             marginX: "auto",
+            fontSize: 40
           }}
+          name={name}
+          surname={surname}
         />
         <H3
           sx={{
@@ -37,7 +34,7 @@ export const UserCard = ({ name, email, title }) => {
             marginBottom: 0,
           }}
         >
-          {name}
+          {name} {surname}
         </H3>
         <Span
           sx={{

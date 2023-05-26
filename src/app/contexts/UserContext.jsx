@@ -1,7 +1,13 @@
 import { createContext, useEffect, useReducer } from "react";
 import { apiService } from "../services/useApiService";
-import { packUser, packUserInfo, unpackUser, unpackUserInfo } from "../utils/pack";
+import {
+  packUser,
+  packUserInfo,
+  unpackUser,
+  unpackUserInfo,
+} from "../utils/pack";
 import Loading from "@/app/components/Loading";
+import useAuth from "../hooks/useAuth";
 
 const initialState = {
   user: null,
@@ -34,6 +40,7 @@ const UserContext = createContext({
 
 export const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { logout } = useAuth();
 
   const getInfo = async () => {
     const response = await apiService.getInfo();
@@ -62,28 +69,25 @@ export const UserProvider = ({ children }) => {
     dispatch({ type: "SET_INFO", payload: { info } });
   };
 
+  async function getProfile() {
+    const response = await apiService.getProfile();
+    const user = unpackUser(response.data);
+
+    dispatch({
+      type: "INIT",
+      payload: {
+        user,
+      },
+    });
+  }
+
   useEffect(() => {
     (async () => {
       try {
-        const response = await apiService.getProfile();
-        const user = unpackUser(response.data);
-
-        setTimeout(() => {
-          dispatch({
-            type: "INIT",
-            payload: {
-              user,
-            },
-          });
-        }, 1000);
+        await getProfile();
       } catch (err) {
         console.error(err);
-        dispatch({
-          type: "INIT",
-          payload: {
-            user: null,
-          },
-        });
+        logout()
       }
     })();
   }, []);

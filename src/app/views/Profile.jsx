@@ -3,21 +3,32 @@ import { UserCard } from "../components/UserCard";
 import { HelpCard } from "../components/HelpCard";
 import { ProgressCard } from "../components/ProgressCard";
 import { UserInformationCard } from "../components/UserInformationCard";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useUser from "../hooks/useUser";
 import useError from "../hooks/useError";
 import { useSnackbar } from "../contexts/snackbarContext";
+import { roleNames } from "../utils/pack";
 
 const ProfileView = () => {
   const { user, userInfo, getInfo, updateUserData, updateUserInfo } = useUser();
   const { showSnackbar } = useSnackbar();
   const { setError } = useError();
+  const [progressActiveStep, setProgressActiveStep] = useState(0);
 
   useEffect(() => {
-    (async () => {
-      getInfo();
-    })();
+    getInfo();
   }, []);
+
+  useEffect(() => {
+    switch (user.role) {
+      case roleNames.CANDIDATE:
+        setProgressActiveStep(0)
+        break
+      default:
+        setProgressActiveStep(1)
+    }
+
+  }, [user]);
 
   const onUserInformationChange = async (type, values) => {
     try {
@@ -44,7 +55,8 @@ const ProfileView = () => {
         <Grid md={4} xs={12} item>
           <Stack spacing={2}>
             <UserCard
-              name={`${user.surname} ${user.name}`}
+              name={user.name}
+              surname={user.surname}
               title={user.role}
               email={user.email}
             ></UserCard>
@@ -53,7 +65,7 @@ const ProfileView = () => {
         </Grid>
         <Grid md={8} xs={12} item>
           <Stack spacing={2}>
-            <ProgressCard />
+            <ProgressCard activeStep={progressActiveStep} />
             <UserInformationCard
               user={{ ...(user || {}) }}
               userInfo={{ ...(userInfo || {}) }}
