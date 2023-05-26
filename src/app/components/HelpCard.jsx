@@ -8,7 +8,7 @@ import { useSnackbar } from "../contexts/snackbarContext";
 export const HelpCard = () => {
   const {showSnackbar} = useSnackbar()
   function handleWriteUs () {
-    showSnackbar("Мы работаем над этой функцией. Скоро вы сможете сообщать нам о миллионах найденных багов.", "warning")
+    showSnackbar("Мы работаем над этой функцией. Скоро ты сможешь сообщать нам о миллионах найденных багов.", "warning")
   }
   return (
     <CommonCard>

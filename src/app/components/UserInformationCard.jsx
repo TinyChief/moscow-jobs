@@ -1,11 +1,16 @@
 import {
   Box,
   CardContent,
+  Divider,
   FormControl,
+  FormControlLabel,
+  FormLabel,
   Grid,
   InputLabel,
   Menu,
   MenuItem,
+  Radio,
+  RadioGroup,
   Select,
 } from "@mui/material";
 import { CommonCard } from "./CommonCard";
@@ -20,6 +25,7 @@ import PhoneNumberInput from "./PhoneNumberInput";
 import CitizenInput from "./CitizenInput";
 import { H3 } from "./Typography";
 import { userDataValidationSchema } from "../utils/validations";
+import { pickAll } from "ramda";
 
 export const UserInformationCard = ({ ...props }) => {
   return (
@@ -28,6 +34,29 @@ export const UserInformationCard = ({ ...props }) => {
         <BasicTabs {...props} />
       </CardContent>
     </CommonCard>
+  );
+};
+
+const InformationGroup = ({ title, children }) => {
+  return (
+    <Grid item xs={12}>
+      <H3 sx={{ textDecoration: "underline" }} mb={1}>
+        {title}
+      </H3>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          // "> div": { marginBottom: "15px" },
+          // "div:last-child": { marginBottom: 0 },
+          "> div": {
+            marginBottom: "15px",
+          },
+        }}
+      >
+        {children}
+      </Box>
+    </Grid>
   );
 };
 
@@ -69,16 +98,29 @@ export default function BasicTabs({ user, userInfo, onChange }) {
     email: user.email,
   };
 
-  const initialUserInfo = {
-    birthday: userInfo.birthday || "",
-    citizen: userInfo.citizen || "",
-    universityName: userInfo.universityName || undefined,
-    universityYear: userInfo.universityYear || undefined,
-    jobExperience: userInfo.jobExperience || "",
-    jobStatus: userInfo.jobStatus || "",
-    skills: userInfo.skills || "",
-    departments: userInfo.departments || "",
-  };
+  const initialUserInfo = pickAll(
+    [
+      "birthday",
+      "gender",
+      "city",
+      "district",
+      "universityName",
+      "universityYear",
+      "universityCity",
+      "faculty",
+      "speciality",
+      "educationLevel",
+      "photoUrl",
+      "vkId",
+      "telegramId",
+      "jobExperience",
+      "jobStatus",
+      "skills",
+      "departments",
+      "citizen",
+    ],
+    userInfo || {}
+  );
 
   const handleFormSubmit = async (type, values) => {
     onChange(type, values);
@@ -92,8 +134,8 @@ export default function BasicTabs({ user, userInfo, onChange }) {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="Основная информация" {...a11yProps(0)} />
-          <Tab label="Анкета" {...a11yProps(1)} />
+          <Tab label="Персональные данные" {...a11yProps(0)} />
+          <Tab label="Информация" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -170,22 +212,86 @@ export default function BasicTabs({ user, userInfo, onChange }) {
         >
           {({ values, handleChange, handleBlur }) => (
             <>
-              <Grid item xs={12}>
-                <CustomDateFormat
-                  onBlur={handleBlur}
-                  value={values.birthday}
-                  onChange={handleChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
+              <InformationGroup title={"Основная информация"}>
+                <Grid container spacing={3}>
+                  <Grid xs={12} md={6} item>
+                    <CustomDateFormat
+                      onBlur={handleBlur}
+                      value={values.birthday}
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid xs={12} md={6} item>
+                    <FormControl size="small">
+                      <FormLabel
+                        id="demo-controlled-radio-buttons-group"
+                        sx={{
+                          fontSize: 11,
+                        }}
+                      >
+                        Пол
+                      </FormLabel>
+                      <RadioGroup
+                        aria-labelledby="demo-controlled-radio-buttons-group"
+                        name="controlled-radio-buttons-group"
+                        value={values.gender}
+                        onChange={handleChange}
+                      >
+                        <FormControlLabel
+                          value="female"
+                          control={<Radio size="small" />}
+                          label="Женский"
+                        />
+                        <FormControlLabel
+                          value="male"
+                          control={<Radio size="small" />}
+                          label="Мужской"
+                        />
+                      </RadioGroup>
+                    </FormControl>
+                  </Grid>
+                </Grid>
+
                 <CitizenInput
                   onBlur={handleBlur}
                   value={values.citizen}
                   onChange={handleChange}
                 />
-              </Grid>
-              <Grid item xs={12}>
-                <H3>Образование</H3>
+                <Grid container spacing={3}>
+                  <Grid xs={12} item>
+                    <CommonTextField
+                      name="city"
+                      label="Город проживания"
+                      variant="standard"
+                      onBlur={handleBlur}
+                      value={values.city}
+                      onChange={handleChange}
+                      sx={{}}
+                    />
+                  </Grid>
+                  <Grid xs={12} md={6} item>
+                    <CommonTextField
+                      name="district"
+                      label="Район проживания"
+                      variant="standard"
+                      onBlur={handleBlur}
+                      value={values.district}
+                      onChange={handleChange}
+                      helperText="Указать, если город проживания - Москва"
+                    />
+                  </Grid>
+                </Grid>
+                <CommonTextField
+                  name="educationLevel"
+                  label="Образование"
+                  variant="standard"
+                  onBlur={handleBlur}
+                  value={values.educationLevel}
+                  onChange={handleChange}
+                  helperText="Например, высшее"
+                />
+              </InformationGroup>
+              <InformationGroup title="Образование">
                 <CommonTextField
                   name="universityName"
                   label="Учебное заведение"
@@ -197,58 +303,48 @@ export default function BasicTabs({ user, userInfo, onChange }) {
                     "Полное наименование без аббрeвиатур и сокращений"
                   }
                 />
+                <Grid container spacing={3}>
+                  <Grid xs={12} md={6} item>
+                    <CommonTextField
+                      name="universityCity"
+                      label="Город"
+                      variant="standard"
+                      onBlur={handleBlur}
+                      value={values.universityCity}
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid xs={12} md={6} item>
+                    <CommonTextField
+                      name="universityYear"
+                      label="Год окончания"
+                      variant="standard"
+                      onBlur={handleBlur}
+                      value={values.universityYear}
+                      onChange={handleChange}
+                      helperText="Если ты еще учишься, напиши предполагаемый год выпуска"
+                    />
+                  </Grid>
+                </Grid>
+
                 <CommonTextField
-                  name="universityYear"
-                  label="Курс"
+                  name="faculty"
+                  label="Факультет"
                   variant="standard"
                   onBlur={handleBlur}
-                  value={values.universityYear}
+                  value={values.faculty}
                   onChange={handleChange}
-                  // helperText="Нынешний курс обучения или кол-во отученных курсов"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <H3>О себе</H3>
-                <CommonTextField
-                  name="skills"
-                  label="Области экспертизы"
-                  variant="standard"
-                  multiline
-                  minRows={3}
-                  onBlur={handleBlur}
-                  value={values.skills}
-                  onChange={handleChange}
-                  helperText="Перечислите через запятую soft и hard skills"
                 />
                 <CommonTextField
-                  name="departments"
-                  label="Ведомства"
+                  name="speciality"
+                  label="Специальность"
                   variant="standard"
-                  multiline
-                  minRows={3}
                   onBlur={handleBlur}
-                  value={values.departments}
+                  value={values.speciality}
                   onChange={handleChange}
-                  helperText={
-                    <>
-                      {"Перечислите через запятую интересные вам "}
-                      <Box
-                        component={"a"}
-                        href="https://www.mos.ru/pgu/ru/departments/"
-                        target="_blank"
-                        sx={{
-                          color: "secondary.main",
-                        }}
-                      >
-                        ведомства
-                      </Box>
-                    </>
-                  }
-                  // helperText={"Перечислите через запятую ведомства"}
                 />
-              </Grid>{" "}
-              <Grid item xs={12}>
-                <H3>Опыт работы</H3>
+              </InformationGroup>
+              <InformationGroup title="Опыт работы (практик, стажировок) или проектной общественной деятельности">
                 <FormControl variant="standard" sx={{ minWidth: 200 }}>
                   <InputLabel id="demo-simple-select-standard-label">
                     Статус
@@ -256,7 +352,8 @@ export default function BasicTabs({ user, userInfo, onChange }) {
                   <Select
                     name="jobStatus"
                     id="demo-simple-select-standard"
-                    value={values.jobStatus}
+                    // defaultValue={1}
+                    value={values.jobStatus || ""}
                     onChange={handleChange}
                     size="small"
                     variant="standard"
@@ -276,7 +373,42 @@ export default function BasicTabs({ user, userInfo, onChange }) {
                   minRows={2}
                   helperText="Укажите последние 3 (максимум) места работы, начиная с последнего."
                 />
-              </Grid>
+              </InformationGroup>
+              <InformationGroup title="Дополнительная информация">
+                <CommonTextField
+                  name="skills"
+                  label="Области экспертизы"
+                  variant="standard"
+                  multiline
+                  minRows={3}
+                  onBlur={handleBlur}
+                  value={values.skills}
+                  onChange={handleChange}
+                  helperText="Перечислите через запятую soft и hard skills"
+                />
+                <Grid container spacing={3}>
+                  <Grid xs={6} item>
+                    <CommonTextField
+                      name="vkId"
+                      label="Профиль в соцсети «ВКонтакте»"
+                      variant="standard"
+                      onBlur={handleBlur}
+                      value={values.vkId}
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid xs={6} item>
+                    <CommonTextField
+                      name="telegramId"
+                      label="Профиль в Telegram"
+                      variant="standard"
+                      onBlur={handleBlur}
+                      value={values.telegramId}
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                </Grid>
+              </InformationGroup>
             </>
           )}
         </UserDataForm>
@@ -313,22 +445,26 @@ function UserDataForm({ userData, onSubmit, validationSchema, children }) {
           <form onSubmit={handleSubmit} onReset={handleReset}>
             <Grid container spacing={4} textAlign={"left"}>
               <Grid item xs={12} textAlign={"end"}>
-                <LoadingButton
-                  type="reset"
-                  variant="outlined"
-                  sx={{ marginRight: 2 }}
-                  color="error"
-                  disabled={!dirty}
-                >
-                  Отменить изменения
-                </LoadingButton>
-                <LoadingButton
-                  type="submit"
-                  variant="contained"
-                  disabled={!dirty || isSubmitting}
-                >
-                  Сохранить
-                </LoadingButton>
+                <Box mb={2}>
+                  <LoadingButton
+                    type="reset"
+                    variant="outlined"
+                    sx={{ marginRight: 2 }}
+                    color="error"
+                    disabled={!dirty}
+                  >
+                    Отменить изменения
+                  </LoadingButton>
+                  <LoadingButton
+                    type="submit"
+                    variant="contained"
+                    disabled={!dirty || isSubmitting}
+                  >
+                    Сохранить
+                  </LoadingButton>
+                </Box>
+
+                <Divider />
               </Grid>
               {React.createElement(children, {
                 values,

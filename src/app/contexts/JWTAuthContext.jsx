@@ -95,7 +95,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const tryToRefreshToken = async () => {
-    const token = window.localStorage.getItem("refreshToken");
+    const token = TokenService.getLocalRefreshToken();
     if (!token) {
       console.log("no refresh token, redirect to login");
 

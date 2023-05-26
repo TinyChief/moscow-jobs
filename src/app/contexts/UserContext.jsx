@@ -3,6 +3,7 @@ import { apiService } from "../services/useApiService";
 import {
   packUser,
   packUserInfo,
+  ROLES,
   unpackUser,
   unpackUserInfo,
 } from "../utils/pack";
@@ -16,7 +17,7 @@ const initialState = {
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case "INIT": {
+    case "SET_USER": {
       const { user } = action.payload;
       return { ...state, user };
     }
@@ -43,11 +44,17 @@ export const UserProvider = ({ children }) => {
   const { logout } = useAuth();
 
   const getInfo = async () => {
-    const response = await apiService.getInfo();
+    try {
+      const response = await apiService.getInfo();
 
-    const info = unpackUserInfo(response.data);
+      const info = unpackUserInfo(response.data);
 
-    dispatch({ type: "SET_INFO", payload: { info } });
+      dispatch({ type: "SET_INFO", payload: { info } });
+    } catch (error) {
+      if (error.status === 404) {
+        console.log("no user info");
+      }
+    }
   };
 
   const updateUserData = async (newUserData) => {
@@ -55,7 +62,7 @@ export const UserProvider = ({ children }) => {
     const user = unpackUser(response.data);
 
     dispatch({
-      type: "INIT",
+      type: "SET_USER",
       payload: {
         user,
       },
@@ -74,7 +81,7 @@ export const UserProvider = ({ children }) => {
     const user = unpackUser(response.data);
 
     dispatch({
-      type: "INIT",
+      type: "SET_USER",
       payload: {
         user,
       },
@@ -85,9 +92,10 @@ export const UserProvider = ({ children }) => {
     (async () => {
       try {
         await getProfile();
+        await getInfo();
       } catch (err) {
         console.error(err);
-        logout()
+        logout();
       }
     })();
   }, []);

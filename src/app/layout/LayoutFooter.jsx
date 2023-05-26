@@ -34,7 +34,7 @@ const FooterContent = styled("div")(() => ({
   margin: "0 auto",
 }));
 
-const HackLink = styled("a")(({ theme }) => ({
+export const HackLink = styled("a")(({ theme }) => ({
   color: theme.palette.secondary.main,
   fontWeight: "bold",
 }));

@@ -7,7 +7,8 @@ import { useEffect, useState } from "react";
 import useUser from "../hooks/useUser";
 import useError from "../hooks/useError";
 import { useSnackbar } from "../contexts/snackbarContext";
-import { roleNames } from "../utils/pack";
+import { ROLES } from "../utils/pack";
+import { isInternOrCandidate } from "../utils/utils";
 
 const ProfileView = () => {
   const { user, userInfo, getInfo, updateUserData, updateUserInfo } = useUser();
@@ -21,7 +22,7 @@ const ProfileView = () => {
 
   useEffect(() => {
     switch (user.role) {
-      case roleNames.CANDIDATE:
+      case ROLES.CANDIDATE:
         setProgressActiveStep(0)
         break
       default:
@@ -49,6 +50,8 @@ const ProfileView = () => {
     }
   };
 
+  
+
   return (
     <>
       <Grid container spacing={2}>
@@ -57,7 +60,7 @@ const ProfileView = () => {
             <UserCard
               name={user.name}
               surname={user.surname}
-              title={user.role}
+              title={user.roleName}
               email={user.email}
             ></UserCard>
             <HelpCard />
@@ -65,7 +68,7 @@ const ProfileView = () => {
         </Grid>
         <Grid md={8} xs={12} item>
           <Stack spacing={2}>
-            <ProgressCard activeStep={progressActiveStep} />
+            {isInternOrCandidate(user.role) && <ProgressCard activeStep={progressActiveStep} />}
             <UserInformationCard
               user={{ ...(user || {}) }}
               userInfo={{ ...(userInfo || {}) }}

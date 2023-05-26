@@ -10,7 +10,7 @@ export const userDataValidationSchema = Yup.object().shape({
   secondname: Yup.string().min(2, "Минимальная длина 2 символа"),
   phone: Yup.string()
     .min(2, "Минимальная длина 2 символа")
-	.matches(/^\+\d{1}\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}$/, "Неверный формат номера.")
+	.matches(/^\+\d{11}$/, "Неверный формат номера.")
     .required("Поле обязательно к заполнению!"),
   password: Yup.string()
     .min(6, "Минимальная длина пароля 6 символов")

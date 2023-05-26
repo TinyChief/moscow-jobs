@@ -3,7 +3,7 @@ import { apiService } from "../services/useApiService";
 
 const ApplicationContext = createContext({
   send: false,
-  status: '',
+  status: "",
   score: 0,
   makeApplication: async () => {},
   getApplicationStatus: async () => {},
@@ -17,10 +17,17 @@ export const ApplicationProvider = ({ children }) => {
   });
 
   const makeApplication = async (directions, busyness) => {
-    await apiService.postMyApplication({
+    const { data } = await apiService.postMyApplication({
       directions,
       busyness,
     });
+
+    // setTimeout(() => {
+    //   setState({
+    //     send: true,
+    //     status: data.status,
+    //   });
+    // }, 1000);
   };
 
   const getApplicationStatus = async () => {

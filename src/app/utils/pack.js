@@ -9,88 +9,123 @@ export function packUser({
   return {
     email,
     first_name: name,
-    patronymic: secondname,
-    last_name: surname,
+    last_name: secondname,
+    surname,
     phone,
     password,
   };
 }
 
-export function unpackUser({
-  first_name,
-  last_name,
-  patronymic,
-  role,
-  ...rest
-}) {
+export function unpackUser({ first_name, last_name, role, ...rest }) {
   return {
     name: first_name,
-    surname: last_name,
-    secondname: patronymic,
-    role: getRoleName(role),
+    secondname: last_name,
+    role,
+    roleName: getRoleName(role),
     ...rest,
   };
 }
 //
+
 export function unpackUserInfo({
-  birthday,
-  university_name: universityName,
-  university_year: universityYear,
+  birthdate: birthday,
+  gender,
+  city,
+  district,
+  education_institution: universityName,
+  education_city: universityCity,
+  faculty,
+  speciality,
+  graduation_year: universityYear,
+  education_level: educationLevel,
   job_experience: jobExperience,
+  citizenship: citizen,
+  photo_url: photoUrl,
+  vk_id: vkId,
+  telegram_id: telegramId,
   job_status: jobStatus,
   skills,
   departments,
-  citizenship: citizen
 }) {
   return {
     birthday,
+    gender,
+    city,
+    district,
     universityName,
     universityYear,
+    universityCity,
+    faculty,
+    speciality,
+    educationLevel,
+    photoUrl,
+    vkId,
+    telegramId,
     jobExperience,
     jobStatus,
     skills,
     departments,
-    citizen
+    citizen,
   };
 }
 
 export function packUserInfo({
-  birthday,
-  universityName: university_name,
-  universityYear: university_year,
+  birthday: birthdate,
+  gender,
+  city,
+  district,
+  universityName: education_institution,
+  universityYear: graduation_year,
+  universityCity: education_city,
+  faculty,
+  speciality,
+  educationLevel: education_level,
+  photoUrl: photo_url,
+  vkId: vk_id,
+  telegramId: telegram_id,
   jobExperience: job_experience,
   jobStatus: job_status,
-  citizen: citizenship,
   skills,
   departments,
+  citizen: citizenship,
 }) {
   return {
-    birthday,
-    university_name,
-    university_year,
+    birthdate,
+    gender,
+    city,
+    district,
+    education_institution,
+    education_city,
+    faculty,
+    speciality,
+    graduation_year,
+    education_level,
     job_experience,
+    citizenship,
+    photo_url,
+    vk_id,
+    telegram_id,
     job_status,
     skills,
     departments,
-    citizenship
   };
 }
 
-export const roleNames = {
-  CANDIDATE: "кандидат",
-  INTERN: "стажер",
-  CURATOR: "куратор",
-  STAFF: "кадры",
-  MENTOR: "наставник",
+export const ROLES = {
+  CANDIDATE: "CANDIDATE",
+  INTERN: "INTERN",
+  CURATOR: "CURATOR",
+  STAFF: "STAFF",
+  MENTOR: "MENTOR",
 };
 
 function getRoleName(role) {
-  const roleNames = {
+  const ROLES = {
     CANDIDATE: "кандидат",
     INTERN: "стажер",
     CURATOR: "куратор",
     STAFF: "кадры",
     MENTOR: "наставник",
   };
-  return roleNames[role] || role;
+  return ROLES[role] || role;
 }

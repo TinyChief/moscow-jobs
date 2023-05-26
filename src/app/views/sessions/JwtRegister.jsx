@@ -7,7 +7,6 @@ import useAuth from "../../hooks/useAuth";
 import { Formik } from "formik";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import * as Yup from "yup";
 import LoginRegisterLayout from "../../layout/LoginRegisterLayout";
 import { CommonTextField } from "../../components/CommonTextField";
 import { TextFieldsWrapper } from "../../components/TextFieldsWrapper";
@@ -126,6 +125,8 @@ const JwtRegister = () => {
                       onBlur={handleBlur}
                       value={values.phone}
                       onChange={handleChange}
+                      helperText={touched.phone && errors.phone}
+                      error={Boolean(errors.phone && touched.phone)}
                     />
                     <CommonTextField
                       name="email"

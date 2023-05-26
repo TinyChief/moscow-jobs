@@ -1,6 +1,5 @@
 import * as React from "react";
 import dayjs from "dayjs";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import "dayjs/locale/ru";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -18,7 +17,7 @@ export default function CustomDateFormat({ ...props }) {
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ru">
       <DateField
         name="birthday"
-        label="День рождения"
+        label="Дата рождения"
         variant="standard"
         value={value}
         onChange={handleDateChange}

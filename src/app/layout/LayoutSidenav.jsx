@@ -6,13 +6,32 @@ import useSettings from "../hooks/useSettings";
 import Brand from "../components/Brand";
 import Scrollbar from "react-perfect-scrollbar";
 import VerticalNav from "../components/VerticalNav/VerticalNav";
-import { internNavigations } from "../navigations";
+import { curatorNavigations, internNavigations } from "../navigations";
+import useUser from "../hooks/useUser";
+import { useEffect, useState } from "react";
+import { ROLES } from "../utils/pack";
 
 const LayoutSidenav = ({ onNavigation }) => {
   const theme = useTheme();
   const { settings } = useSettings();
   const leftSidebar = settings.layoutSettings.leftSidebar;
   const { mode, bgImgURL } = leftSidebar;
+  const [ actualNavigation, setActualNavigation ] = useState([]);
+  const { user } = useUser();
+
+  useEffect(() => {
+    switch (user.role) {
+      case ROLES.CANDIDATE:
+        setActualNavigation(internNavigations);
+        break
+      case ROLES.CURATOR:
+        setActualNavigation(curatorNavigations);
+        break
+      default:
+      case ROLES.INTERN:
+        setActualNavigation(internNavigations);
+    }
+  }, [user]);
 
   const getSidenavWidth = () => {
     switch (mode) {
@@ -31,7 +50,7 @@ const LayoutSidenav = ({ onNavigation }) => {
       <NavListBox>
         <Brand></Brand>
         <StyledScrollBar options={{ suppressScrollX: true }}>
-          <VerticalNav items={internNavigations} onNavigation={onNavigation} />
+          <VerticalNav items={actualNavigation} onNavigation={onNavigation} />
         </StyledScrollBar>
       </NavListBox>
     </SidebarNavRoot>

@@ -62,7 +62,7 @@ export default function AccountMenu() {
             <Span fontWeight={"bold"} ellipsis="true" maxWidth={"100px"}>
               {user.name}
             </Span>
-            <Small color="text.secondary">{user.role}</Small>
+            <Small color="text.secondary">{user.roleName}</Small>
           </Stack>
           <KeyboardArrowDown
             sx={{

@@ -18,26 +18,23 @@ const userList = [
   },
 ];
 
-Mock.onPost("/api/auth/login").reply(async (config) => {
+Mock.onPost("/api/v1/token/create/").reply(async (config) => {
   try {
-    const { email } = JSON.parse(config.data);
-    const user = userList.find((u) => u.email === email);
-
-    if (!user) return [400, { message: "Invalid email or password" }];
-    const accessToken = await new jose.SignJWT({ userId: user.id })
+    const accessToken = await new jose.SignJWT({ userId: userList[0].id })
       .setProtectedHeader({ alg })
       .setExpirationTime(JWT_VALIDITY)
       .sign(JWT_SECRET);
-    // , {
-    //   expiresIn: JWT_VALIDITY,
-    // });
 
-    const payload = { user: userList[0], accessToken };
+    const payload = { access: accessToken };
     return [200, payload];
   } catch (err) {
     console.error(err);
     return [500, { message: "Internal server error" }];
   }
+});
+
+Mock.onPost("/api/v1/token/refresh/").reply(async (config) => {
+  return [500, { message: "Internal server error" }];
 });
 
 Mock.onPost("/registration").reply((config) => {
@@ -57,7 +54,7 @@ Mock.onPost("/registration").reply((config) => {
 
     const newUser = {
       id: 2,
-      ...userData
+      ...userData,
     };
 
     userList.push(newUser);

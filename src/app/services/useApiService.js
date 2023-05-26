@@ -1,14 +1,26 @@
 import axios from "axios";
 import { ApiError } from "../utils/errors";
 import TokenService from "./TokenService";
+import { ApplicationTypes } from "../utils/utils";
 
 const {
   VITE_API_URL: API_URL,
   VITE_API_PREFIX: API_PREFIX,
+  VITE_FAKE_DB: USE_FAKE,
   mode,
 } = import.meta.env;
 
-const baseUrl = mode === "production" ? API_PREFIX : (API_URL || '').concat(API_PREFIX);
+const baseUrl =
+  USE_FAKE === "true"
+    ? API_PREFIX
+    : mode === "production"
+    ? API_PREFIX
+    : (API_URL || "").concat(API_PREFIX);
+
+console.log(`
+baseUrl: ${baseUrl}
+mode: ${mode}
+`);
 
 export const axiosInstance = axios.create({
   baseURL: baseUrl,
@@ -44,7 +56,7 @@ axiosInstance.interceptors.response.use(
         originalConfig._retry = true;
 
         try {
-          await refreshToken()
+          await refreshToken();
 
           return axiosInstance(originalConfig);
         } catch (_error) {
@@ -100,8 +112,14 @@ const updateUserInfo = (params) => fetchService.post(`users/me/info/`, params);
 const getJobs = () => fetchService.get(`/api/jobs`);
 const getFullJob = (id) => fetchService.get(`/api/jobs/${id}`);
 
-const getMyApplication = () => fetchService.get("/candidates/me/request");
-const postMyApplication = () => fetchService.post("/candidates/me/request");
+const getMyApplication = () => fetchService.get("/candidates/me/request/");
+const postMyApplication = () => fetchService.post("/candidates/me/request/");
+const getCandidateApplications = (type, page = 0) => {
+  const recommended = type === ApplicationTypes.ALL ? '' : ('&recommended=' + type === ApplicationTypes.RECOMMENDED)
+  return fetchService.get(
+    `/candidates/requests?page=${page}&size=10${recommended}`
+  );
+};
 const refreshToken = async () => {
   const rs = await fetchService.post("/token/refresh/", {
     refresh: TokenService.getLocalRefreshToken(),
@@ -122,5 +140,6 @@ export const apiService = {
   getFullJob,
   getMyApplication,
   postMyApplication,
-  refreshToken
+  refreshToken,
+  getCandidateApplications
 };

@@ -1,19 +1,22 @@
+import { either, equals } from "ramda";
+import { ROLES } from "./pack";
+
 export const convertHexToRGB = (hex) => {
   // check if it's a rgba
-  if (hex.match('rgba')) {
-    let triplet = hex.slice(5).split(',').slice(0, -1).join(',');
+  if (hex.match("rgba")) {
+    let triplet = hex.slice(5).split(",").slice(0, -1).join(",");
     return triplet;
   }
 
   let c;
   if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
-    c = hex.substring(1).split('');
+    c = hex.substring(1).split("");
     if (c.length === 3) {
       c = [c[0], c[0], c[1], c[1], c[2], c[2]];
     }
-    c = '0x' + c.join('');
+    c = "0x" + c.join("");
 
-    return [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(',');
+    return [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(",");
   }
 };
 
@@ -120,6 +123,23 @@ export function scrollTo(scrollableElement, elmID) {
   return false;
 }
 
-export function getUserInitials (name, surname) {
-  return `${name[0]}${surname[0]}`.toUpperCase()
+export function getUserInitials(name, surname) {
+  return `${name[0]}${surname[0]}`.toUpperCase();
 }
+
+export function getGenderName(gender) {
+  return { male: "Мужской", female: "Женский" }[gender];
+}
+
+export function getJobStatusName(jobStatus) {
+  return { 1: "Трудоустроен", 2: "В поиске работы" }[jobStatus];
+}
+
+export const ApplicationTypes = {
+  RECOMMENDED: "recommended",
+  NOT_RECOMMENDED: "not-recommended",
+  ALL: "all",
+};
+
+
+export const isInternOrCandidate = either(equals(ROLES.CANDIDATE), equals(ROLES.INTERN));
