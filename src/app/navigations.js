@@ -11,23 +11,18 @@ export const candidateNavigations = [
 export const curatorNavigations = [
   {
     name: "Заявки кандидатов",
-    path: "/applications",
-    icon: "dashboard",
+    path: "/candidates/applications",
+    icon: "fact_check",
   },
   {
     name: "Заявки на стажёров",
-    path: "/applications/interns",
-    icon: "dashboard",
+    path: "/departments/applications",
+    icon: "list",
   },
-  { name: "Список наставников", path: "/mentors", icon: "dashboard" },
+  { name: "Список наставников", path: "/mentors", icon: "group" },
   {
     name: "Статистика по кандидатам",
     path: "/statistics",
-    icon: "dashboard",
-  },
-  {
-    name: "Статистика по стажёрам",
-    path: "/statistics/interns",
-    icon: "dashboard",
-  },
+    icon: "bar_chart",
+  }
 ];

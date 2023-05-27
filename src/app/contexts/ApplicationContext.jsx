@@ -16,18 +16,11 @@ export const ApplicationProvider = ({ children }) => {
     score: null,
   });
 
-  const makeApplication = async (directions, busyness) => {
-    const { data } = await apiService.postMyApplication({
-      directions,
-      busyness,
+  const makeApplication = async (departments, schedule) => {
+    return apiService.postMyApplication({
+      departments,
+      schedule,
     });
-
-    // setTimeout(() => {
-    //   setState({
-    //     send: true,
-    //     status: data.status,
-    //   });
-    // }, 1000);
   };
 
   const getApplicationStatus = async () => {

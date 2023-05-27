@@ -1,10 +1,8 @@
 import { LoadingButton } from "@mui/lab";
-import {
-  Grid,
-} from "@mui/material";
+import { FormControl, Grid, InputLabel, MenuItem, Select } from "@mui/material";
 import { Box, styled } from "@mui/material";
 import { Formik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import LoginRegisterLayout from "../../layout/LoginRegisterLayout";
@@ -12,6 +10,7 @@ import { CommonTextField } from "../../components/CommonTextField";
 import { TextFieldsWrapper } from "../../components/TextFieldsWrapper";
 import useAuth from "../../hooks/useAuth";
 import useError from "../../hooks/useError";
+import { ROLES } from "../../utils/pack";
 
 const FlexBox = styled(Box)(() => ({ display: "flex", alignItems: "center" }));
 
@@ -27,7 +26,7 @@ const ContentBox = styled(Box)(() => ({
 // inital login credentials
 const initialValues = {
   email: "hello@world.ru",
-  password: "examplepw"
+  password: "examplepw",
 };
 
 // form field validation schema
@@ -40,7 +39,66 @@ const validationSchema = Yup.object().shape({
     .required("Поле обязательно к заполнению!"),
 });
 
+const RoleSelect = ({ selectedRole, onRoleSelect }) => {
+  const handleSelectRole = (event) => {
+    onRoleSelect(event.target.value);
+  };
+  return (
+    <FormControl fullWidth>
+      <InputLabel id="demo-simple-select-label">Продолжить как:</InputLabel>
+
+      <Select
+        labelId="demo-simple-select-label"
+        variant="outlined"
+        size="small"
+        value={selectedRole}
+        onChange={handleSelectRole}
+      >
+        <MenuItem key={ROLES.CANDIDATE} value={ROLES.CANDIDATE}>
+          Кандидат
+        </MenuItem>
+        <MenuItem key={ROLES.INTERN} value={ROLES.INTERN}>
+          Стажёр
+        </MenuItem>
+        <MenuItem key={ROLES.CURATOR} value={ROLES.CURATOR}>
+          Куратор
+        </MenuItem>
+        <MenuItem key={ROLES.MENTOR} value={ROLES.MENTOR}>
+          Наставник
+        </MenuItem>
+        <MenuItem key={ROLES.STAF} value={ROLES.STAFF}>
+          Сотрудник кадров
+        </MenuItem>
+      </Select>
+    </FormControl>
+  );
+};
+
+const demonstrationCredentials = {
+  [ROLES.CANDIDATE]: { email: "candidate@mail.ru", password: 123456 },
+  [ROLES.INTERN]: { email: "intern@mail.ru", password: 123456 },
+  [ROLES.MENTOR]: { email: "mentor@mail.ru", password: 123456 },
+  [ROLES.CURATOR]: { email: "curator@mail.ru", password: 123456 },
+  [ROLES.STAFF]: { email: "staff@mail.ru", password: 123456 },
+};
+
 const JwtLogin = () => {
+  /** Для демонстрации */
+  const [credentials, setCredenials] = useState({ email: "", password: "" });
+  const [selectedRole, setSelectedRole] = useState("");
+
+  useEffect(() => {
+    if (selectedRole) {
+      setCredenials(demonstrationCredentials[selectedRole]);
+    }
+  }, [selectedRole, setCredenials]);
+
+  const handleRoleSelect = (newRole) => {
+    setSelectedRole(newRole);
+  };
+
+  /** Удалить в продакшене */
+
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -53,7 +111,7 @@ const JwtLogin = () => {
       await login(values.email, values.password);
       navigate("/");
     } catch (e) {
-      setError(e)
+      setError(e);
       console.log("login error", e);
       setLoading(false);
     }
@@ -74,10 +132,17 @@ const JwtLogin = () => {
 
         <Grid item sm={6} xs={12}>
           <ContentBox>
+            <Box mb={3}>
+              <RoleSelect
+                selectedRole={selectedRole}
+                onRoleSelect={handleRoleSelect}
+              />
+            </Box>
             <Formik
               onSubmit={handleFormSubmit}
-              initialValues={initialValues}
+              initialValues={credentials}
               validationSchema={validationSchema}
+              enableReinitialize
             >
               {({
                 values,
@@ -127,7 +192,6 @@ const JwtLogin = () => {
                   <NavLink to="/session/forgot-password">
                     Забыли пароль?
                   </NavLink>
-
                 </form>
               )}
             </Formik>

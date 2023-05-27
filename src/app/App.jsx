@@ -15,7 +15,7 @@ import JobsView from "./views/JobsView";
 import Welcome from "./views/Welcome";
 import { apiService } from "./services/useApiService";
 import FullJobView from "./views/FullJobView";
-import ApplicationsView from "./views/ApplicationsView";
+import CandidatesApplicationsView from "./views/CandidatesApplicationsView";
 import MentorsView from "./views/MentorsView.jsx";
 import StatisticsView from "./views/StatisticsView.jsx";
 import ProfileView from "./views/Profile";
@@ -25,6 +25,8 @@ import MakeApplication from "./views/ApplicationView";
 import { UserProvider } from "./contexts/UserContext";
 import { ApplicationProvider } from "./contexts/ApplicationContext";
 import AlreadAuthGuard from "./auth/AlreadyAuthGuard";
+import DepartmentsApplicationsView from "./views/DepartmentsApplicationsView";
+import DepartmentApplication from "./views/DepartmentApplicationView";
 
 const router = createHashRouter(
   createRoutesFromElements(
@@ -49,14 +51,19 @@ const router = createHashRouter(
           end
         />
         <Route
-          path="/applications"
+          path="/candidates/applications"
           exact
-          element={<ApplicationsView isIntern={false} />}
+          element={<CandidatesApplicationsView />}
           end
         />
         <Route
-          path="/applications/interns"
-          element={<ApplicationsView isIntern={true} />}
+          path="/departments/applications"
+          element={<DepartmentsApplicationsView />}
+          end
+        />
+        <Route
+          path="/departments/applications/:applicationId"
+          element={<DepartmentApplication />}
           end
         />
         <Route path="/mentors" element={<MentorsView />} end />

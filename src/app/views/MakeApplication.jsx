@@ -26,10 +26,9 @@ import { useSnackbar } from "../contexts/snackbarContext";
 import { NavLink } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import { HackLink } from "../layout/LayoutFooter";
-import useUser from "../hooks/useUser";
+import { useUser } from "../hooks/useUser";
 import dayjs from "dayjs";
 import "dayjs/locale/ru"; // Импортируем локаль для русского языка
-import { getGenderName, getJobStatusName } from "../utils/utils";
 import CandidateApplicationInfo from "../components/CandidateApplicationInfo";
 
 dayjs.locale("ru"); // Устанавливаем локаль для русского языка
@@ -38,36 +37,43 @@ const internshipDirections = [
   {
     name: "IT-город",
     icon: Devices,
+    nick: "IT",
     id: 1,
   },
   {
     name: "Медийный город",
     icon: Language,
+    nick: "media",
     id: 2,
   },
   {
     name: "Социальный город",
     icon: Groups2,
+    nick: "social",
     id: 3,
   },
   {
     name: "Комфортная городская среда",
     icon: LocationCity,
+    nick: "city",
     id: 4,
   },
   {
     name: "Правовое пространство",
     icon: LibraryBooks,
+    nick: "rights",
     id: 5,
   },
   {
     name: "Городская экономика",
     icon: CurrencyRuble,
+    nick: "economics",
     id: 6,
   },
   {
     name: "HR-город",
     icon: PersonSearch,
+    nick: "hr",
     id: 7,
   },
 ];
@@ -99,8 +105,6 @@ const ApplicationItem = ({ children, title, description }) => {
   );
 };
 
-
-
 const MakeApplication = () => {
   const theme = useTheme();
   const { makeApplication } = useApplication();
@@ -118,7 +122,10 @@ const MakeApplication = () => {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      await makeApplication(selectedDirections, busyness);
+      await makeApplication(selectedDirections.map((id) => {
+        const direction = internshipDirections.find(el => el.id === id)
+        return direction.nick
+      }).join(','), busyness);
       showSnackbar("Заявка успешно подана!");
       setTimeout(() => {
         window.location.reload();
@@ -195,7 +202,7 @@ const MakeApplication = () => {
         }
       >
         {hasInfo ? (
-           <CandidateApplicationInfo user={user} userInfo={userInfo} />
+          <CandidateApplicationInfo user={user} userInfo={userInfo} />
         ) : (
           <Paragraph my={2} sx={{ fontWeight: "bold" }}>
             Необходимо заполнить информацию о себе
@@ -226,7 +233,7 @@ const MakeApplication = () => {
             justifyContent: "center",
           }}
         >
-          {internshipDirections.map(({ name, icon, id }, i) => {
+          {internshipDirections.map(({ name, icon, id, nick }, i) => {
             return (
               <Box key={id} onClick={() => handleSelected(id)}>
                 <InternshipDirectionCard
@@ -282,7 +289,7 @@ const MakeApplication = () => {
           onClick={handleSubmit}
           variant="contained"
           sx={{ width: 400 }}
-          disabled={selectedDirections.length === 0}
+          disabled={selectedDirections.length === 0 && !hasInfo}
         >
           Подать заявку
         </LoadingButton>

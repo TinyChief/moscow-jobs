@@ -5,7 +5,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   Grid,
   Icon,
@@ -25,19 +24,20 @@ import { apiService } from "../services/useApiService";
 import useError from "../hooks/useError";
 import LetterAvatar from "../components/LetterAvatar";
 import { Paragraph } from "../components/Typography";
-import {
-  packUser,
-  packUserInfo,
-  unpackUser,
-  unpackUserInfo,
-} from "../utils/pack";
+import { unpackUser, unpackUserInfo } from "../utils/pack";
 import { Cancel, CheckCircle } from "@mui/icons-material";
 import { grey } from "@mui/material/colors";
 import Loading from "../components/Loading";
 import CandidateApplicationInfo from "../components/CandidateApplicationInfo";
+import dayjs from "dayjs";
+
+const yearsOld = (birthDate) => {
+  return dayjs().diff(birthDate, 'year')
+}
 
 const ApplicationItemShort = ({
   user: { id, name, surname, secondname, email, phone },
+  userInfo: { gender, birthday, citizen, educationLevel, city },
   onVerdict,
   onShowMore,
 }) => {
@@ -56,7 +56,7 @@ const ApplicationItemShort = ({
             <Grid
               item
               xs={12}
-              md={7}
+              md={6}
               marginBottom={{ xs: 1, md: 0 }}
               display={"flex"}
               alignItems={"center"}
@@ -70,7 +70,13 @@ const ApplicationItemShort = ({
                 {surname} {name} {secondname}
               </Paragraph>
             </Grid>
-            <Grid item xs={12} md={5} display="flex" flexDirection={"column"}>
+            <Grid item xs={12} sm={6} md={3} display="flex" flexDirection={"column"}>
+              <ApplicationContactInfo icon={gender === "MALE" ? 'man' : 'woman'} value={birthday ? yearsOld(birthday) + ' лет' : ''} />
+              <ApplicationContactInfo icon={"home"} value={city} />
+              <ApplicationContactInfo icon={"school"} value={educationLevel} />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3} display="flex" flexDirection={"column"}>
+              <ApplicationContactInfo icon="public" value={citizen} />
               <ApplicationContactInfo icon="alternate_email" value={email} />
               <ApplicationContactInfo icon="call" value={phone} />
             </Grid>
@@ -186,7 +192,7 @@ const ApplicationItemLong = ({
   );
 };
 
-const ApplicationsView = ({ isIntern }) => {
+const ApplicationsView = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [activeType, setActiveType] = useState(ApplicationTypes.RECOMMENDED);
@@ -268,7 +274,7 @@ const ApplicationsView = ({ isIntern }) => {
   return (
     <>
       <Box component={"h1"} textAlign={"center"}>
-        {isIntern ? "Заявки от стажёров" : "Заявки от кандидатов"}
+        Заявки от кандидатов
       </Box>
       <Box
         sx={{
@@ -325,6 +331,15 @@ const ApplicationsView = ({ isIntern }) => {
                 <ApplicationItemShort
                   key={i}
                   user={unpackUser(application.user)}
+                  userInfo={unpackUserInfo(
+                    application.userInfo || {
+                      gender: "MALE",
+                      city: "Москва",
+                      education_level: "высшее",
+                      citizenship: "РФ",
+                      birthdate: "1997-12-12"
+                    }
+                  )}
                   status={application.status}
                   onVerdict={handleAcceptOnDeclineApplication}
                   onShowMore={handleShowMore}

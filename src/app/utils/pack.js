@@ -129,3 +129,45 @@ function getRoleName(role) {
   };
   return ROLES[role] || role;
 }
+
+export function unpackDepartmentApplication({
+  id,
+  name,
+  description,
+  organization_id: organizationId,
+  test,
+  status,
+}) {
+  return {
+    id,
+    name,
+    description,
+    organizationId,
+    test,
+    status,
+  };
+}
+// “id”: 1,
+// “email”: “string”,
+// “phone”: “string”,
+// “name”: “string”,
+// “description”: “string”,
+// “address”: “string”
+
+export function unpackOrganization({
+  id,
+  email,
+  phone,
+  name,
+  description,
+  address,
+}) {
+  return {
+    id,
+    name,
+    description,
+    address,
+    email,
+    phone,
+  };
+}

@@ -113,7 +113,7 @@ const getJobs = () => fetchService.get(`/api/jobs`);
 const getFullJob = (id) => fetchService.get(`/api/jobs/${id}`);
 
 const getMyApplication = () => fetchService.get("/candidates/me/request/");
-const postMyApplication = () => fetchService.post("/candidates/me/request/");
+const postMyApplication = (params) => fetchService.post("/candidates/me/request/", params);
 const getCandidateApplications = (type, page = 0) => {
   const recommended =
     type === ApplicationTypes.ALL
@@ -124,10 +124,14 @@ const getCandidateApplications = (type, page = 0) => {
   );
 };
 
-const acceptApplication = (id) =>
+const getDepartmentsApplications = (page = 0) => {
+  return fetchService.get(`/requests/?page=${page}&size=10&status=WAITING`)
+}
+
+const acceptCandidateApplication = (id) =>
   fetchService.post(`/candidates/${id}/request/accept/`);
 
-const declineApplication = (id) =>
+const declineCandidateApplication = (id) =>
   fetchService.post(`/candidates/${id}/request/decline/`);
 
 const refreshToken = async () => {
@@ -141,6 +145,13 @@ const refreshToken = async () => {
 
 const getUserById = (id) => fetchService.get(`/users/${id}/`)
 const getUserInfoById = (id) => fetchService.get(`/users/${id}/info/`)
+const getDepartmentApplicationById = (id) => fetchService.get(` /requests/${id}`)
+
+const acceptDepartmentApplication = (id) =>
+  fetchService.post(`/request/${id}/accept/`);
+
+const declineDepartmentApplication = (id) =>
+  fetchService.post(`/request/${id}/decline/`);
 
 export const apiService = {
   getProfile,
@@ -155,8 +166,12 @@ export const apiService = {
   postMyApplication,
   refreshToken,
   getCandidateApplications,
-  acceptApplication,
-  declineApplication,
+  getDepartmentsApplications,
+  getDepartmentApplicationById,
+  acceptApplication: acceptCandidateApplication,
+  declineApplication: declineCandidateApplication,
   getUserById,
-  getUserInfoById
+  getUserInfoById,
+  acceptDepartmentApplication,
+  declineDepartmentApplication
 };

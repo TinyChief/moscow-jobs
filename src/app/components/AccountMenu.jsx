@@ -6,13 +6,11 @@ import {
   MenuItem,
   ListItemIcon,
   Divider,
-  Tooltip,
   Stack,
   ButtonBase,
 } from "@mui/material";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
-import { getUserInitials } from "../utils/utils";
 import {
   Brightness4,
   Brightness7,
@@ -21,7 +19,7 @@ import {
 import { ColorModeContext } from "../theme/ProjectTheme";
 import { Small, Span } from "./Typography";
 import useAuth from "../hooks/useAuth";
-import useUser from "../hooks/useUser";
+import { useUser } from "../hooks/useUser";
 import { useNavigate } from "react-router-dom";
 import LetterAvatar from "./LetterAvatar";
 
@@ -56,7 +54,11 @@ export default function AccountMenu() {
           {/* <Avatar >
             {getUserInitials(user.name, user.surname)}
           </Avatar> */}
-          <LetterAvatar sx={{ width: 32, height: 32, marginRight: "10px" }} name={user.name} surname={user.surname} />
+          <LetterAvatar
+            sx={{ width: 32, height: 32, marginRight: "10px" }}
+            name={user.name}
+            surname={user.surname}
+          />
           {/* </IconButton> */}
           <Stack textAlign={"left"} marginRight={"10px"}>
             <Span fontWeight={"bold"} ellipsis="true" maxWidth={"100px"}>

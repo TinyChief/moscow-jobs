@@ -15,7 +15,7 @@ const StatusRow = styled(Box)(() => ({
 }));
 
 export default function ApplicationStatus() {
-  const { score, status } = useApplication();
+  const { status } = useApplication();
   // const { score, status } = { status: "WAITING", score: 30 };
 
   const getNameStatus = (status) => {
@@ -52,10 +52,6 @@ export default function ApplicationStatus() {
         >
           {getNameStatus(status)}
         </Span>
-      </StatusRow>
-      <StatusRow>
-        <Span>Результат тестирования: </Span>
-        <Span> {score} / 100</Span>
       </StatusRow>
     </>
   );

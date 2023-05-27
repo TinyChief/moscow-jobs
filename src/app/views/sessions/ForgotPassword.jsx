@@ -28,7 +28,7 @@ const ForgotPasswordRoot = styled(JustifyBox)(() => ({
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('admin@example.com');
+  const [email, setEmail] = useState('');
 
   const handleFormSubmit = () => {
     console.log(email);
@@ -56,8 +56,8 @@ const ForgotPassword = () => {
                   sx={{ mb: 3, width: '100%' }}
                 />
 
-                <Button fullWidth variant="contained" color="primary" type="submit">
-                  Сбросить пароль
+                <Button disabled fullWidth variant="contained" color="primary" type="submit">
+                  Сбросить пароль (не реализовано)
                 </Button>
 
                 <Button
