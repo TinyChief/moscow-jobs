@@ -30,6 +30,7 @@ import useUser from "../hooks/useUser";
 import dayjs from "dayjs";
 import "dayjs/locale/ru"; // Импортируем локаль для русского языка
 import { getGenderName, getJobStatusName } from "../utils/utils";
+import CandidateApplicationInfo from "../components/CandidateApplicationInfo";
 
 dayjs.locale("ru"); // Устанавливаем локаль для русского языка
 
@@ -98,26 +99,7 @@ const ApplicationItem = ({ children, title, description }) => {
   );
 };
 
-const UserInfoItem = ({ title, value }) => {
-  return (
-    <Box display={"flex"} mb={1}>
-      <Box component={"span"} textAlign={"end"} width={"48%"}>
-        {title}:
-      </Box>
-      <Box component={"span"} textAlign={"start"} marginLeft={"20px"}>
-        {value}
-      </Box>
-    </Box>
-  );
-};
 
-const UserInfoSectionTitle = ({ title }) => {
-  return (
-    <Box component={"h3"} mb={2}>
-      {title}
-    </Box>
-  );
-};
 
 const MakeApplication = () => {
   const theme = useTheme();
@@ -213,73 +195,7 @@ const MakeApplication = () => {
         }
       >
         {hasInfo ? (
-          <>
-            <UserInfoSectionTitle title={"Основная информация"} />
-            <UserInfoItem title={"Имя"} value={user.name} />
-            <UserInfoItem title={"Фамилия"} value={user.surname} />
-            <UserInfoItem title={"Отчество"} value={user.secondname} />
-            <UserInfoItem
-              title={"Пол"}
-              value={userInfo.gender ? getGenderName(userInfo.gender) : ""}
-            />
-            <UserInfoItem title={"Город проживания"} value={userInfo.city} />
-            <UserInfoItem
-              title={"Район проживания"}
-              value={userInfo.district}
-            />
-            <UserInfoItem
-              title={"Дата рождения"}
-              value={
-                userInfo.birthday
-                  ? dayjs(userInfo.birthday).format("DD MMMM YYYY [г.]")
-                  : ""
-              }
-            />
-            <UserInfoItem title={"Гражданство"} value={userInfo.citizen} />
-            <UserInfoItem title={"Образование"} value={userInfo.level} />
-            <UserInfoItem
-              title={"Адрес электронной почты"}
-              value={user.email}
-            />
-            <UserInfoItem title={"Мобильный телефон"} value={user.phone} />
-            <UserInfoSectionTitle title={"Образование"} />
-            <UserInfoItem
-              title={"Учебное заведение"}
-              value={userInfo.universityName}
-            />
-            <UserInfoItem title={"Город"} value={userInfo.universityCity} />
-            <UserInfoItem title={"Факультет"} value={userInfo.faculty} />
-            <UserInfoItem title={"Специальность"} value={userInfo.speciality} />
-            <UserInfoItem
-              title={"Год окончания"}
-              value={userInfo.universityYear}
-            />
-            <UserInfoSectionTitle
-              title={
-                "Опыт работы (практик, стажировок) или проектной общественной деятельности"
-              }
-            />
-            <UserInfoItem
-              title={"Место работы"}
-              value={userInfo.jobExperience}
-            />
-            <UserInfoItem
-              title={"Статус"}
-              value={
-                userInfo.jobStatus ? getJobStatusName(userInfo.jobStatus) : ""
-              }
-            />
-            <UserInfoSectionTitle title={"Дополнительная информация"} />
-            <UserInfoItem title={"Откуда узнал(a) о стажировке"} value={""} />
-            <UserInfoItem
-              title={"Профиль в соцсети «ВКонтакте»"}
-              value={userInfo.vkId}
-            />
-            <UserInfoItem
-              title={"Профиль в Telegram"}
-              value={userInfo.telegramId}
-            />
-          </>
+           <CandidateApplicationInfo user={user} userInfo={userInfo} />
         ) : (
           <Paragraph my={2} sx={{ fontWeight: "bold" }}>
             Необходимо заполнить информацию о себе

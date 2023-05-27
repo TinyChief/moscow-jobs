@@ -8,6 +8,7 @@ const BrandRoot = styled(Box)(() => ({
   alignItems: 'center',
   justifyContent: 'space-between',
   padding: '20px 18px 20px 29px',
+  zIndex: 100
 }));
 
 const StyledSpan = styled(Span)(() => ({

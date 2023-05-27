@@ -10,12 +10,12 @@ export const candidateNavigations = [
 
 export const curatorNavigations = [
   {
-    name: "Заявки от кандидатов",
+    name: "Заявки кандидатов",
     path: "/applications",
     icon: "dashboard",
   },
   {
-    name: "Заявки от стажеров",
+    name: "Заявки на стажёров",
     path: "/applications/interns",
     icon: "dashboard",
   },

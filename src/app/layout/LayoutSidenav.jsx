@@ -8,25 +8,27 @@ import Scrollbar from "react-perfect-scrollbar";
 import VerticalNav from "../components/VerticalNav/VerticalNav";
 import { curatorNavigations, internNavigations } from "../navigations";
 import useUser from "../hooks/useUser";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ROLES } from "../utils/pack";
+import { ColorModeContext } from "../theme/ProjectTheme";
 
 const LayoutSidenav = ({ onNavigation }) => {
+  const colorMode = React.useContext(ColorModeContext);
   const theme = useTheme();
   const { settings } = useSettings();
   const leftSidebar = settings.layoutSettings.leftSidebar;
-  const { mode, bgImgURL } = leftSidebar;
-  const [ actualNavigation, setActualNavigation ] = useState([]);
+  const { mode } = leftSidebar;
+  const [actualNavigation, setActualNavigation] = useState([]);
   const { user } = useUser();
 
   useEffect(() => {
     switch (user.role) {
       case ROLES.CANDIDATE:
         setActualNavigation(internNavigations);
-        break
+        break;
       case ROLES.CURATOR:
         setActualNavigation(curatorNavigations);
-        break
+        break;
       default:
       case ROLES.INTERN:
         setActualNavigation(internNavigations);
@@ -46,7 +48,8 @@ const LayoutSidenav = ({ onNavigation }) => {
   const primaryRGB = convertHexToRGB(theme.palette.background.default);
 
   return (
-    <SidebarNavRoot image={bgImgURL} bg={primaryRGB} width={getSidenavWidth()}>
+    <SidebarNavRoot width={getSidenavWidth()}>
+      <SidebarBg bg={primaryRGB} isDarkMode={colorMode.currentMode === 'dark'} />
       <NavListBox>
         <Brand></Brand>
         <StyledScrollBar options={{ suppressScrollX: true }}>
@@ -57,6 +60,37 @@ const LayoutSidenav = ({ onNavigation }) => {
   );
 };
 
+const SidebarBg = styled(Box)(({ isDarkMode, theme }) => ({
+  position: "absolute",
+  width: "100%",
+  height: "100%",
+
+  ...(isDarkMode
+    ? {
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "top",
+        backgroundSize: "cover",
+        backgroundImage: `url(/assets/images/patern.png)`,
+        ":after": {
+          background: "url(/assets/images/dot.png)",
+          opacity: "0.6",
+          content: "''",
+          width: "100%",
+          height: "100%",
+          position: "absolute",
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 0,
+        },
+      }
+    : {
+        background: `linear-gradient(143deg, rgba(255,255,255,1) 0%, rgba(${convertHexToRGB(
+          theme.palette.primary.main
+        )}) 74%, rgba(${convertHexToRGB(theme.palette.secondary.main)}) 102%)`,
+      }),
+}));
+
 const SidebarNavRoot = styled(Box)(({ theme, width, bg, image }) => ({
   position: "fixed",
   top: 0,
@@ -64,14 +98,11 @@ const SidebarNavRoot = styled(Box)(({ theme, width, bg, image }) => ({
   height: "100vh",
   width: width,
   boxShadow: themeShadows[8],
-  backgroundRepeat: "no-repeat",
-  backgroundPosition: "top",
-  backgroundSize: "cover",
+
   zIndex: 111,
   overflow: "hidden",
   color: theme.palette.text.primary,
   transition: "all 250ms ease-in-out",
-  backgroundImage: `linear-gradient(to bottom, rgba(${bg}, 0.96), rgba(${bg}, 0.96)), url(${image})`,
   "&:hover": {
     width: sideNavWidth,
     "& .sidenavHoverShow": { display: "block" },
@@ -88,6 +119,7 @@ const NavListBox = styled(Box)({
   height: "100%",
   display: "flex",
   flexDirection: "column",
+  zIndex: 2,
 });
 
 const StyledScrollBar = styled(Scrollbar)(() => ({

@@ -7,7 +7,8 @@ export const MatxLayoutSettings = {
       show: true,
       mode: "full", // full, close, compact, mobile,
       theme: "slateDark1",
-      bgImgURL: "/assets/images/sidebar/sidebar-bg-light.jpg",
+      // bgImgURL: "/assets/images/sidebar/sidebar-bg-light.jpg",
+      bgImgURL: "/assets/images/patern.png",
     },
     topbar: {
       show: true,

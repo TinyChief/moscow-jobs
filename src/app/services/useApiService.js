@@ -115,11 +115,21 @@ const getFullJob = (id) => fetchService.get(`/api/jobs/${id}`);
 const getMyApplication = () => fetchService.get("/candidates/me/request/");
 const postMyApplication = () => fetchService.post("/candidates/me/request/");
 const getCandidateApplications = (type, page = 0) => {
-  const recommended = type === ApplicationTypes.ALL ? '' : ('&recommended=' + type === ApplicationTypes.RECOMMENDED)
+  const recommended =
+    type === ApplicationTypes.ALL
+      ? ""
+      : "&recommended=" + (type === ApplicationTypes.RECOMMENDED);
   return fetchService.get(
-    `/candidates/requests?page=${page}&size=10${recommended}`
+    `/candidates/requests/?page=${page}&size=10${recommended}`
   );
 };
+
+const acceptApplication = (id) =>
+  fetchService.post(`/candidates/${id}/request/accept/`);
+
+const declineApplication = (id) =>
+  fetchService.post(`/candidates/${id}/request/decline/`);
+
 const refreshToken = async () => {
   const rs = await fetchService.post("/token/refresh/", {
     refresh: TokenService.getLocalRefreshToken(),
@@ -128,6 +138,9 @@ const refreshToken = async () => {
   const { access } = rs.data;
   TokenService.updateLocalAccessToken(access);
 };
+
+const getUserById = (id) => fetchService.get(`/users/${id}/`)
+const getUserInfoById = (id) => fetchService.get(`/users/${id}/info/`)
 
 export const apiService = {
   getProfile,
@@ -141,5 +154,9 @@ export const apiService = {
   getMyApplication,
   postMyApplication,
   refreshToken,
-  getCandidateApplications
+  getCandidateApplications,
+  acceptApplication,
+  declineApplication,
+  getUserById,
+  getUserInfoById
 };
