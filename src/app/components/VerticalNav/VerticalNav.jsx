@@ -126,6 +126,7 @@ const VerticalNav = ({ items, onNavigation }) => {
                   : `${mode === 'compact' && 'compactNavItem'}`
               }
               onClick={onNavigation}
+              end={item.end}
             >
               <ButtonBase key={item.name} name="child" sx={{ width: '100%' }}>
                 {item?.icon ? (

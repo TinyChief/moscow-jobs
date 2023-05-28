@@ -20,6 +20,7 @@ export const ApplicationProvider = ({ children }) => {
     return apiService.postMyApplication({
       departments,
       schedule,
+      internship_source: "Социальные сети"
     });
   };
 

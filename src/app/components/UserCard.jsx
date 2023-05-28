@@ -41,6 +41,7 @@ export const UserCard = ({ name, email, title, surname }) => {
             fontSize: "14px",
             color: grey[500],
             fontWeight: "bold",
+            whiteSpace: "pre-wrap" 
           }}
         >
           {email}

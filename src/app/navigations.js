@@ -1,6 +1,7 @@
 export const internNavigations = [
   { name: "Профиль и настройки", path: "/profile", icon: "account_circle" },
-  { name: "Заявка", path: "/application", icon: "text_snippet" },
+  { name: "Список стажировок", path: "/intern/jobs", icon: "list", end: true },
+  { name: "Мои заявки", path: "/intern/jobs/applications", icon: "list" },
 ];
 
 export const candidateNavigations = [
@@ -9,6 +10,7 @@ export const candidateNavigations = [
 ];
 
 export const curatorNavigations = [
+  { name: "Профиль и настройки", path: "/profile", icon: "account_circle" },
   {
     name: "Заявки кандидатов",
     path: "/candidates/applications",
@@ -24,5 +26,30 @@ export const curatorNavigations = [
     name: "Статистика по кандидатам",
     path: "/statistics",
     icon: "bar_chart",
-  }
+  },
+];
+
+export const staffNavigations = [
+  { name: "Профиль и настройки", path: "/profile", icon: "account_circle" },
+  {
+    name: "Моя организация",
+    path: "/department",
+    icon: "fact_check",
+    end: true,
+  },
+  {
+    name: "Наши заявки",
+    path: "/department/applications",
+    icon: "list",
+  },
+  {
+    name: "Создать заявку",
+    path: "/department/application/create",
+    icon: "edit_document",
+  },
+  {
+    name: "Отклики от стажеров",
+    path: "/department/applications/responses",
+    icon: "attach_file_add",
+  },
 ];

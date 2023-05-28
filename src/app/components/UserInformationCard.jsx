@@ -17,15 +17,15 @@ import { CommonCard } from "./CommonCard";
 import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import { Formik } from "formik";
 import { CommonTextField } from "./CommonTextField";
-import { LoadingButton } from "@mui/lab";
 import CustomDateFormat from "./CustomDateFormat";
 import PhoneNumberInput from "./PhoneNumberInput";
 import CitizenInput from "./CitizenInput";
 import { H3 } from "./Typography";
 import { userDataValidationSchema } from "../utils/validations";
 import { pickAll } from "ramda";
+import { CommonDataForm } from "./CommonDataForm";
+import { InformationGroup } from "./InformationGroup";
 
 export const UserInformationCard = ({ ...props }) => {
   return (
@@ -37,28 +37,6 @@ export const UserInformationCard = ({ ...props }) => {
   );
 };
 
-const InformationGroup = ({ title, children }) => {
-  return (
-    <Grid item xs={12}>
-      <H3 sx={{ textDecoration: "underline" }} mb={1}>
-        {title}
-      </H3>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          // "> div": { marginBottom: "15px" },
-          // "div:last-child": { marginBottom: 0 },
-          "> div": {
-            marginBottom: "15px",
-          },
-        }}
-      >
-        {children}
-      </Box>
-    </Grid>
-  );
-};
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -139,8 +117,8 @@ export default function BasicTabs({ user, userInfo, onChange }) {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <UserDataForm
-          userData={initialUser}
+        <CommonDataForm
+          initialData={initialUser}
           onSubmit={(values) => handleFormSubmit("user", values)}
           validationSchema={userDataValidationSchema.omit(["password"])}
         >
@@ -203,11 +181,11 @@ export default function BasicTabs({ user, userInfo, onChange }) {
               </Grid>
             </>
           )}
-        </UserDataForm>
+        </CommonDataForm>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <UserDataForm
-          userData={initialUserInfo}
+        <CommonDataForm
+          initialData={initialUserInfo}
           onSubmit={(values) => handleFormSubmit("userInfo", values)}
         >
           {({ values, handleChange, handleBlur }) => (
@@ -411,72 +389,8 @@ export default function BasicTabs({ user, userInfo, onChange }) {
               </InformationGroup>
             </>
           )}
-        </UserDataForm>
+        </CommonDataForm>
       </TabPanel>
-    </Box>
-  );
-}
-
-/**
- *
- * @param {{onSubmit: import("formik").FormikConfig['onSubmit']}} param0
- * @returns
- */
-function UserDataForm({ userData, onSubmit, validationSchema, children }) {
-  return (
-    <Box>
-      <Formik
-        onSubmit={onSubmit}
-        initialValues={userData}
-        enableReinitialize
-        validationSchema={validationSchema}
-      >
-        {({
-          values,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          handleReset,
-          isSubmitting,
-          touched,
-          errors,
-          dirty,
-        }) => (
-          <form onSubmit={handleSubmit} onReset={handleReset}>
-            <Grid container spacing={4} textAlign={"left"}>
-              <Grid item xs={12} textAlign={"end"}>
-                <Box mb={2}>
-                  <LoadingButton
-                    type="reset"
-                    variant="outlined"
-                    sx={{ marginRight: 2 }}
-                    color="error"
-                    disabled={!dirty}
-                  >
-                    Отменить изменения
-                  </LoadingButton>
-                  <LoadingButton
-                    type="submit"
-                    variant="contained"
-                    disabled={!dirty || isSubmitting}
-                  >
-                    Сохранить
-                  </LoadingButton>
-                </Box>
-
-                <Divider />
-              </Grid>
-              {React.createElement(children, {
-                values,
-                handleChange,
-                handleBlur,
-                touched,
-                errors,
-              })}
-            </Grid>
-          </form>
-        )}
-      </Formik>
     </Box>
   );
 }

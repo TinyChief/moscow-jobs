@@ -6,7 +6,7 @@ import useSettings from "../hooks/useSettings";
 import Brand from "../components/Brand";
 import Scrollbar from "react-perfect-scrollbar";
 import VerticalNav from "../components/VerticalNav/VerticalNav";
-import { curatorNavigations, internNavigations } from "../navigations";
+import { curatorNavigations, internNavigations, staffNavigations } from "../navigations";
 import { useUser } from "../hooks/useUser";
 import React, { useEffect, useState } from "react";
 import { ROLES } from "../utils/pack";
@@ -27,6 +27,9 @@ const LayoutSidenav = ({ onNavigation }) => {
         break;
       case ROLES.CURATOR:
         setActualNavigation(curatorNavigations);
+        break;
+      case ROLES.STAFF:
+        setActualNavigation(staffNavigations);
         break;
       default:
       case ROLES.INTERN:

@@ -7,19 +7,22 @@ const TextMaskCustom = React.forwardRef(function TextMaskCustom(props, ref) {
   return (
     <IMaskInput
       {...other}
-      mask="+0 (000) 000-00-00"
+      mask="{+7} (000) 000-00-00"
+      // unmask={true}
       inputRef={ref}
-      onAccept={(value) => onChange({ target: { name: props.name, value } })}
+      onAccept={(value, mask) =>
+        onChange({ target: { name: props.name, value: mask.unmaskedValue } })
+      }
       onChange={() => ({})}
-      overwrite
+      // overwrite
     />
   );
 });
 
 /**
- * 
- * @param {import("@mui/material").TextFieldProps} param0 
- * @returns 
+ *
+ * @param {import("@mui/material").TextFieldProps} param0
+ * @returns
  */
 export default function PhoneNumberInput({ ...props }) {
   return (

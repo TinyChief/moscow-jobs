@@ -1,44 +1,28 @@
-import { Box, Button, Grid, Paper } from "@mui/material";
+import { Box, Button, Chip, Grid, Paper } from "@mui/material";
 import { H3, Paragraph } from "../components/Typography";
 import { useEffect, useState } from "react";
 import { apiService } from "../services/useApiService";
 import useError from "../hooks/useError";
 import { useNavigate } from "react-router-dom";
-import { ROLES, unpackDepartmentApplication } from "../utils/pack";
-import { useUser } from "../hooks/useUser";
+import { unpackDepartmentApplication } from "../utils/pack";
+import { ApplicationStatuses, getApplicationStatusName } from "../utils/utils";
+import ApplicationStatusChip from "../components/ApplicationStatusChip";
 
-const APPLICATIONS_PER_PAGE = 10;
-
-function DepartmentsApplicationsView() {
-  const [page, setPage] = useState(1);
+function MyDepartmentApplicationsView() {
   const [applications, setApplications] = useState([]);
-  const [hasMore, setHasMore] = useState(true);
   const { setError } = useError();
-  const { user } = useUser();
-
-  function handleLoadMore() {
-    setPage((prevPage) => prevPage + 1);
-  }
-
   useEffect(() => {
-    async function uploadApplications(page) {
+    async function uploadApplications() {
       try {
-        const { data } = await apiService.getDepartmentsApplications(
-          page - 1,
-          APPLICATIONS_PER_PAGE
-        );
-        if (data.length < APPLICATIONS_PER_PAGE) setHasMore(false);
-        setApplications((prevApplications) => [
-          ...prevApplications,
-          ...data.map(unpackDepartmentApplication),
-        ]);
+        const { data } = await apiService.getMyDepartmentApplications();
+        setApplications(data.map(unpackDepartmentApplication));
       } catch (error) {
         console.log(error);
         setError(error);
       }
     }
-    uploadApplications(page);
-  }, [page]);
+    uploadApplications();
+  }, []);
 
   return (
     <>
@@ -47,29 +31,20 @@ function DepartmentsApplicationsView() {
           {applications.map((data) => {
             return (
               <Grid item xs={12} md={6} key={data.id}>
-                <DepartmentApplicationItem {...data} user={user} />
+                <DepartmentApplicationItem {...data} />
               </Grid>
             );
           })}
         </Grid>
       </Box>
-      <Box display={"flex"} justifyContent={"center"}>
-        <Button disabled={!hasMore} variant="outlined" onClick={handleLoadMore}>
-          Загрузить ещё...
-        </Button>
-      </Box>
     </>
   );
 }
 
-const DepartmentApplicationItem = ({ name, description, id, user }) => {
+const DepartmentApplicationItem = ({ name, description, id, status }) => {
   const navigate = useNavigate();
   const handleViewApplication = () => {
-    if (user.role === ROLES.INTERN) {
-      navigate("/intern/jobs/" + id);
-    } else {
-      navigate("/departments/applications/" + id);
-    }
+    navigate("/department/applications/" + id);
   };
   return (
     <Box
@@ -78,8 +53,9 @@ const DepartmentApplicationItem = ({ name, description, id, user }) => {
         padding: 3,
       }}
     >
-      <Box mb={2}>
+      <Box mb={2} display={"flex"} justifyContent={"space-between"}>
         <H3>{name}</H3>
+        <ApplicationStatusChip status={status} />
       </Box>
       <Box mb={2} height={"150px"}>
         <Paragraph
@@ -104,4 +80,4 @@ const DepartmentApplicationItem = ({ name, description, id, user }) => {
   );
 };
 
-export default DepartmentsApplicationsView;
+export default MyDepartmentApplicationsView;

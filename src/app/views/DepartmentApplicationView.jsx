@@ -23,6 +23,7 @@ import useError from "../hooks/useError";
 import { blue, grey } from "@mui/material/colors";
 import { useUser } from "../hooks/useUser";
 import { useSnackbar } from "../contexts/snackbarContext";
+import CommonDepartmentApplication from "../components/CommonDepartmentApplication";
 
 const initialApplication = {
   id: 3,
@@ -44,32 +45,10 @@ const initialOrganization = {
   phone: "+7 (495) 343-34-34",
 };
 
-const OrganizationInfoItem = ({ icon, value }) => {
-  return (
-    <ListItemButton
-      disableRipple
-      sx={{ py: 0, minHeight: 32, paddingLeft: "8px", width: "300px" }}
-    >
-      <ListItemIcon sx={{ color: grey[600] }}>
-        <Icon>{icon}</Icon>
-      </ListItemIcon>
-      <ListItemText
-        primary={value}
-        primaryTypographyProps={{
-          fontSize: 14,
-          fontWeight: "medium",
-          textOverflow: "ellipsis",
-          noWrap: true
-        }}
-      />
-    </ListItemButton>
-  );
-};
-
 const DepartmentApplication = () => {
   const { applicationId } = useParams();
   const [application, setApplication] = useState(null);
-  const [organization, setOrganization] = useState(/** @type {[]} */ null);
+  const [organization, setOrganization] = useState(null);
   const { setError } = useError();
   const { user } = useUser();
   const { showSnackbar } = useSnackbar();
@@ -79,10 +58,6 @@ const DepartmentApplication = () => {
       const { data } = await apiService.getDepartmentApplicationById(id);
       const application = unpackDepartmentApplication(data);
       setApplication(application);
-      const { data: organization } = await apiService.getOrganizationById(
-        application.organizationId
-      );
-      setOrganization(unpackOrganization(organization));
     } catch (error) {
       setError(error);
       console.log(error);
@@ -107,109 +82,48 @@ const DepartmentApplication = () => {
   };
 
   useEffect(() => {
-    // uploadApplication(applicationId);
-    setApplication(initialApplication);
-    setOrganization(initialOrganization);
+    uploadApplication(applicationId);
   }, []);
 
-  if (!application) return <Loading />;
+  useEffect(() => {
+    async function getOrg() {
+      const { data: organization } = await apiService.getOrganizationById(
+        application.organizationId
+      );
+      setOrganization(unpackOrganization(organization));
+    }
+
+    getOrg();
+  }, [application]);
+
+  if (!(application && organization)) return <Loading />;
 
   return (
-    <>
-      <Box
-        display={"flex"}
-        flexDirection={"column"}
-        alignItems={"center"}
-        justifyContent={"center"}
-        minHeight={"80vh"}
-        sx={{
-          "> *:not(:last-child)": {
-            marginBottom: 3,
-          },
-        }}
-      >
-        <Box>
-          <Grid container spacing={3}>
-            <Grid item>
-              <Avatar
-                sx={{ width: "120px", height: "120px", bgcolor: blue[300] }}
-              />
-            </Grid>
-            <Grid item>
-              <Box display={"inline"} width={"300px"}>
-                <OrganizationInfoItem
-                  icon={"corporate_fare"}
-                  value={organization.name}
-                />
-                <OrganizationInfoItem
-                  icon={"description"}
-                  value={organization.description}
-                />
-                <OrganizationInfoItem
-                  icon={"location_on"}
-                  value={organization.address}
-                />
-                <OrganizationInfoItem
-                  icon={"mail"}
-                  value={organization.email}
-                />
-                <OrganizationInfoItem
-                  icon={"call"}
-                  value={organization.phone}
-                />
-              </Box>
-            </Grid>
-          </Grid>
-        </Box>
-        <H2
-          sx={{
-            margin: "0 auto",
-          }}
-        >
-          {application.name}
-        </H2>
-
-        <Paragraph
-          sx={{
-            flex: "1",
-            width: "100%",
-            whiteSpace: "pre-wrap",
-          }}
-        >
-          {application.description}
-        </Paragraph>
-        <Box
-          display={"flex"}
-          width="100%"
-          flexDirection={"row"}
-          justifyContent={"flex-end"}
-        >
-          {user.role === ROLES.INTERN ? (
-            <Button variant="contained" color="info">
-              Подать заявку
-            </Button>
-          ) : (
-            <>
-              <Button
-                variant="contained"
-                color="error"
-                sx={{ marginRight: 2 }}
-                onClick={() => handleVerdict("decline")}
-              >
-                Отклонить
-              </Button>
-              <Button
-                variant="contained"
-                color="success"
-                onClick={() => handleVerdict("accept")}
-              >
-                Принять
-              </Button>
-            </>
-          )}
-        </Box>
-      </Box>
-    </>
+    <CommonDepartmentApplication {...{ application, organization }}>
+      {user.role === ROLES.INTERN ? (
+        <Button variant="contained" color="info">
+          Подать заявку
+        </Button>
+      ) : (
+        <>
+          <Button
+            variant="contained"
+            color="error"
+            sx={{ marginRight: 2 }}
+            onClick={() => handleVerdict("decline")}
+          >
+            Отклонить
+          </Button>
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() => handleVerdict("accept")}
+          >
+            Принять
+          </Button>
+        </>
+      )}
+    </CommonDepartmentApplication>
   );
 };
 

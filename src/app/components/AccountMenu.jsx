@@ -22,6 +22,7 @@ import useAuth from "../hooks/useAuth";
 import { useUser } from "../hooks/useUser";
 import { useNavigate } from "react-router-dom";
 import LetterAvatar from "./LetterAvatar";
+import LogoutDialog from "./LogoutDialog";
 
 export default function AccountMenu() {
   const colorMode = React.useContext(ColorModeContext);
@@ -29,6 +30,7 @@ export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { logout } = useAuth();
   const { user } = useUser();
+  const [dialog, setDialog] = React.useState(false);
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -41,6 +43,10 @@ export default function AccountMenu() {
     handleClose();
     logout();
   };
+
+  // React.useEffect(() => {
+  //   setDialog(false);
+  // }, [open]);
   return (
     <React.Fragment>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
@@ -73,6 +79,11 @@ export default function AccountMenu() {
             }}
           />
         </ButtonBase>
+        <LogoutDialog
+          handleClose={() => setDialog(false)}
+          open={dialog}
+          handleConfirm={handleLogout}
+        />
       </Box>
       <Menu
         anchorEl={anchorEl}
@@ -113,18 +124,6 @@ export default function AccountMenu() {
           <Avatar /> Профиль
         </MenuItem>
         <Divider />
-        {/* <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <PersonAdd fontSize="small" />
-          </ListItemIcon>
-          Добавить другой аккаунт
-        </MenuItem> */}
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Настройки
-        </MenuItem>
         <MenuItem onClick={() => colorMode.toggleColorMode()}>
           <ListItemIcon>
             {colorMode.currentMode === "dark" ? (
@@ -135,7 +134,7 @@ export default function AccountMenu() {
           </ListItemIcon>
           {colorMode.currentMode === "dark" ? "Светлая тема" : "Тёмная тема"}
         </MenuItem>
-        <MenuItem onClick={handleLogout}>
+        <MenuItem onClick={() => setDialog(true)}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

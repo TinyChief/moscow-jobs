@@ -124,7 +124,7 @@ export function scrollTo(scrollableElement, elmID) {
 }
 
 export function getUserInitials(name, surname) {
-  return `${name[0]}${surname[0]}`.toUpperCase();
+  return `${name ? name[0] : ""}${surname ? surname[0] : ""}`.toUpperCase();
 }
 
 export function getGenderName(gender) {
@@ -135,11 +135,42 @@ export function getJobStatusName(jobStatus) {
   return { 1: "Трудоустроен", 2: "В поиске работы" }[jobStatus];
 }
 
+export function getApplicationStatusName(status) {
+  return {
+    WAITING: "На проверке",
+    ACCEPTED: "Одобрена",
+    DECLINED: "Возвращена",
+  }[status];
+}
+
+export const ApplicationStatuses = {
+  WAITING: "WAITING",
+  ACCEPTED: "ACCEPTED",
+  DECLINED: "DECLINED",
+  CONFIRMED: "CONFIRMED",
+};
+
 export const ApplicationTypes = {
   RECOMMENDED: "recommended",
   NOT_RECOMMENDED: "not-recommended",
   ALL: "all",
 };
 
+// Описание каждого состояния:
+// ACCEPTED - отклик принят кадром организации
+// DECLINED - отклик отклонен организацией
+// CONFIRMED - отклик подтвержден самим стажером
+// WAITING - отклик еще ожидает ответа
+export function getJobApplicationStatusName(status) {
+  return {
+    [ApplicationStatuses.ACCEPTED]: "Предложение о работе",
+    [ApplicationStatuses.DECLINED]: "Отказ организии",
+    [ApplicationStatuses.CONFIRMED]: "Подтверждено мною",
+    [ApplicationStatuses.WAITING]: "Ожидание отклика",
+  }[status];
+}
 
-export const isInternOrCandidate = either(equals(ROLES.CANDIDATE), equals(ROLES.INTERN));
+export const isInternOrCandidate = either(
+  equals(ROLES.CANDIDATE),
+  equals(ROLES.INTERN)
+);

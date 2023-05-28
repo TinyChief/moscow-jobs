@@ -113,7 +113,8 @@ const getJobs = () => fetchService.get(`/api/jobs`);
 const getFullJob = (id) => fetchService.get(`/api/jobs/${id}`);
 
 const getMyApplication = () => fetchService.get("/candidates/me/request/");
-const postMyApplication = (params) => fetchService.post("/candidates/me/request/", params);
+const postMyApplication = (params) =>
+  fetchService.post("/candidates/me/request/", params);
 const getCandidateApplications = (type, page = 0) => {
   const recommended =
     type === ApplicationTypes.ALL
@@ -124,15 +125,17 @@ const getCandidateApplications = (type, page = 0) => {
   );
 };
 
-const getDepartmentsApplications = (page = 0) => {
-  return fetchService.get(`/requests/?page=${page}&size=10&status=WAITING`)
-}
+const getDepartmentsApplications = (page = 0, size = 10) => {
+  return fetchService.get(
+    `/requests/?page=${page}&size=${size}&status=WAITING`
+  );
+};
 
 const acceptCandidateApplication = (id) =>
-  fetchService.post(`/candidates/${id}/request/accept/`);
+  fetchService.post(`/candidates/${id}/accept/`);
 
 const declineCandidateApplication = (id) =>
-  fetchService.post(`/candidates/${id}/request/decline/`);
+  fetchService.post(`/candidates/${id}/decline/`);
 
 const refreshToken = async () => {
   const rs = await fetchService.post("/token/refresh/", {
@@ -143,15 +146,51 @@ const refreshToken = async () => {
   TokenService.updateLocalAccessToken(access);
 };
 
-const getUserById = (id) => fetchService.get(`/users/${id}/`)
-const getUserInfoById = (id) => fetchService.get(`/users/${id}/info/`)
-const getDepartmentApplicationById = (id) => fetchService.get(` /requests/${id}`)
+const getUserById = (id) => fetchService.get(`/users/${id}/`);
+const getUserInfoById = (id) => fetchService.get(`/users/${id}/info/`);
+const getDepartmentApplicationById = (id) =>
+  fetchService.get(`/requests/${id}/`);
 
 const acceptDepartmentApplication = (id) =>
   fetchService.post(`/request/${id}/accept/`);
 
 const declineDepartmentApplication = (id) =>
   fetchService.post(`/request/${id}/decline/`);
+
+const getMyDepartment = () => fetchService.get("/organizations/my/");
+const createDepartment = (params) =>
+  fetchService.post("/organizations/my/", params);
+const updateDepartment = (params) =>
+  fetchService.put("/organizations/my/", params);
+const createDepartmentApplication = (params) =>
+  fetchService.post("/organizations/my/requests/", params);
+const getMyDepartmentApplications = () =>
+  fetchService.get("/organizations/my/requests/");
+
+const getOrganizationById = (id) => fetchService.get(`/organizations/${id}/`);
+const editDepartmentApplication = (params) =>
+  fetchService.put(`/organizations/my/requests/${params.id}`, params);
+
+const applyToJob = (id) => fetchService.post(`/requests/${id}/interns/`);
+// const getMyJobApplications = () => fetchService.post(`/requests/my/`)
+const getMyJobApplications = async () => ({
+  data: [
+    {
+      id: 1,
+      request_id: 1,
+      request_name: 'Стажер программист',
+      organization_name: 'Технополис',
+      status: "WAITING",
+    },
+    {
+      id: 2,
+      request_id: 2,
+      request_name: 'Стажер разнорабочий',
+      organization_name: 'Метро москвы',
+      status: "ACCEPTED",
+    },
+  ],
+});
 
 export const apiService = {
   getProfile,
@@ -173,5 +212,14 @@ export const apiService = {
   getUserById,
   getUserInfoById,
   acceptDepartmentApplication,
-  declineDepartmentApplication
+  declineDepartmentApplication,
+  getMyDepartment,
+  createDepartment,
+  updateDepartment,
+  createDepartmentApplication,
+  getMyDepartmentApplications,
+  getOrganizationById,
+  editDepartmentApplication,
+  applyToJob,
+  getMyJobApplications,
 };

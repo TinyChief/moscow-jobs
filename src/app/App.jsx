@@ -27,6 +27,12 @@ import { ApplicationProvider } from "./contexts/ApplicationContext";
 import AlreadAuthGuard from "./auth/AlreadyAuthGuard";
 import DepartmentsApplicationsView from "./views/DepartmentsApplicationsView";
 import DepartmentApplication from "./views/DepartmentApplicationView";
+import DepartmentView from "./views/DepartmentView";
+import DepartmentApplicationCreateView from "./views/DepartmentApplicationCreateView";
+import MyDepartmentApplicationsView from "./views/MyDepartmentApplicationsView";
+import MyDepartmentApplication from "./views/MyDepartmentApplicationView";
+import InternJobApplicationView from "./views/InternJobApplicationView";
+import InternMyJobApplicationsView from "./views/InternMyApplications";
 
 const router = createHashRouter(
   createRoutesFromElements(
@@ -91,6 +97,22 @@ const router = createHashRouter(
           loader={fullJobLoader}
         />
         <Route path="/profile" element={<ProfileView />} />
+        <Route path="/department" element={<DepartmentView />} end />
+        <Route
+          path="/department/application/create"
+          element={<DepartmentApplicationCreateView />}
+        />
+        <Route
+          path="/department/applications"
+          element={<MyDepartmentApplicationsView />}
+        />
+        <Route
+          path="/department/applications/:applicationId"
+          element={<MyDepartmentApplication />}
+        />
+        <Route path="/intern/jobs" element={<DepartmentsApplicationsView />} />
+        <Route path="/intern/jobs/:jobId" element={<InternJobApplicationView />} />
+        <Route path="/intern/jobs/applications" element={<InternMyJobApplicationsView />} />
       </Route>
       <Route path="/" exact element={<Navigate to={"/profile"} replace />} />
       <Route path="welcome" element={<Welcome />} />

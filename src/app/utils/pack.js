@@ -124,7 +124,7 @@ function getRoleName(role) {
     CANDIDATE: "кандидат",
     INTERN: "стажер",
     CURATOR: "куратор",
-    STAFF: "кадры",
+    STAFF: "сотрудник кадров",
     MENTOR: "наставник",
   };
   return ROLES[role] || role;
@@ -169,5 +169,21 @@ export function unpackOrganization({
     address,
     email,
     phone,
+  };
+}
+
+export function unpackJobApplication({
+  id,
+  request_id: applicationId,
+  request_name: applicationName,
+  organization_name: organizationName,
+  status,
+}) {
+  return {
+    id,
+    applicationId,
+    status,
+    applicationName,
+    organizationName
   };
 }
