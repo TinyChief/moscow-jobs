@@ -10,7 +10,7 @@ import {
   Stack,
 } from "@mui/material";
 import { H2, H3, Paragraph } from "../components/Typography";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import Loading from "../components/Loading";
 import { apiService } from "../services/useApiService";
@@ -52,6 +52,7 @@ const DepartmentApplication = () => {
   const { setError } = useError();
   const { user } = useUser();
   const { showSnackbar } = useSnackbar();
+  const navigate = useNavigate()
 
   const uploadApplication = async (id) => {
     try {
@@ -73,8 +74,8 @@ const DepartmentApplication = () => {
         data = await apiService.declineDepartmentApplication(applicationId);
       }
 
-      console.log(data);
-      showSnackbar(`Заявка ${application.name} от`);
+      showSnackbar(`Заявка "${application.name}" от ${organization.name} ${verdict === 'accept' ? 'одобрена' : 'отклонена'}`);
+      navigate('/departments/applications')
     } catch (error) {
       setError(error);
       console.log(error);

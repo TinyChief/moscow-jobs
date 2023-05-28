@@ -43,37 +43,37 @@ const internshipDirections = [
   {
     name: "Медийный город",
     icon: Language,
-    nick: "media",
+    nick: "МГ",
     id: 2,
   },
   {
     name: "Социальный город",
     icon: Groups2,
-    nick: "social",
+    nick: "СГ",
     id: 3,
   },
   {
     name: "Комфортная городская среда",
     icon: LocationCity,
-    nick: "city",
+    nick: "КГС",
     id: 4,
   },
   {
     name: "Правовое пространство",
     icon: LibraryBooks,
-    nick: "rights",
+    nick: "ПП",
     id: 5,
   },
   {
     name: "Городская экономика",
     icon: CurrencyRuble,
-    nick: "economics",
+    nick: "ГЭ",
     id: 6,
   },
   {
     name: "HR-город",
     icon: PersonSearch,
-    nick: "hr",
+    nick: "HR",
     id: 7,
   },
 ];
@@ -239,6 +239,7 @@ const MakeApplication = () => {
                 <InternshipDirectionCard
                   name={name}
                   icon={icon}
+                  nick={nick}
                   isSelected={selectedDirections.includes(id)}
                 />
               </Box>
@@ -289,7 +290,7 @@ const MakeApplication = () => {
           onClick={handleSubmit}
           variant="contained"
           sx={{ width: 400 }}
-          disabled={selectedDirections.length === 0 && !hasInfo}
+          disabled={selectedDirections.length === 0 || !hasInfo}
         >
           Подать заявку
         </LoadingButton>

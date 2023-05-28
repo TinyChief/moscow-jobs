@@ -5,7 +5,7 @@ import {
   CheckCircleOutline,
 } from "@mui/icons-material";
 
-export const InternshipDirectionCard = ({ name, icon, description, isSelected }) => {
+export const InternshipDirectionCard = ({ name, icon, description, nick, isSelected }) => {
   return (
     <Box
       component={Paper}
@@ -32,7 +32,16 @@ export const InternshipDirectionCard = ({ name, icon, description, isSelected })
           padding: 2,
         }}
       >
-        <Box
+        <Box sx={{
+          width: "60px",
+          height: "60px",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundImage: `url(/assets/images/${nick}.png)`
+        }}>
+          
+        </Box>
+        {/* <Box
           component={isSelected ? CheckCircleOutline : icon || "div"}
           sx={{
             color: isSelected ? green[300] : grey[500],
@@ -41,7 +50,7 @@ export const InternshipDirectionCard = ({ name, icon, description, isSelected })
             marginBottom: "12px",
             marginTop: "15px",
           }}
-        ></Box>
+        ></Box> */}
         <Paragraph fontWeight="bold">{name}</Paragraph>
       </Box>
     </Box>

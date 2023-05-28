@@ -7,13 +7,14 @@ import { CommonDataForm } from "../components/CommonDataForm";
 import { InformationGroup } from "../components/InformationGroup";
 import { CommonTextField } from "../components/CommonTextField";
 import { departmentApplicationValidationSchema } from "../utils/validations";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { H2 } from "../components/Typography";
 
 const DepartmentApplicationCreateView = () => {
   const { showSnackbar } = useSnackbar();
   const { setError } = useError();
   const location = useLocation();
+  const navigate = useNavigate()
 
   const initialApplication = (location.state && location.state.application) || {
     name: "",
@@ -35,6 +36,7 @@ const DepartmentApplicationCreateView = () => {
       showSnackbar(
         `Заявка "${newApplication.name}" сохранена. Она будет опубликована после проверки куратором.`
       );
+      navigate('/department/applications')
     } catch (error) {
       if (error.status === 404) {
         setError(

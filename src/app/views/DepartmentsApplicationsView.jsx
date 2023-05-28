@@ -1,5 +1,5 @@
 import { Box, Button, Grid, Paper } from "@mui/material";
-import { H3, Paragraph } from "../components/Typography";
+import { H2, H3, Paragraph } from "../components/Typography";
 import { useEffect, useState } from "react";
 import { apiService } from "../services/useApiService";
 import useError from "../hooks/useError";
@@ -43,21 +43,33 @@ function DepartmentsApplicationsView() {
   return (
     <>
       <Box mb={3}>
-        <Grid container spacing={2} sx={{ minHeight: "60vh" }}>
-          {applications.map((data) => {
-            return (
-              <Grid item xs={12} md={6} key={data.id}>
-                <DepartmentApplicationItem {...data} user={user} />
-              </Grid>
-            );
-          })}
-        </Grid>
+        {applications.length === 0 ? (
+          <H2 textAlign={"center"}>
+            Пока нет доступных для рассмотрения заявок на стажёров.
+          </H2>
+        ) : (
+          <Grid container spacing={2} sx={{ minHeight: "60vh" }}>
+            {applications.map((data) => {
+              return (
+                <Grid item xs={12} md={6} key={data.id}>
+                  <DepartmentApplicationItem {...data} user={user} />
+                </Grid>
+              );
+            })}
+          </Grid>
+        )}
       </Box>
-      <Box display={"flex"} justifyContent={"center"}>
-        <Button disabled={!hasMore} variant="outlined" onClick={handleLoadMore}>
-          Загрузить ещё...
-        </Button>
-      </Box>
+      {applications.length !== 0 && (
+        <Box display={"flex"} justifyContent={"center"}>
+          <Button
+            disabled={!hasMore}
+            variant="outlined"
+            onClick={handleLoadMore}
+          >
+            Загрузить ещё...
+          </Button>
+        </Box>
+      )}
     </>
   );
 }

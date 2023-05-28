@@ -6,9 +6,18 @@ export const internNavigations = [
 
 export const candidateNavigations = [
   { name: "Профиль и настройки", path: "/profile", icon: "account_circle" },
-  { name: "Список стажировок", path: "/jobs", icon: "dashboard" },
+  { name: "Подать заявку", path: "/application", icon: "text_snippet" },
+  { name: "Мой наставник", path: "/intern/mentor", icon: "group" },
 ];
-
+export const mentorNavigations = [
+  { name: "Профиль и настройки", path: "/profile", icon: "account_circle" },
+  { name: "Мой стажёр", path: "/mentor/my-intern", icon: "group", end: true },
+  {
+    name: "Расписание",
+    path: "/mentor/my-intern/schedule",
+    icon: "calendar_month",
+  },
+];
 export const curatorNavigations = [
   { name: "Профиль и настройки", path: "/profile", icon: "account_circle" },
   {
@@ -21,10 +30,10 @@ export const curatorNavigations = [
     path: "/departments/applications",
     icon: "list",
   },
-  { name: "Список наставников", path: "/mentors", icon: "group" },
+  { name: "Список наставников", path: "/curator/mentors", icon: "group" },
   {
     name: "Статистика по кандидатам",
-    path: "/statistics",
+    path: "/curator/statistics",
     icon: "bar_chart",
   },
 ];
@@ -41,6 +50,7 @@ export const staffNavigations = [
     name: "Наши заявки",
     path: "/department/applications",
     icon: "list",
+    end: true,
   },
   {
     name: "Создать заявку",

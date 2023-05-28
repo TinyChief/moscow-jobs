@@ -152,10 +152,10 @@ const getDepartmentApplicationById = (id) =>
   fetchService.get(`/requests/${id}/`);
 
 const acceptDepartmentApplication = (id) =>
-  fetchService.post(`/request/${id}/accept/`);
+  fetchService.post(`/requests/${id}/accept/`);
 
 const declineDepartmentApplication = (id) =>
-  fetchService.post(`/request/${id}/decline/`);
+  fetchService.post(`/requests/${id}/decline/`);
 
 const getMyDepartment = () => fetchService.get("/organizations/my/");
 const createDepartment = (params) =>

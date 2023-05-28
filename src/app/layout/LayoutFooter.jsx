@@ -1,9 +1,13 @@
 import {
   AppBar,
+  Box,
   Button,
   ThemeProvider,
   Toolbar,
+  Tooltip,
+  Typography,
   styled,
+  tooltipClasses,
   useTheme,
 } from "@mui/material";
 import { topBarHeight } from "@/app/utils/constant";
@@ -39,6 +43,8 @@ export const HackLink = styled("a")(({ theme }) => ({
   fontWeight: "bold",
 }));
 
+const tooltipText = `Out team:\n"Front": Vadim Yuldashbaev\n"Back": Arseniy Fedorov\n"Back2": Evgeniy Deriglazov`;
+
 const LayoutFooter = () => {
   return (
     <AppBar
@@ -51,7 +57,23 @@ const LayoutFooter = () => {
         <FooterContent>
           <Span sx={{ m: "auto" }}></Span>
           <Paragraph sx={{ m: 0 }}>
-            Техно-прорыв для хакатона{" "}
+            <Tooltip
+              title={
+                <Typography
+                  sx={{
+                    fontSize: 12,
+                    whiteSpace: "pre-wrap",
+                  }}
+                >
+                  {tooltipText}
+                </Typography>
+              }
+            >
+              <Box component={"span"} sx={{ cursor: "pointer" }}>
+                Техно-прорыв
+              </Box>
+            </Tooltip>{" "}
+            для хакатона{" "}
             <HackLink href="https://leaders2023.innoagency.ru/">
               ЛЦТ 2023
             </HackLink>

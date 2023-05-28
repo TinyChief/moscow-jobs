@@ -1,13 +1,11 @@
 import {
   Box,
   CardContent,
-  Divider,
   FormControl,
   FormControlLabel,
   FormLabel,
   Grid,
   InputLabel,
-  Menu,
   MenuItem,
   Radio,
   RadioGroup,
@@ -21,7 +19,6 @@ import { CommonTextField } from "./CommonTextField";
 import CustomDateFormat from "./CustomDateFormat";
 import PhoneNumberInput from "./PhoneNumberInput";
 import CitizenInput from "./CitizenInput";
-import { H3 } from "./Typography";
 import { userDataValidationSchema } from "../utils/validations";
 import { pickAll } from "ramda";
 import { CommonDataForm } from "./CommonDataForm";
@@ -211,17 +208,17 @@ export default function BasicTabs({ user, userInfo, onChange }) {
                       </FormLabel>
                       <RadioGroup
                         aria-labelledby="demo-controlled-radio-buttons-group"
-                        name="controlled-radio-buttons-group"
+                        name="gender"
                         value={values.gender}
                         onChange={handleChange}
                       >
                         <FormControlLabel
-                          value="female"
+                          value="FEMALE"
                           control={<Radio size="small" />}
                           label="Женский"
                         />
                         <FormControlLabel
-                          value="male"
+                          value="MALE"
                           control={<Radio size="small" />}
                           label="Мужской"
                         />
@@ -298,6 +295,7 @@ export default function BasicTabs({ user, userInfo, onChange }) {
                       label="Год окончания"
                       variant="standard"
                       onBlur={handleBlur}
+                      type="number"
                       value={values.universityYear}
                       onChange={handleChange}
                       helperText="Если ты еще учишься, напиши предполагаемый год выпуска"

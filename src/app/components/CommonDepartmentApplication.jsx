@@ -2,6 +2,7 @@ import {
   Avatar,
   Box,
   Grid,
+  Hidden,
   Icon,
   ListItemButton,
   ListItemIcon,
@@ -14,6 +15,7 @@ import ApplicationStatusChip from "./ApplicationStatusChip";
 const CommonDepartmentApplication = ({
   organization,
   application,
+  hideApplicationStatus,
   children,
 }) => {
   return (
@@ -65,7 +67,12 @@ const CommonDepartmentApplication = ({
         </Box>
         <Box display={"flex"} alignItems={"center"}>
           <H2 sx={{ marginRight: 2 }}> {application.name} </H2>
-          <ApplicationStatusChip status={application.status} />
+
+          {hideApplicationStatus ? (
+            ""
+          ) : (
+            <ApplicationStatusChip status={application.status} />
+          )}
         </Box>
         <H4>Описание</H4>
         <Paragraph

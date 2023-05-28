@@ -1,43 +1,17 @@
 import { Box, Button, Divider, TextField } from "@mui/material";
 import { useParams } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Loading from "../components/Loading";
 import { apiService } from "../services/useApiService";
-import {
-  ROLES,
-  unpackDepartmentApplication,
-  unpackOrganization,
-} from "../utils/pack";
+import { unpackDepartmentApplication, unpackOrganization } from "../utils/pack";
 import useError from "../hooks/useError";
-import { useUser } from "../hooks/useUser";
 import { useSnackbar } from "../contexts/snackbarContext";
 import CommonDepartmentApplication from "../components/CommonDepartmentApplication";
-import { CommonDataForm } from "../components/CommonDataForm";
-
-const initialApplication = {
-  id: 3,
-  name: "Проверочный тест",
-  description: `Override or extend the styles applied to the component.
-See CSS API below for more details. 
-Component	elementType.`,
-  organization_id: 1,
-  test: "", // Нужно подумать как будет устроен тест
-  status: "ACCEPTED",
-};
-
-const initialOrganization = {
-  id: 1,
-  name: "Google plc",
-  description: "asdasdqwd",
-  address: "м. Курска",
-  email: "write@us.ru",
-  phone: "+7 (495) 343-34-34",
-};
 
 const InternJobApplicationView = () => {
   const { jobId } = useParams();
-  const [job, setJob] = useState(initialApplication);
-  const [jobOrganization, setJobOrganization] = useState(initialOrganization);
+  const [job, setJob] = useState(null);
+  const [jobOrganization, setJobOrganization] = useState(null);
   const [test, setTest] = useState("");
   const { setError } = useError();
   const { showSnackbar } = useSnackbar();
@@ -66,20 +40,22 @@ const InternJobApplicationView = () => {
     }
   };
 
-  // useEffect(() => {
-  //   uploadJob(jobId);
-  // }, []);
+  useEffect(() => {
+    uploadJob(jobId);
+  }, []);
 
-  // useEffect(() => {
-  //   async function getOrg() {
-  //     const { data: organization } = await apiService.getOrganizationById(
-  //       job.organizationId
-  //     );
-  //     setJobOrganization(unpackOrganization(organization));
-  //   }
+  useEffect(() => {
+    async function getOrg() {
+      const { data: organization } = await apiService.getOrganizationById(
+        job.organizationId
+      );
+      setJobOrganization(unpackOrganization(organization));
+    }
 
-  //   getOrg();
-  // }, [job]);
+    if (job) {
+      getOrg();
+    }
+  }, [job]);
 
   if (!(job && jobOrganization)) return <Loading />;
 
@@ -87,10 +63,11 @@ const InternJobApplicationView = () => {
     <CommonDepartmentApplication
       application={job}
       organization={jobOrganization}
+      hideApplicationStatus={true}
     >
       <Box flex={1} display={"flex"} flexDirection={"column"}>
         <Divider sx={{ marginBottom: 3 }} />
-        <TestTextField value={test} setValue={setTest}/>
+        <TestTextField value={test} setValue={setTest} />
         <Button
           disabled
           variant="contained"
@@ -145,7 +122,7 @@ function TestTextField({ value, setValue }) {
       onChange={handleChange}
       onFocus={handleFocus}
       onBlur={handleBlur}
-      error={(!focused && error)}
+      error={!focused && error}
       helperText={!focused && error ? "Поле обязательно для заполнения" : ""}
       multiline
       rows={10}

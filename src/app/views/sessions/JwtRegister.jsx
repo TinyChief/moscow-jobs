@@ -27,12 +27,12 @@ const ContentBox = styled(JustifyBox)(() => ({
 
 // inital login credentials
 const initialValues = {
-  surname: "Иванов",
-  name: "Иван",
-  secondname: "Иванович",
-  email: "hello@world.ru",
-  password: "examplepw",
-  phone: "+79252502525",
+  surname: "",
+  name: "",
+  secondname: "",
+  email: "",
+  password: "",
+  phone: "",
 };
 
 

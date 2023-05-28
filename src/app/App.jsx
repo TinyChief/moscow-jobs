@@ -33,6 +33,8 @@ import MyDepartmentApplicationsView from "./views/MyDepartmentApplicationsView";
 import MyDepartmentApplication from "./views/MyDepartmentApplicationView";
 import InternJobApplicationView from "./views/InternJobApplicationView";
 import InternMyJobApplicationsView from "./views/InternMyApplications";
+import MyDepartmentApplicationsResponses from "./views/MyDepartmentApplicationsResponses";
+import WorkInProgressView from "./views/WorkInProgressView";
 
 const router = createHashRouter(
   createRoutesFromElements(
@@ -72,11 +74,25 @@ const router = createHashRouter(
           element={<DepartmentApplication />}
           end
         />
-        <Route path="/mentors" element={<MentorsView />} end />
         <Route
-          path="/statistics"
+          path="/curator/mentors"
+          element={
+            <WorkInProgressView
+              pageName={"Модуль «Работа с наставниками»"}
+            />
+          }
+          end
+        />
+        {/* <Route path="/curator/mentors" element={<MentorsView />} end /> */}
+        <Route
+          path="/curator/statistics"
+          element={
+            <WorkInProgressView
+              pageName={"Модуль «Статистика по кандидатам и их заявкам»"}
+            />
+          }
           exact
-          element={<StatisticsView isIntern={false} />}
+          // element={<StatisticsView isIntern={false} />}
           end
         />
         <Route
@@ -110,9 +126,41 @@ const router = createHashRouter(
           path="/department/applications/:applicationId"
           element={<MyDepartmentApplication />}
         />
+        <Route
+          path="/department/applications/responses"
+          // element={<MyDepartmentApplicationsResponses />}
+          element={
+            <WorkInProgressView
+              pageName={"Модуль «Отклики от стажёров на наши заявки»"}
+            />
+          }
+        />
+
         <Route path="/intern/jobs" element={<DepartmentsApplicationsView />} />
-        <Route path="/intern/jobs/:jobId" element={<InternJobApplicationView />} />
-        <Route path="/intern/jobs/applications" element={<InternMyJobApplicationsView />} />
+        <Route
+          path="/intern/jobs/:jobId"
+          element={<InternJobApplicationView />}
+        />
+        <Route
+          path="/intern/jobs/applications"
+          element={<InternMyJobApplicationsView />}
+        />
+        <Route
+          path="/mentor/my-intern"
+          element={
+            <WorkInProgressView
+              pageName={"Модуль «Работа с закрепленным стажёром»"}
+            />
+          }
+        />
+        <Route
+          path="/mentor/my-intern/schedule"
+          element={
+            <WorkInProgressView
+              pageName={"Модуль «Расписание закрепленного стажёра»"}
+            />
+          }
+        />
       </Route>
       <Route path="/" exact element={<Navigate to={"/profile"} replace />} />
       <Route path="welcome" element={<Welcome />} />
