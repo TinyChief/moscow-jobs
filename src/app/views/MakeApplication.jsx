@@ -30,6 +30,7 @@ import { useUser } from "../hooks/useUser";
 import dayjs from "dayjs";
 import "dayjs/locale/ru"; // Импортируем локаль для русского языка
 import CandidateApplicationInfo from "../components/CandidateApplicationInfo";
+import { DirectionsNicks } from "../utils/utils";
 
 dayjs.locale("ru"); // Устанавливаем локаль для русского языка
 
@@ -37,43 +38,43 @@ const internshipDirections = [
   {
     name: "IT-город",
     icon: Devices,
-    nick: "IT",
+    nick: DirectionsNicks["IT"],
     id: 1,
   },
   {
     name: "Медийный город",
     icon: Language,
-    nick: "МГ",
+    nick: DirectionsNicks["МГ"],
     id: 2,
   },
   {
     name: "Социальный город",
     icon: Groups2,
-    nick: "СГ",
+    nick: DirectionsNicks["СГ"],
     id: 3,
   },
   {
     name: "Комфортная городская среда",
     icon: LocationCity,
-    nick: "КГС",
+    nick: DirectionsNicks["КГС"],
     id: 4,
   },
   {
     name: "Правовое пространство",
     icon: LibraryBooks,
-    nick: "ПП",
+    nick: DirectionsNicks["ПП"],
     id: 5,
   },
   {
     name: "Городская экономика",
     icon: CurrencyRuble,
-    nick: "ГЭ",
+    nick: DirectionsNicks["ГЭ"],
     id: 6,
   },
   {
     name: "HR-город",
     icon: PersonSearch,
-    nick: "HR",
+    nick: DirectionsNicks["HR"],
     id: 7,
   },
 ];
@@ -122,10 +123,15 @@ const MakeApplication = () => {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      await makeApplication(selectedDirections.map((id) => {
-        const direction = internshipDirections.find(el => el.id === id)
-        return direction.nick
-      }).join(','), busyness);
+      await makeApplication(
+        selectedDirections
+          .map((id) => {
+            const direction = internshipDirections.find((el) => el.id === id);
+            return direction.nick;
+          })
+          .join(","),
+        busyness
+      );
       showSnackbar("Заявка успешно подана!");
       setTimeout(() => {
         window.location.reload();

@@ -156,6 +156,26 @@ export const ApplicationTypes = {
   ALL: "all",
 };
 
+export const DirectionsNicks = {
+  ГЭ: "ГЭ",
+  МГ: "МГ",
+  СГ: "СГ",
+  КГС: "КГС",
+  ПП: "ПП",
+  IT: "IT",
+  HR: "HR",
+};
+
+export const DirectionsNames = {
+  [DirectionsNicks.ГЭ]: "Городская экономика",
+  [DirectionsNicks.МГ]: "медийный город",
+  [DirectionsNicks.СГ]: "социальный город",
+  [DirectionsNicks.КГС]: "комфортная городская среда",
+  [DirectionsNicks.ПП]: "правовое пространство",
+  [DirectionsNicks.IT]: "IT город",
+  [DirectionsNicks.HR]: "HR город",
+};
+
 // Описание каждого состояния:
 // ACCEPTED - отклик принят кадром организации
 // DECLINED - отклик отклонен организацией

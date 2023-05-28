@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Chip,
   Dialog,
   DialogActions,
   DialogContent,
@@ -19,7 +20,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { ApplicationTypes } from "../utils/utils";
+import { ApplicationTypes, DirectionsNames } from "../utils/utils";
 import { apiService } from "../services/useApiService";
 import useError from "../hooks/useError";
 import LetterAvatar from "../components/LetterAvatar";
@@ -38,6 +39,7 @@ const yearsOld = (birthDate) => {
 };
 
 const ApplicationItemShort = ({
+  departments,
   user: { id, name, surname, secondname, email, phone },
   userInfo: { gender, birthday, citizen, educationLevel, city },
   onVerdict,
@@ -55,22 +57,34 @@ const ApplicationItemShort = ({
       <Grid container spacing={2}>
         <Grid item xs={12} md={10}>
           <Grid container>
-            <Grid
-              item
-              xs={12}
-              md={6}
-              marginBottom={{ xs: 1, md: 0 }}
-              display={"flex"}
-              alignItems={"center"}
-            >
-              <LetterAvatar
-                name={name}
-                surname={surname}
-                sx={{ marginRight: 2 }}
-              />
-              <Paragraph>
-                {surname} {name} {secondname}
-              </Paragraph>
+            <Grid item xs={12} md={6} marginBottom={{ xs: 1, md: 0 }}>
+              <Box display={"flex"} alignItems={"center"} marginBottom={2}>
+                <LetterAvatar
+                  name={name}
+                  surname={surname}
+                  sx={{ marginRight: 2 }}
+                />
+                <Paragraph sx={{ fontSize: "16px" }}>
+                  {surname} {name} {secondname}
+                </Paragraph>
+              </Box>
+              <Box flexBasis={"100%"}>
+                {(departments || "").split(",").map((dep) => {
+                  return (
+                    <Chip
+                      variant="outlined"
+                      size="small"
+                      label={DirectionsNames[dep] || "..."}
+                      key={dep}
+                      sx={{
+                        ":not(:last-child)": {
+                          marginRight: 1,
+                        },
+                      }}
+                    />
+                  );
+                })}
+              </Box>
             </Grid>
             <Grid
               item
@@ -354,6 +368,7 @@ const ApplicationsView = () => {
                   key={i}
                   user={unpackUser(application.user)}
                   userInfo={unpackUserInfo(application.info || {})}
+                  departments={application.departments}
                   status={application.status}
                   onVerdict={handleAcceptOnDeclineApplication}
                   onShowMore={handleShowMore}
