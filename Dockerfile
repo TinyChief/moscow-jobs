@@ -1,4 +1,4 @@
-# Installation stage
+#Installation stage
 FROM node:19-alpine AS install
 
 WORKDIR /frontend
@@ -36,7 +36,9 @@ ARG API_URL
 ENV VITE_API_URL=$API_URL
 
 ENV VITE_FAKE_DB=false
-ENV VITE_API_PREFIX=""
+
+ARG API_PREFIX
+ENV VITE_API_PREFIX=$API_PREFIX
 
 RUN npm run build
 
