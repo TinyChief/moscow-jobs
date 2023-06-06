@@ -35,8 +35,6 @@ function CandidateApplicationInfo({ user, userInfo }) {
         title={"Пол"}
         value={userInfo.gender ? getGenderName(userInfo.gender) : ""}
       />
-      <UserInfoItem title={"Город проживания"} value={userInfo.city} />
-      <UserInfoItem title={"Район проживания"} value={userInfo.district} />
       <UserInfoItem
         title={"Дата рождения"}
         value={
@@ -46,6 +44,10 @@ function CandidateApplicationInfo({ user, userInfo }) {
         }
       />
       <UserInfoItem title={"Гражданство"} value={userInfo.citizen} />
+
+      <UserInfoItem title={"Город проживания"} value={userInfo.city} />
+      <UserInfoItem title={"Район проживания"} value={userInfo.district} />
+
       <UserInfoItem title={"Образование"} value={userInfo.level} />
       <UserInfoItem title={"Адрес электронной почты"} value={user.email} />
       <UserInfoItem title={"Мобильный телефон"} value={user.phone} />

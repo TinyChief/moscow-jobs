@@ -75,7 +75,7 @@ const LayoutTopbar = () => {
   return (
     <AppBar
       component={"header"}
-      color="primary"
+      // color="primary"
       position="static"
       sx={{ zIndex: 96 }}
     >

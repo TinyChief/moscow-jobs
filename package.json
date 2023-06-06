@@ -16,6 +16,7 @@
     "@mui/icons-material": "^5.11.16",
     "@mui/lab": "^5.0.0-alpha.129",
     "@mui/material": "^5.12.3",
+    "@mui/utils": "^5.13.1",
     "@mui/x-date-pickers": "^6.5.0",
     "@types/ramda": "^0.29.2",
     "axios": "^1.4.0",

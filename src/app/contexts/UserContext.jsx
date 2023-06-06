@@ -69,7 +69,7 @@ export const UserProvider = ({ children }) => {
   };
 
   const updateUserInfo = async (newUserInfo) => {
-    console.log('данные', newUserInfo)
+    console.log("данные", newUserInfo);
     const response = await apiService.updateUserInfo(packUserInfo(newUserInfo));
     const info = unpackUserInfo(response.data);
 
@@ -83,7 +83,12 @@ export const UserProvider = ({ children }) => {
     dispatch({
       type: "SET_USER",
       payload: {
-        user,
+        user: {
+          ...user,
+          status: {
+            name: 'no-request'
+          }
+        },
       },
     });
   }

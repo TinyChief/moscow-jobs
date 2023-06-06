@@ -19,7 +19,7 @@ import { CommonTextField } from "./CommonTextField";
 import CustomDateFormat from "./CustomDateFormat";
 import PhoneNumberInput from "./PhoneNumberInput";
 import CitizenInput from "./CitizenInput";
-import { userDataValidationSchema } from "../utils/validations";
+import { userDataValidationSchema, userInfoValidationSchema } from "../utils/validations";
 import { pickAll } from "ramda";
 import { CommonDataForm } from "./CommonDataForm";
 import { InformationGroup } from "./InformationGroup";
@@ -62,6 +62,7 @@ export default function BasicTabs({ user, userInfo, onChange }) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
+    console.log(newValue)
     setValue(newValue);
   };
 
@@ -184,8 +185,9 @@ export default function BasicTabs({ user, userInfo, onChange }) {
         <CommonDataForm
           initialData={initialUserInfo}
           onSubmit={(values) => handleFormSubmit("userInfo", values)}
+          validationSchema={userInfoValidationSchema}
         >
-          {({ values, handleChange, handleBlur }) => (
+          {({ values, handleChange, handleBlur, touched, errors }) => (
             <>
               <InformationGroup title={"Основная информация"}>
                 <Grid container spacing={3}>
@@ -194,6 +196,8 @@ export default function BasicTabs({ user, userInfo, onChange }) {
                       onBlur={handleBlur}
                       value={values.birthday}
                       onChange={handleChange}
+                      helperText={touched.birthday && errors.birthday}
+                      error={Boolean(errors.birthday && touched.birthday)}
                     />
                   </Grid>
                   <Grid xs={12} md={6} item>
@@ -231,6 +235,8 @@ export default function BasicTabs({ user, userInfo, onChange }) {
                   onBlur={handleBlur}
                   value={values.citizen}
                   onChange={handleChange}
+                  helperText={touched.citizen && errors.citizen}
+                  error={Boolean(errors.citizen && touched.citizen)}
                 />
                 <Grid container spacing={3}>
                   <Grid xs={12} item>
@@ -263,7 +269,8 @@ export default function BasicTabs({ user, userInfo, onChange }) {
                   onBlur={handleBlur}
                   value={values.educationLevel}
                   onChange={handleChange}
-                  helperText="Например, высшее"
+                  helperText={touched.educationLevel && errors.educationLevel || "Например, высшее"}
+                  error={Boolean(errors.educationLevel && touched.educationLevel)}
                 />
               </InformationGroup>
               <InformationGroup title="Образование">

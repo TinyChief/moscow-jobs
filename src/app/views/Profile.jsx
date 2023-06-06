@@ -7,26 +7,31 @@ import { useEffect, useState } from "react";
 import { useUser } from "../hooks/useUser";
 import useError from "../hooks/useError";
 import { useSnackbar } from "../contexts/snackbarContext";
-import { ROLES } from "../utils/pack";
 import { isInternOrCandidate } from "../utils/utils";
 
 const ProfileView = () => {
-  const { user, userInfo, getInfo, updateUserData, updateUserInfo } = useUser();
+  const { user, userInfo, updateUserData, updateUserInfo } = useUser();
   const { showSnackbar } = useSnackbar();
   const { setError } = useError();
   const [progressActiveStep, setProgressActiveStep] = useState(0);
 
   useEffect(() => {
-    getInfo();
-  }, []);
+    if (
+      user &&
+      isInternOrCandidate(user.role) &&
+      user.status &&
+      user.status.name
+    ) {
+      let actualStep = 0
+      switch (user.status.name) {
+        case 'no-request':
+          actualStep = 0
+          break
+        default:
+          actualStep = 0
+      }
 
-  useEffect(() => {
-    switch (user.role) {
-      case ROLES.CANDIDATE:
-        setProgressActiveStep(0);
-        break;
-      default:
-        setProgressActiveStep(1);
+      setProgressActiveStep(actualStep)
     }
   }, [user]);
 

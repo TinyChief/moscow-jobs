@@ -22,6 +22,8 @@ export default function CustomDateFormat({ ...props }) {
         value={value}
         onChange={handleDateChange}
         format="DD.MM.YYYY"
+        helperText={props.helperText}
+        error={props.error}
       />
     </LocalizationProvider>
   );

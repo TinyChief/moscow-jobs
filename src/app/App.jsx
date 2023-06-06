@@ -12,11 +12,9 @@ import {
   Navigate,
 } from "react-router-dom";
 import JobsView from "./views/JobsView";
-import Welcome from "./views/Welcome";
 import { apiService } from "./services/useApiService";
 import FullJobView from "./views/FullJobView";
 import CandidatesApplicationsView from "./views/CandidatesApplicationsView";
-import MentorsView from "./views/MentorsView.jsx";
 import StatisticsView from "./views/StatisticsView.jsx";
 import ProfileView from "./views/Profile";
 
@@ -33,7 +31,7 @@ import MyDepartmentApplicationsView from "./views/MyDepartmentApplicationsView";
 import MyDepartmentApplication from "./views/MyDepartmentApplicationView";
 import InternJobApplicationView from "./views/InternJobApplicationView";
 import InternMyJobApplicationsView from "./views/InternMyApplications";
-import MyDepartmentApplicationsResponses from "./views/MyDepartmentApplicationsResponses";
+// import MyDepartmentApplicationsResponses from "./views/MyDepartmentApplicationsResponses";
 import WorkInProgressView from "./views/WorkInProgressView";
 
 const router = createHashRouter(
@@ -77,9 +75,7 @@ const router = createHashRouter(
         <Route
           path="/curator/mentors"
           element={
-            <WorkInProgressView
-              pageName={"Модуль «Работа с наставниками»"}
-            />
+            <WorkInProgressView pageName={"Модуль «Работа с наставниками»"} />
           }
           end
         />
@@ -146,6 +142,14 @@ const router = createHashRouter(
           element={<InternMyJobApplicationsView />}
         />
         <Route
+          path="/intern/mentor"
+          element={
+            <WorkInProgressView
+              pageName={"Модуль «Мой наставник»"}
+            />
+          }
+        />
+        <Route
           path="/mentor/my-intern"
           element={
             <WorkInProgressView
@@ -161,9 +165,8 @@ const router = createHashRouter(
             />
           }
         />
+        <Route path="/" exact element={<Navigate to={"/profile"} replace />} />
       </Route>
-      <Route path="/" exact element={<Navigate to={"/profile"} replace />} />
-      <Route path="welcome" element={<Welcome />} />
       <Route
         path="session/signin"
         element={

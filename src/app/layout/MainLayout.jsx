@@ -8,6 +8,7 @@ import useSettings from "../hooks/useSettings";
 import { useEffect, useRef } from "react";
 import NavigationScroll from "./NavigationScroll";
 import { StyledScrollBar } from "../components/StyledScrollBar";
+import { NotifyBarProvider } from "../contexts/NotifyBarContext";
 
 const LayoutRoot = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -34,7 +35,6 @@ const SideNavOverlay = styled("div")(() => ({
   position: "fixed",
   background: "rgba(0, 0, 0, 0.44)",
 }));
-
 
 const ContentBox = styled(Container)(() => ({
   height: "100%",
@@ -92,7 +92,7 @@ const MainLayout = () => {
     if (isLgScreen) updateSidebarMode({ mode: "close" });
   };
 
-  let perfectScrollBar = null
+  let perfectScrollBar = null;
 
   return (
     <LayoutRoot className={layoutClasses}>
@@ -112,11 +112,21 @@ const MainLayout = () => {
           }}
         >
           <ContentBox>
-            <Box flexGrow={1} position="relative" py={4}>
-              <NavigationScroll onNavigation={() => perfectScrollBar.updateScroll()}>
-                <Outlet />
-              </NavigationScroll>
-            </Box>
+            <NotifyBarProvider>
+              {({ open }) => (
+                <Box
+                  flexGrow={1}
+                  position="relative"
+                  sx={{ paddingTop: open ? "70px" : 4, paddingBottom: 4 }}
+                >
+                  <NavigationScroll
+                    onNavigation={() => perfectScrollBar.updateScroll()}
+                  >
+                    <Outlet />
+                  </NavigationScroll>
+                </Box>
+              )}
+            </NotifyBarProvider>
           </ContentBox>
         </StyledScrollBar>
 

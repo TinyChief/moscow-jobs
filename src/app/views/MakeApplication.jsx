@@ -284,7 +284,7 @@ const MakeApplication = () => {
         персональных данных, указанных тобой в анкете (включая контактную
         информацию и фотографии), в рамках проекта «Карьерный портал
         Правительства Москвы» в соответствии с{" "}
-        <HackLink sx={{ fontWeight: "400" }} href="#" target="_blank">
+        <HackLink sx={{ fontWeight: "400" }} href="https://docs.yandex.ru/docs/view?url=ya-disk-public%3A%2F%2FCkhSot%2FfRG00wZ4mL4yIeKIypVCeA6BIJZeAODbejiUdRC5yJ7Um98mj0%2BjUfSbqq%2FJ6bpmRyOJonT3VoXnDag%3D%3D&name=Согласие%20на%20обработку%20данных%20.docx" target="_blank">
           {" "}
           текстом согласия
         </HackLink>

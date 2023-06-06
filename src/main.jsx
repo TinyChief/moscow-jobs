@@ -23,7 +23,7 @@ root.render(
             <CssBaseline />
             <SnackbarProvider>
               <ErrorProvider>
-                <App />
+                  <App />
               </ErrorProvider>
             </SnackbarProvider>
           </ProjectTheme>

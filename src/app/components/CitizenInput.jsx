@@ -35,7 +35,7 @@ export default function CitizenInput({ ...props }) {
   };
 
   return (
-    <FormControl>
+    <FormControl error={props.error}>
       <FormLabel size="small" id="citizen-input" sx={{
         fontSize: 11
       }}>
