@@ -13,7 +13,6 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Pagination,
   Paper,
   Stack,
   useMediaQuery,
@@ -37,6 +36,20 @@ const APPLICATIONS_PER_PAGE = 10;
 const yearsOld = (birthDate) => {
   return dayjs().diff(birthDate, "year");
 };
+
+function getAgeString(age) {
+  let suffix;
+
+  if (age % 10 === 1 && age !== 11) {
+    suffix = "год";
+  } else if (age % 10 >= 2 && age % 10 <= 4 && (age < 10 || age > 20)) {
+    suffix = "года";
+  } else {
+    suffix = "лет";
+  }
+
+  return `${age} ${suffix}`;
+}
 
 const ApplicationItemShort = ({
   departments,
@@ -69,21 +82,24 @@ const ApplicationItemShort = ({
                 </Paragraph>
               </Box>
               <Box flexBasis={"100%"}>
-                {(departments || "").split(",").map((dep) => {
-                  return (
-                    <Chip
-                      variant="outlined"
-                      size="small"
-                      label={DirectionsNames[dep] || "..."}
-                      key={dep}
-                      sx={{
-                        ":not(:last-child)": {
-                          marginRight: 1,
-                        },
-                      }}
-                    />
-                  );
-                })}
+                <Grid container spacing={1}>
+                  {(departments || "").split(",").map((dep) => {
+                    return (
+                      <Grid item key={dep}>
+                        <Chip
+                          variant="outlined"
+                          size="small"
+                          label={DirectionsNames[dep] || "..."}
+                          sx={{
+                            ":not(:last-child)": {
+                              marginRight: 1,
+                            },
+                          }}
+                        />
+                      </Grid>
+                    );
+                  })}
+                </Grid>
               </Box>
             </Grid>
             <Grid
@@ -96,7 +112,7 @@ const ApplicationItemShort = ({
             >
               <ApplicationContactInfo
                 icon={gender === "MALE" ? "man" : "woman"}
-                value={birthday ? yearsOld(birthday) + " лет" : ""}
+                value={birthday ? getAgeString(yearsOld(birthday)) : ""}
               />
               <ApplicationContactInfo icon={"home"} value={city} />
               <ApplicationContactInfo icon={"school"} value={educationLevel} />
@@ -241,8 +257,12 @@ const ApplicationsView = () => {
   }
 
   const handleSetActiveType = (newActiveType) => {
-    setActiveType(newActiveType);
-    setPage(1);
+    if (newActiveType !== activeType) {
+      setHasMore(true);
+      setApplications([]);
+      setActiveType(newActiveType);
+      setPage(1);
+    }
   };
 
   const handleShowMore = async (id) => {
@@ -290,6 +310,7 @@ const ApplicationsView = () => {
   }
 
   useEffect(() => {
+    console.log("page change");
     async function uploadApplications(type, page) {
       try {
         const { data } = await apiService.getCandidateApplications(
@@ -297,6 +318,7 @@ const ApplicationsView = () => {
           page - 1,
           APPLICATIONS_PER_PAGE
         );
+        console.log(data.length);
         if (data.length < APPLICATIONS_PER_PAGE) setHasMore(false);
         setApplications((prevApplications) => [...prevApplications, ...data]);
       } catch (error) {
@@ -305,13 +327,10 @@ const ApplicationsView = () => {
       }
     }
     uploadApplications(activeType, page);
-  }, [page]);
+  }, [page, activeType]);
 
   return (
     <>
-      <Box component={"h1"} textAlign={"center"}>
-        Заявки от кандидатов
-      </Box>
       <Box
         sx={{
           display: "flex",

@@ -32,9 +32,8 @@ const initialValues = {
   secondname: "",
   email: "",
   password: "",
-  phone: "",
+  phone: "+79",
 };
-
 
 const JwtRegister = () => {
   const theme = useTheme();
@@ -169,7 +168,8 @@ const JwtRegister = () => {
                   >
                     Нажимая кнопку, соглашаюсь
                     <NavLink
-                      to="/404"
+                      to="https://docs.yandex.ru/docs/view?url=ya-browser%3A%2F%2F4DT1uXEPRrJRXlUFoewruMn0pycjEBGQRo6KkBMzgkD3BtQPJ3XG3dDQWNiIeUZMC5ExpzlJF9Xk3FooMMVEsizV8MmWQ6Fkc9lUQsnYvWfaizQ5mA7kqLTF7Qs68S6kgfNnVwYObC4ASRWwVwvtRg%3D%3D%3Fsign%3DvsZUeTm4dZyjRAFiSsecOOaKgeQk7k37-DOo_EJ57WM%3D&name=Согласие%20на%20обработку%20данных.docx&nosw=1"
+                      target="_blank"
                       style={{
                         color: theme.palette.primary.main,
                         marginLeft: 5,

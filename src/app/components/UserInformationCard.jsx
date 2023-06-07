@@ -3,6 +3,8 @@ import {
   CardContent,
   FormControl,
   FormControlLabel,
+  FormGroup,
+  FormHelperText,
   FormLabel,
   Grid,
   InputLabel,
@@ -10,6 +12,7 @@ import {
   Radio,
   RadioGroup,
   Select,
+  Checkbox,
 } from "@mui/material";
 import { CommonCard } from "./CommonCard";
 import * as React from "react";
@@ -19,10 +22,14 @@ import { CommonTextField } from "./CommonTextField";
 import CustomDateFormat from "./CustomDateFormat";
 import PhoneNumberInput from "./PhoneNumberInput";
 import CitizenInput from "./CitizenInput";
-import { userDataValidationSchema, userInfoValidationSchema } from "../utils/validations";
+import {
+  userDataValidationSchema,
+  userInfoValidationSchema,
+} from "../utils/validations";
 import { pickAll } from "ramda";
 import { CommonDataForm } from "./CommonDataForm";
 import { InformationGroup } from "./InformationGroup";
+import { isInternOrCandidate } from "../utils/utils";
 
 export const UserInformationCard = ({ ...props }) => {
   return (
@@ -33,7 +40,6 @@ export const UserInformationCard = ({ ...props }) => {
     </CommonCard>
   );
 };
-
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -62,7 +68,7 @@ export default function BasicTabs({ user, userInfo, onChange }) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
-    console.log(newValue)
+    console.log(newValue);
     setValue(newValue);
   };
 
@@ -89,6 +95,8 @@ export default function BasicTabs({ user, userInfo, onChange }) {
       "photoUrl",
       "vkId",
       "telegramId",
+      // "hasJobExperience",
+      // "hasVolunteerExperience",
       "jobExperience",
       "jobStatus",
       "skills",
@@ -97,6 +105,11 @@ export default function BasicTabs({ user, userInfo, onChange }) {
     ],
     userInfo || {}
   );
+
+  initialUserInfo.hasJobExperience =
+    (userInfo && userInfo.hasJobExperience) || false;
+  initialUserInfo.hasVolunteerExperience =
+    (userInfo && userInfo.hasVolunteerExperience) || false;
 
   const handleFormSubmit = async (type, values) => {
     onChange(type, values);
@@ -111,7 +124,9 @@ export default function BasicTabs({ user, userInfo, onChange }) {
           aria-label="basic tabs example"
         >
           <Tab label="Персональные данные" {...a11yProps(0)} />
-          <Tab label="Информация" {...a11yProps(1)} />
+          {isInternOrCandidate(user.role) && (
+            <Tab label="Информация" {...a11yProps(1)} />
+          )}
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -262,16 +277,49 @@ export default function BasicTabs({ user, userInfo, onChange }) {
                     />
                   </Grid>
                 </Grid>
-                <CommonTextField
+                {/* <CommonTextField
                   name="educationLevel"
-                  label="Образование"
+                  label="Уровень образования"
                   variant="standard"
                   onBlur={handleBlur}
                   value={values.educationLevel}
                   onChange={handleChange}
                   helperText={touched.educationLevel && errors.educationLevel || "Например, высшее"}
                   error={Boolean(errors.educationLevel && touched.educationLevel)}
-                />
+                /> */}
+                <FormControl
+                  variant="standard"
+                  sx={{ minWidth: 200 }}
+                  error={Boolean(
+                    errors.educationLevel && touched.educationLevel
+                  )}
+                >
+                  <InputLabel id="demo-simple-select-standard-label">
+                    Уровень образования
+                  </InputLabel>
+                  <Select
+                    name="educationLevel"
+                    id="demo-simple-select-standard"
+                    // defaultValue={1}
+                    value={values.educationLevel || ""}
+                    onChange={handleChange}
+                    size="small"
+                    variant="standard"
+                  >
+                    <MenuItem value="среднее профессиональное образование">
+                      среднее профессиональное образование
+                    </MenuItem>
+                    <MenuItem value="высшее образование - бакалавриат">
+                      высшее образование - бакалавриат
+                    </MenuItem>
+                    <MenuItem value="высшее образование - специалитет, магистратура">
+                      высшее образование - специалитет, магистратура
+                    </MenuItem>
+                  </Select>
+                  <FormHelperText>
+                    {touched.educationLevel && errors.educationLevel}
+                  </FormHelperText>
+                </FormControl>
               </InformationGroup>
               <InformationGroup title="Образование">
                 <CommonTextField
@@ -303,9 +351,11 @@ export default function BasicTabs({ user, userInfo, onChange }) {
                       variant="standard"
                       onBlur={handleBlur}
                       type="number"
-                      value={values.universityYear}
+                      value={values.universityYear || ""}
                       onChange={handleChange}
-                      helperText="Если ты еще учишься, напиши предполагаемый год выпуска"
+                      helperText={
+                        "Если ты еще учишься, напиши предполагаемый год выпуска"
+                      }
                     />
                   </Grid>
                 </Grid>
@@ -327,8 +377,37 @@ export default function BasicTabs({ user, userInfo, onChange }) {
                   onChange={handleChange}
                 />
               </InformationGroup>
-              <InformationGroup title="Опыт работы (практик, стажировок) или проектной общественной деятельности">
-                <FormControl variant="standard" sx={{ minWidth: 200 }}>
+              <InformationGroup title="Опыт работы">
+                <FormLabel component="legend" sx={{ marginBottom: 1 }}>
+                  Опыт работы (практик, стажировок) или проектной общественной
+                  деятельности
+                </FormLabel>
+                <FormGroup sx={{ marginLeft: 1 }}>
+                  <FormControlLabel
+                    sx={{ marginBottom: 1 }}
+                    control={
+                      <Checkbox
+                        checked={values.hasJobExperience}
+                        onChange={handleChange}
+                        name="hasJobExperience"
+                        inputProps={{ "aria-label": "controlled" }}
+                      />
+                    }
+                    label="Работал"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={values.hasVolunteerExperience}
+                        onChange={handleChange}
+                        name="hasVolunteerExperience"
+                        inputProps={{ "aria-label": "controlled" }}
+                      />
+                    }
+                    label="Занимался волонтерством, проектной общественной деятельностью"
+                  />
+                </FormGroup>
+                {/* <FormControl variant="standard" sx={{ minWidth: 200 }}>
                   <InputLabel id="demo-simple-select-standard-label">
                     Статус
                   </InputLabel>
@@ -344,7 +423,7 @@ export default function BasicTabs({ user, userInfo, onChange }) {
                     <MenuItem value="1">Трудоустроен</MenuItem>
                     <MenuItem value="2">В поиске работы</MenuItem>
                   </Select>
-                </FormControl>
+                </FormControl> */}
                 <CommonTextField
                   name="jobExperience"
                   label="Место работы"

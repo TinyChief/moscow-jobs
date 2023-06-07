@@ -4,7 +4,7 @@ import { CommonCard } from "./CommonCard";
 import { grey } from "@mui/material/colors";
 import LetterAvatar from "./LetterAvatar";
 
-export const UserCard = ({ name, email, title, surname }) => {
+export const UserCard = ({ name, email, title, surname, phone, photoUrl }) => {
   return (
     <CommonCard>
       <CardContent
@@ -15,16 +15,29 @@ export const UserCard = ({ name, email, title, surname }) => {
           minHeight: "240px",
         }}
       >
-        <LetterAvatar
-          sx={{
-            width: "100px",
-            height: "100px",
-            marginX: "auto",
-            fontSize: 40
-          }}
-          name={name}
-          surname={surname}
-        />
+        {photoUrl ? (
+          <Box
+            sx={{
+              width: "100px",
+              height: "100px",
+              marginX: "auto",
+            }}
+            component={"img"}
+            src={photoUrl}
+          />
+        ) : (
+          <LetterAvatar
+            sx={{
+              width: "100px",
+              height: "100px",
+              marginX: "auto",
+              fontSize: 40,
+            }}
+            name={name}
+            surname={surname}
+          />
+        )}
+
         <H3
           sx={{
             fontSize: "18px",
@@ -41,10 +54,20 @@ export const UserCard = ({ name, email, title, surname }) => {
             fontSize: "14px",
             color: grey[500],
             fontWeight: "bold",
-            whiteSpace: "pre-wrap" 
+            whiteSpace: "pre-wrap",
           }}
         >
           {email}
+        </Span>
+        <Span
+          sx={{
+            fontSize: "14px",
+            color: grey[500],
+            fontWeight: "bold",
+            whiteSpace: "pre-wrap",
+          }}
+        >
+          {phone}
         </Span>
       </CardContent>
       <Divider light />

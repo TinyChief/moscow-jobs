@@ -44,7 +44,7 @@ function MyDepartmentApplicationsView() {
 const DepartmentApplicationItem = ({ name, description, id, status }) => {
   const navigate = useNavigate();
   const handleViewApplication = () => {
-    navigate("/department/applications/" + id);
+    navigate("/staff/department/applications/" + id);
   };
   return (
     <Box

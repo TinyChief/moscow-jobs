@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  ButtonGroup,
   Chip,
   Dialog,
   DialogActions,
@@ -9,40 +8,24 @@ import {
   DialogTitle,
   Grid,
   Icon,
-  IconButton,
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Pagination,
   Paper,
   Stack,
-  useMediaQuery,
-  useTheme,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import {
   ApplicationStatuses,
-  ApplicationTypes,
   getJobApplicationStatusName,
 } from "../utils/utils";
 import { apiService } from "../services/useApiService";
 import useError from "../hooks/useError";
-import LetterAvatar from "../components/LetterAvatar";
-import { Paragraph } from "../components/Typography";
-import {
-  unpackJobApplication,
-  unpackUser,
-  unpackUserInfo,
-} from "../utils/pack";
-import { Cancel, CheckCircle } from "@mui/icons-material";
+import { unpackJobApplication } from "../utils/pack";
 import { grey } from "@mui/material/colors";
 import Loading from "../components/Loading";
 import CandidateApplicationInfo from "../components/CandidateApplicationInfo";
 import dayjs from "dayjs";
-
-const yearsOld = (birthDate) => {
-  return dayjs().diff(birthDate, "year");
-};
 
 const InternMyJobApplicationsView = () => {
   const [applications, setApplications] = useState([]);
@@ -126,7 +109,7 @@ const ApplicationItemShort = ({ application }) => {
                       ? "error"
                       : "default"
                   }
-                  sx={{marginBottom: 1}}
+                  sx={{ marginBottom: 1 }}
                 ></Chip>
                 <Box
                   sx={{
@@ -146,20 +129,16 @@ const ApplicationItemShort = ({ application }) => {
           </Grid>
         </Grid>
         <Grid item xs={12} md={2}>
-          <Grid container direction={{ md: "column", xs: "row-reverse" }}>
-            <Grid item xs={6} md={12}>
-              <Box display={"flex"} justifyContent={{ md: "end", xs: "start" }}>
-                <Button
-                  variant="contained"
-                  size="small"
-                  width="200px"
-                  // onClick={() => onShowMore(id)}
-                >
-                  Подробнее
-                </Button>
-              </Box>
-            </Grid>
-          </Grid>
+          <Box display={"flex"} justifyContent={"end"}>
+            <Button
+              variant="contained"
+              size="small"
+              width="200px"
+              // onClick={() => onShowMore(id)}
+            >
+              Подробнее
+            </Button>
+          </Box>
         </Grid>
       </Grid>
     </Box>

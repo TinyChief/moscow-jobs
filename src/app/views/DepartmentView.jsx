@@ -12,6 +12,7 @@ import PhoneNumberInput from "../components/PhoneNumberInput";
 import { departmentValidationSchema } from "../utils/validations";
 import { pickAll } from "ramda";
 import { ApiError } from "../utils/errors";
+import Loading from "../components/Loading";
 
 const DepartmentView = () => {
   const { showSnackbar } = useSnackbar();
@@ -58,6 +59,8 @@ const DepartmentView = () => {
     getDepartment();
   }, []);
 
+  if (!department) return <Loading />;
+
   return (
     <>
       <Grid container spacing={2}>
@@ -67,7 +70,9 @@ const DepartmentView = () => {
               <UserCard
                 name={department.name}
                 title={department.address}
-                email={`${department.email}\n${department.phone}`}
+                email={department.email}
+                phone={department.phone}
+                photoUrl={"/assets/images/organizations/sport.svg"}
               ></UserCard>
             )}
           </Stack>

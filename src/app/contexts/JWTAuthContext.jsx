@@ -36,8 +36,8 @@ const setSession = (accessToken, refreshToken) => {
     TokenService.updateLocalAccessToken(accessToken);
   } else {
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("lastSeenStatus");
     localStorage.removeItem("refreshToken");
-    // delete axiosInstance.defaults.headers.common.Authorization;
   }
 };
 

@@ -11,11 +11,7 @@ import {
   RouterProvider,
   Navigate,
 } from "react-router-dom";
-import JobsView from "./views/JobsView";
-import { apiService } from "./services/useApiService";
-import FullJobView from "./views/FullJobView";
 import CandidatesApplicationsView from "./views/CandidatesApplicationsView";
-import StatisticsView from "./views/StatisticsView.jsx";
 import ProfileView from "./views/Profile";
 
 import "@fontsource/nunito";
@@ -31,7 +27,6 @@ import MyDepartmentApplicationsView from "./views/MyDepartmentApplicationsView";
 import MyDepartmentApplication from "./views/MyDepartmentApplicationView";
 import InternJobApplicationView from "./views/InternJobApplicationView";
 import InternMyJobApplicationsView from "./views/InternMyApplications";
-// import MyDepartmentApplicationsResponses from "./views/MyDepartmentApplicationsResponses";
 import WorkInProgressView from "./views/WorkInProgressView";
 
 const router = createHashRouter(
@@ -47,7 +42,7 @@ const router = createHashRouter(
         }
       >
         <Route
-          path="/application"
+          path="/candidate/application"
           exact
           element={
             <ApplicationProvider>
@@ -63,12 +58,12 @@ const router = createHashRouter(
           end
         />
         <Route
-          path="/departments/applications"
+          path="/curator/departments/applications"
           element={<DepartmentsApplicationsView />}
           end
         />
         <Route
-          path="/departments/applications/:applicationId"
+          path="/curator/departments/applications/:applicationId"
           element={<DepartmentApplication />}
           end
         />
@@ -92,38 +87,29 @@ const router = createHashRouter(
           end
         />
         <Route
-          path="/statistics/interns"
-          element={<StatisticsView isIntern={true} />}
-          end
+          path="/profile"
+          element={<ProfileView />}
+          state={{ title: "Профиль" }}
         />
+        <Route path="/staff/department" element={<DepartmentView />} end />
         <Route
-          path="/jobs"
-          exact
-          element={<JobsView />}
-          loader={jobsListLoader}
-          end
-        />
-        <Route
-          path="/jobs/:id"
-          element={<FullJobView />}
-          loader={fullJobLoader}
-        />
-        <Route path="/profile" element={<ProfileView />} />
-        <Route path="/department" element={<DepartmentView />} end />
-        <Route
-          path="/department/application/create"
+          path="/staff/department/application/create"
           element={<DepartmentApplicationCreateView />}
         />
         <Route
-          path="/department/applications"
+          path="/staff/department/application/edit"
+          element={<DepartmentApplicationCreateView />}
+        />
+        <Route
+          path="/staff/department/applications"
           element={<MyDepartmentApplicationsView />}
         />
         <Route
-          path="/department/applications/:applicationId"
+          path="/staff/department/applications/:applicationId"
           element={<MyDepartmentApplication />}
         />
         <Route
-          path="/department/applications/responses"
+          path="/staff/department/applications/responses"
           // element={<MyDepartmentApplicationsResponses />}
           element={
             <WorkInProgressView
@@ -143,11 +129,7 @@ const router = createHashRouter(
         />
         <Route
           path="/intern/mentor"
-          element={
-            <WorkInProgressView
-              pageName={"Модуль «Мой наставник»"}
-            />
-          }
+          element={<WorkInProgressView pageName={"Модуль «Мой наставник»"} />}
         />
         <Route
           path="/mentor/my-intern"
@@ -199,16 +181,4 @@ const router = createHashRouter(
 
 export default function App() {
   return <RouterProvider router={router} />;
-}
-
-async function fullJobLoader({ params }) {
-  const { data } = await apiService.getFullJob(params.id);
-
-  return data.job;
-}
-
-async function jobsListLoader() {
-  const { data } = await apiService.getJobs();
-
-  return data.jobs;
 }

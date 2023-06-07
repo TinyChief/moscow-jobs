@@ -1,17 +1,8 @@
 import {
-  Avatar,
-  Box,
   Button,
-  Grid,
-  Icon,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Stack,
 } from "@mui/material";
-import { H2, H3, Paragraph } from "../components/Typography";
 import { useNavigate, useParams } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Loading from "../components/Loading";
 import { apiService } from "../services/useApiService";
 import {
@@ -20,30 +11,9 @@ import {
   unpackOrganization,
 } from "../utils/pack";
 import useError from "../hooks/useError";
-import { blue, grey } from "@mui/material/colors";
 import { useUser } from "../hooks/useUser";
 import { useSnackbar } from "../contexts/snackbarContext";
 import CommonDepartmentApplication from "../components/CommonDepartmentApplication";
-
-const initialApplication = {
-  id: 3,
-  name: "Проверочный тест",
-  description: `Override or extend the styles applied to the component.
-See CSS API below for more details. 
-Component	elementType.`,
-  organization_id: 1,
-  test: {}, // Нужно подумать как будет устроен тест
-  status: "WAITING",
-};
-
-const initialOrganization = {
-  id: 1,
-  name: "Google plc",
-  description: "asdasdqwd",
-  address: "м. Курска",
-  email: "write@us.ru",
-  phone: "+7 (495) 343-34-34",
-};
 
 const DepartmentApplication = () => {
   const { applicationId } = useParams();
@@ -75,7 +45,7 @@ const DepartmentApplication = () => {
       }
 
       showSnackbar(`Заявка "${application.name}" от ${organization.name} ${verdict === 'accept' ? 'одобрена' : 'отклонена'}`);
-      navigate('/departments/applications')
+      navigate('/curator/departments/applications')
     } catch (error) {
       setError(error);
       console.log(error);

@@ -30,7 +30,7 @@ const ExtAndIntCommon = {
     justifyContent: 'center !important',
   },
   '& .icon': {
-    fontSize: '18px',
+    fontSize: '20px',
     paddingLeft: '16px',
     paddingRight: '16px',
     verticalAlign: 'middle',
@@ -53,7 +53,7 @@ const InternalLink = styled(Box)(({ theme }) => ({
 
 const StyledText = styled(Span)(({ mode }) => ({
   fontSize: '0.875rem',
-  paddingLeft: '0.8rem',
+  paddingLeft: '1rem',
   display: mode === 'compact' && 'none',
 }));
 

@@ -1,6 +1,7 @@
 import { createContext, useEffect, useReducer } from "react";
 import { apiService } from "../services/useApiService";
 import {
+  ROLES,
   packUser,
   packUserInfo,
   unpackUser,
@@ -8,6 +9,7 @@ import {
 } from "../utils/pack";
 import Loading from "@/app/components/Loading";
 import useAuth from "../hooks/useAuth";
+import { either, equals } from "ramda";
 
 const initialState = {
   user: null,

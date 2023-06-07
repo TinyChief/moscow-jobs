@@ -15,7 +15,7 @@ export default function LogoutDialog({ open, handleClose, handleConfirm }) {
         <DialogActions>
           <Button onClick={handleClose} variant="contained">Отменить</Button>
           <Button onClick={handleConfirm} variant="contained" color="error">
-            Выйти
+            Да, выйти
           </Button>
         </DialogActions>
       </Dialog>

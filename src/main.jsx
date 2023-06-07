@@ -1,7 +1,7 @@
 import { createRoot } from "react-dom/client";
 import { StyledEngineProvider, CssBaseline } from "@mui/material";
 import ProjectTheme from "@/app/theme/ProjectTheme.jsx";
-// import "./fake-db";
+import './app/styles.css'
 
 // third party style
 import "perfect-scrollbar/css/perfect-scrollbar.css";

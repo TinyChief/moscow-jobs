@@ -1,15 +1,6 @@
-import { Box } from "@mui/material";
 import { H2, H4 } from "../components/Typography";
-import styled from "@emotion/styled";
 import { grey } from "@mui/material/colors";
-
-const CenteredBox = styled(Box)(() => ({
-  display: "flex",
-  flexDirection: "column",
-  height: "100%",
-  justifyContent: "center",
-  alignItems: "center",
-}));
+import { CenteredBox } from "../components/CenteredBox";
 
 function WorkInProgressView({ pageName }) {
   return (

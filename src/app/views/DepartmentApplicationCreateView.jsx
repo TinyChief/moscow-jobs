@@ -8,13 +8,13 @@ import { InformationGroup } from "../components/InformationGroup";
 import { CommonTextField } from "../components/CommonTextField";
 import { departmentApplicationValidationSchema } from "../utils/validations";
 import { useLocation, useNavigate } from "react-router-dom";
-import { H2 } from "../components/Typography";
+import ApplicationTestCreate from "../components/ApplicationTestCreate";
 
 const DepartmentApplicationCreateView = () => {
   const { showSnackbar } = useSnackbar();
   const { setError } = useError();
   const location = useLocation();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const initialApplication = (location.state && location.state.application) || {
     name: "",
@@ -36,7 +36,7 @@ const DepartmentApplicationCreateView = () => {
       showSnackbar(
         `Заявка "${newApplication.name}" сохранена. Она будет опубликована после проверки куратором.`
       );
-      navigate('/department/applications')
+      navigate("/staff/department/applications");
     } catch (error) {
       if (error.status === 404) {
         setError(
@@ -50,9 +50,6 @@ const DepartmentApplicationCreateView = () => {
 
   return (
     <>
-      <H2 marginBottom={2}>
-        {initialApplication.id ? "Редактирование заявки" : "Создание заявки"}
-      </H2>
       <Grid container>
         <Grid xs={12} item>
           <CommonCard>
@@ -90,7 +87,7 @@ const DepartmentApplicationCreateView = () => {
                           errors.description && touched.description
                         )}
                       />
-                      <CommonTextField
+                      {/* <CommonTextField
                         name="test"
                         label="Тестовое задание"
                         variant="standard"
@@ -101,7 +98,14 @@ const DepartmentApplicationCreateView = () => {
                         onChange={handleChange}
                         helperText={touched.test && errors.test}
                         error={Boolean(errors.test && touched.test)}
-                      />
+                      /> */}
+                      <ApplicationTestCreate
+                        onBlur={handleBlur}
+                        value={values.test}
+                        onChange={handleChange}
+                        helperText={touched.test && errors.test}
+                        error={Boolean(errors.test && touched.test)}
+                      ></ApplicationTestCreate>
                     </InformationGroup>
                   </>
                 )}

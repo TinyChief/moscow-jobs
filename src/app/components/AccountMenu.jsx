@@ -1,7 +1,6 @@
 import * as React from "react";
 import {
   Box,
-  Avatar,
   Menu,
   MenuItem,
   ListItemIcon,
@@ -9,9 +8,9 @@ import {
   Stack,
   ButtonBase,
 } from "@mui/material";
-import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import {
+  AccountCircleOutlined,
   Brightness4,
   Brightness7,
   KeyboardArrowDown,
@@ -121,7 +120,10 @@ export default function AccountMenu() {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem onClick={() => navigate("/profile")}>
-          <Avatar /> Профиль
+          <ListItemIcon>
+            <AccountCircleOutlined fontSize="small" />
+          </ListItemIcon>
+           Профиль
         </MenuItem>
         <Divider />
         <MenuItem onClick={() => colorMode.toggleColorMode()}>

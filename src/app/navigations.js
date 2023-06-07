@@ -1,13 +1,15 @@
 export const internNavigations = [
   { name: "Профиль и настройки", path: "/profile", icon: "account_circle" },
   { name: "Список стажировок", path: "/intern/jobs", icon: "list", end: true },
-  { name: "Мои заявки", path: "/intern/jobs/applications", icon: "list" },
+  { name: "Отклики", path: "/intern/jobs/applications", icon: "all_inbox" },
+  { name: "Наставник", path: "/intern/mentor", icon: "group" },
+  { name: "Расписание", path: "/intern/schedule", icon: "calendar_month" },
 ];
 
 export const candidateNavigations = [
   { name: "Профиль и настройки", path: "/profile", icon: "account_circle" },
-  { name: "Подать заявку", path: "/application", icon: "text_snippet" },
-  { name: "Мой наставник", path: "/intern/mentor", icon: "group" },
+  { name: "Подать заявку", path: "/candidate/application", icon: "text_snippet" },
+  { name: "Расписание", path: "/candidate/schedule", icon: "calendar_month" },
 ];
 export const mentorNavigations = [
   { name: "Профиль и настройки", path: "/profile", icon: "account_circle" },
@@ -27,12 +29,12 @@ export const curatorNavigations = [
   },
   {
     name: "Заявки на стажёров",
-    path: "/departments/applications",
+    path: "/curator/departments/applications",
     icon: "list",
   },
-  { name: "Список наставников", path: "/curator/mentors", icon: "group" },
+  { name: "Наставники", path: "/curator/mentors", icon: "group" },
   {
-    name: "Статистика по кандидатам",
+    name: "Статистика",
     path: "/curator/statistics",
     icon: "bar_chart",
   },
@@ -42,24 +44,24 @@ export const staffNavigations = [
   { name: "Профиль и настройки", path: "/profile", icon: "account_circle" },
   {
     name: "Моя организация",
-    path: "/department",
+    path: "/staff/department",
     icon: "fact_check",
     end: true,
   },
   {
-    name: "Наши заявки",
-    path: "/department/applications",
+    name: "Заявки на стажёров",
+    path: "/staff/department/applications",
     icon: "list",
     end: true,
   },
   {
     name: "Создать заявку",
-    path: "/department/application/create",
+    path: "/staff/department/application/create",
     icon: "edit_document",
   },
   {
-    name: "Отклики от стажеров",
-    path: "/department/applications/responses",
+    name: "Отклики стажеров",
+    path: "/staff/department/applications/responses",
     icon: "attach_file_add",
   },
 ];

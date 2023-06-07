@@ -109,8 +109,6 @@ const getProfile = () => fetchService.get(`users/me/`);
 const getInfo = () => fetchService.get(`users/me/info/`);
 const updateUserData = (params) => fetchService.put(`users/me/`, params);
 const updateUserInfo = (params) => fetchService.post(`users/me/info/`, params);
-const getJobs = () => fetchService.get(`/api/jobs`);
-const getFullJob = (id) => fetchService.get(`/api/jobs/${id}`);
 
 const getMyApplication = () => fetchService.get("/candidates/me/request/");
 const postMyApplication = (params) =>
@@ -169,7 +167,10 @@ const getMyDepartmentApplications = () =>
 
 const getOrganizationById = (id) => fetchService.get(`/organizations/${id}/`);
 const editDepartmentApplication = (params) =>
-  fetchService.put(`/organizations/my/requests/${params.id}`, params);
+  fetchService.put(`/organizations/my/requests/${params.id}/`, params);
+
+const deleteDepartmentApplication = (id) =>
+  fetchService.delete(`/organizations/my/requests/${id}/`);
 
 const applyToJob = (id) => fetchService.post(`/requests/${id}/interns/`);
 // const getMyJobApplications = () => fetchService.post(`/requests/my/`)
@@ -199,8 +200,6 @@ export const apiService = {
   register,
   updateUserData,
   updateUserInfo,
-  getJobs,
-  getFullJob,
   getMyApplication,
   postMyApplication,
   refreshToken,
@@ -220,6 +219,7 @@ export const apiService = {
   getMyDepartmentApplications,
   getOrganizationById,
   editDepartmentApplication,
+  deleteDepartmentApplication,
   applyToJob,
   getMyJobApplications,
 };

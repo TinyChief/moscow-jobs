@@ -35,8 +35,17 @@ const CommonDepartmentApplication = ({
         <Box>
           <Grid container spacing={3}>
             <Grid item>
-              <Avatar
+              {/* <Avatar
                 sx={{ width: "120px", height: "120px", bgcolor: blue[300] }}
+              /> */}
+              <Box
+                sx={{
+                  width: "120px",
+                  height: "120px",
+                  marginX: "auto",
+                }}
+                component={"img"}
+                src={'/assets/images/organizations/sport.svg'}
               />
             </Grid>
             <Grid item>

@@ -39,6 +39,8 @@ export function unpackUserInfo({
   graduation_year: universityYear,
   education_level: educationLevel,
   job_experience: jobExperience,
+  has_job_experience: hasJobExperience,
+  has_volunteer_experience: hasVolunteerExperience,
   citizenship: citizen,
   photo_url: photoUrl,
   vk_id: vkId,
@@ -62,6 +64,8 @@ export function unpackUserInfo({
     vkId,
     telegramId,
     jobExperience,
+    hasJobExperience,
+    hasVolunteerExperience,
     jobStatus,
     skills,
     departments,
@@ -84,6 +88,8 @@ export function packUserInfo({
   vkId: vk_id,
   telegramId: telegram_id,
   jobExperience: job_experience,
+  hasJobExperience: has_job_experience,
+  hasVolunteerExperience: has_volunteer_experience,
   jobStatus: job_status,
   skills,
   departments,
@@ -101,6 +107,8 @@ export function packUserInfo({
     graduation_year,
     education_level,
     job_experience,
+    has_job_experience,
+    has_volunteer_experience,
     citizenship,
     photo_url,
     vk_id,
@@ -184,6 +192,6 @@ export function unpackJobApplication({
     applicationId,
     status,
     applicationName,
-    organizationName
+    organizationName,
   };
 }

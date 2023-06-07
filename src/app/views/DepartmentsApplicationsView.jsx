@@ -59,13 +59,9 @@ function DepartmentsApplicationsView() {
           </Grid>
         )}
       </Box>
-      {applications.length !== 0 && (
+      {hasMore && (
         <Box display={"flex"} justifyContent={"center"}>
-          <Button
-            disabled={!hasMore}
-            variant="outlined"
-            onClick={handleLoadMore}
-          >
+          <Button variant="outlined" onClick={handleLoadMore}>
             Загрузить ещё...
           </Button>
         </Box>
@@ -80,7 +76,7 @@ const DepartmentApplicationItem = ({ name, description, id, user }) => {
     if (user.role === ROLES.INTERN) {
       navigate("/intern/jobs/" + id);
     } else {
-      navigate("/departments/applications/" + id);
+      navigate("/curator/departments/applications/" + id);
     }
   };
   return (
@@ -90,22 +86,37 @@ const DepartmentApplicationItem = ({ name, description, id, user }) => {
         padding: 3,
       }}
     >
-      <Box mb={2}>
-        <H3>{name}</H3>
-      </Box>
-      <Box mb={2} height={"150px"}>
-        <Paragraph
-          sx={{
-            whiteSpace: "pre-wrap",
-            display: "-webkit-box",
-            WebkitLineClamp: "7" /* Максимальное количество строк */,
-            WebkitBoxOrient: "vertical",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-          }}
-        >
-          {`${description}`}
-        </Paragraph>
+      <Box display={"flex"} flexWrap={"wrap"}>
+        <Box flexBasis={"130px"} textAlign={"center"}>
+          <Box
+            sx={{
+              width: "100px",
+              height: "100px",
+              marginX: "auto",
+            }}
+            component={"img"}
+            src={getDepartmentPhotoUrl(id)}
+          />
+        </Box>
+        <Box flex={1} flexBasis={"300px"}>
+          <Box mb={2}>
+            <H3>{name}</H3>
+          </Box>
+          <Box mb={2} height={"150px"}>
+            <Paragraph
+              sx={{
+                whiteSpace: "pre-wrap",
+                display: "-webkit-box",
+                WebkitLineClamp: "7" /* Максимальное количество строк */,
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {`${description}`}
+            </Paragraph>
+          </Box>
+        </Box>
       </Box>
       <Box display={"flex"} flexDirection={"row-reverse"}>
         <Button variant="contained" onClick={handleViewApplication}>
@@ -115,5 +126,9 @@ const DepartmentApplicationItem = ({ name, description, id, user }) => {
     </Box>
   );
 };
+
+function getDepartmentPhotoUrl(id) {
+  return "/assets/images/organizations/sport.svg";
+}
 
 export default DepartmentsApplicationsView;

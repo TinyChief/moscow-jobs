@@ -64,6 +64,7 @@ const ProfileView = () => {
               surname={user.surname}
               title={user.roleName}
               email={user.email}
+              photoUrl={`/assets/images/people/${user.id}.jpg`}
             ></UserCard>
             <HelpCard />
           </Stack>
