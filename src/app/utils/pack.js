@@ -9,17 +9,18 @@ export function packUser({
   return {
     email,
     first_name: name,
-    last_name: secondname,
-    surname,
+    last_name: surname,
+    surname: secondname,
     phone,
     password,
   };
 }
 
-export function unpackUser({ first_name, last_name, role, ...rest }) {
+export function unpackUser({ first_name, last_name, role, surname, ...rest }) {
   return {
+    surname: last_name,
     name: first_name,
-    secondname: last_name,
+    secondname: surname,
     role,
     roleName: getRoleName(role),
     ...rest,
