@@ -4,15 +4,15 @@ import { useApplication } from "../contexts/ApplicationContext";
 import styled from "@emotion/styled";
 import { Paragliding } from "@mui/icons-material";
 
-const StatusRow = styled(Box)(() => ({
-  display: "flex",
-  "> :first-child": {
-    flexGrow: 1,
-  },
-  "> span": {
-    fontSize: 18,
-  },
-}));
+// const StatusRow = styled(Box)(() => ({
+//   display: "flex",
+//   "> :first-child": {
+//     flexGrow: 1,
+//   },
+//   "> span": {
+//     fontSize: 18,
+//   },
+// }));
 
 export default function ApplicationStatus() {
   const { status } = useApplication();
@@ -38,8 +38,8 @@ export default function ApplicationStatus() {
         дальше. Если у тебя остались вопросы, задавай их через форму обратной
         связи или пиши нам на почту.
       </Paragraph>
-      <StatusRow mb={2}>
-        <Span>Статус заявки: </Span>
+      <Box display={"flex"} mb={2} fontSize={18}>
+        <Span sx={{ flex: 1 }}>Статус заявки: </Span>
         <Span
           sx={(theme) => ({
             color:
@@ -52,7 +52,7 @@ export default function ApplicationStatus() {
         >
           {getNameStatus(status)}
         </Span>
-      </StatusRow>
+      </Box>
     </>
   );
 }

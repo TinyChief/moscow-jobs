@@ -1,19 +1,19 @@
 import { createContext, useEffect, useReducer } from "react";
 import { apiService } from "../services/useApiService";
 import {
-  ROLES,
   packUser,
   packUserInfo,
+  unpackStatus,
   unpackUser,
   unpackUserInfo,
 } from "../utils/pack";
 import Loading from "@/app/components/Loading";
 import useAuth from "../hooks/useAuth";
-import { either, equals } from "ramda";
 
 const initialState = {
   user: null,
   userInfo: null,
+  status: null
 };
 
 const reducer = (state, action) => {
@@ -26,6 +26,11 @@ const reducer = (state, action) => {
     case "SET_INFO": {
       const { info } = action.payload;
       return { ...state, userInfo: info };
+    }
+
+    case "SET_STATUS": {
+      const { status } = action.payload;
+      return { ...state, status };
     }
 
     default:
@@ -71,7 +76,6 @@ export const UserProvider = ({ children }) => {
   };
 
   const updateUserInfo = async (newUserInfo) => {
-    console.log("данные", newUserInfo);
     const response = await apiService.updateUserInfo(packUserInfo(newUserInfo));
     const info = unpackUserInfo(response.data);
 
@@ -85,14 +89,21 @@ export const UserProvider = ({ children }) => {
     dispatch({
       type: "SET_USER",
       payload: {
-        user: {
-          ...user,
-          status: {
-            name: 'no-request'
-          }
-        },
+        user
       },
     });
+
+    if (response.data.state) {
+
+      const status = unpackStatus(response.data.state)
+
+      dispatch({
+        type: "SET_STATUS",
+        payload: {
+          status
+        }
+      })
+    }
   }
 
   useEffect(() => {

@@ -24,7 +24,7 @@ export const curatorNavigations = [
   { name: "Профиль и настройки", path: "/profile", icon: "account_circle" },
   {
     name: "Заявки кандидатов",
-    path: "/candidates/applications",
+    path: "/curator/candidates/applications",
     icon: "fact_check",
   },
   {

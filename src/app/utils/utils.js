@@ -139,7 +139,7 @@ export function getApplicationStatusName(status) {
   return {
     WAITING: "На проверке",
     ACCEPTED: "Одобрена",
-    DECLINED: "Возвращена",
+    DECLINED: "Отклонена",
   }[status];
 }
 

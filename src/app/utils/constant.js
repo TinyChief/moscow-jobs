@@ -6,7 +6,7 @@ export const containedLayoutWidth = 1200
 
 export const ROUTES = {
 	APPLICATION: '/candidate/application',
-	CANDIDATES_APPLICATIONS: '/candidates/applications',
+	CANDIDATES_APPLICATIONS: '/curator/candidates/applications',
 	DEPARTMENTS_APPLICATIONS:"/curator/departments/applications",
 	CURATOR_DEPARTMENTS_APPLICATIONS_ID:"/curator/departments/applications/:applicationId",
 	CURATOR_MENTORS:"/curator/mentors",
@@ -24,4 +24,13 @@ export const ROUTES = {
 	INTERN_MENTOR:"/intern/mentor",
 	MENTOR_MY_INTERN:"/mentor/my-intern",
 	MENTOR_MY_INTERN_SCHEDULE:"/mentor/my-intern/schedule",
+}
+
+export const STAGES = {
+	REQUEST: "REQUEST",
+	SCHOOL: "SCHOOL",
+	TEST: "TEST",
+	CASE: "CASE",
+	CHOICE: "CHOICE",
+	WORK: "WORK"
 }

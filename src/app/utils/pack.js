@@ -1,3 +1,23 @@
+export function unpackStatus({
+  stage,
+  request_status,
+  school_status,
+  test_status,
+  case_status,
+  choice_status,
+  work_status,
+}) {
+  return {
+    stage,
+    requestStatus: request_status,
+    schoolStatus: school_status,
+    testStatus: test_status,
+    caseStatus: case_status,
+    choiceStatus: choice_status,
+    workStatus: work_status
+  };
+}
+
 export function packUser({
   email,
   name,
@@ -16,7 +36,14 @@ export function packUser({
   };
 }
 
-export function unpackUser({ first_name, last_name, role, surname, ...rest }) {
+export function unpackUser({
+  first_name,
+  last_name,
+  role,
+  surname,
+  state,
+  ...rest
+}) {
   return {
     surname: last_name,
     name: first_name,
@@ -26,7 +53,6 @@ export function unpackUser({ first_name, last_name, role, surname, ...rest }) {
     ...rest,
   };
 }
-//
 
 export function unpackUserInfo({
   birthdate: birthday,

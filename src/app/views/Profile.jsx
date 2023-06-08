@@ -8,32 +8,12 @@ import { useUser } from "../hooks/useUser";
 import useError from "../hooks/useError";
 import { useSnackbar } from "../contexts/snackbarContext";
 import { isInternOrCandidate } from "../utils/utils";
+import {STAGES} from '../utils/constant'
 
 const ProfileView = () => {
   const { user, userInfo, updateUserData, updateUserInfo } = useUser();
   const { showSnackbar } = useSnackbar();
   const { setError } = useError();
-  const [progressActiveStep, setProgressActiveStep] = useState(0);
-
-  useEffect(() => {
-    if (
-      user &&
-      isInternOrCandidate(user.role) &&
-      user.status &&
-      user.status.name
-    ) {
-      let actualStep = 0
-      switch (user.status.name) {
-        case 'no-request':
-          actualStep = 0
-          break
-        default:
-          actualStep = 0
-      }
-
-      setProgressActiveStep(actualStep)
-    }
-  }, [user]);
 
   const onUserInformationChange = async (type, values) => {
     try {
@@ -72,7 +52,7 @@ const ProfileView = () => {
         <Grid md={8} xs={12} item>
           <Stack spacing={2}>
             {isInternOrCandidate(user.role) && (
-              <ProgressCard activeStep={progressActiveStep} />
+              <ProgressCard />
             )}
             <UserInformationCard
               user={{ ...(user || {}) }}

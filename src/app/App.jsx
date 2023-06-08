@@ -52,7 +52,11 @@ const router = createHashRouter(
           end
         />
         <Route
-          path="/candidates/applications"
+          path="/candidate/schedule"
+          element={<WorkInProgressView pageName={"Модуль «Расписание мероприятий»"} />}
+        />
+        <Route
+          path="/curator/candidates/applications"
           exact
           element={<CandidatesApplicationsView />}
           end
@@ -130,6 +134,10 @@ const router = createHashRouter(
         <Route
           path="/intern/mentor"
           element={<WorkInProgressView pageName={"Модуль «Мой наставник»"} />}
+        />
+        <Route
+          path="/intern/schedule"
+          element={<WorkInProgressView pageName={"Модуль «Расписание мероприятий»"} />}
         />
         <Route
           path="/mentor/my-intern"

@@ -179,19 +179,24 @@ const getMyJobApplications = async () => ({
     {
       id: 1,
       request_id: 1,
-      request_name: 'Стажер программист',
-      organization_name: 'Технополис',
+      request_name: "Стажер программист",
+      organization_name: "Технополис",
       status: "WAITING",
     },
     {
       id: 2,
       request_id: 2,
-      request_name: 'Стажер разнорабочий',
-      organization_name: 'Метро москвы',
+      request_name: "Стажер разнорабочий",
+      organization_name: "Метро москвы",
       status: "ACCEPTED",
     },
   ],
 });
+
+const getMySchoolStatus = async () =>
+  fetchService.get("/candidates/me/school/");
+const getMyTestStatus = async () => fetchService.get("/candidates/me/test/");
+const getMyCaseStatus = async () => fetchService.get("/interns/me/case/");
 
 export const apiService = {
   getProfile,
@@ -222,4 +227,7 @@ export const apiService = {
   deleteDepartmentApplication,
   applyToJob,
   getMyJobApplications,
+  getMySchoolStatus,
+  getMyTestStatus,
+  getMyCaseStatus,
 };
