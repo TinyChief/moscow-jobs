@@ -48,7 +48,7 @@ function CandidateApplicationInfo({ user, userInfo }) {
       <UserInfoItem title={"Город проживания"} value={userInfo.city} />
       <UserInfoItem title={"Район проживания"} value={userInfo.district} />
 
-      <UserInfoItem title={"Образование"} value={userInfo.level} />
+      <UserInfoItem title={"Образование"} value={userInfo.educationLevel} />
       <UserInfoItem title={"Адрес электронной почты"} value={user.email} />
       <UserInfoItem title={"Мобильный телефон"} value={user.phone} />
       <UserInfoSectionTitle title={"Образование"} />
@@ -65,9 +65,11 @@ function CandidateApplicationInfo({ user, userInfo }) {
           "Опыт работы (практик, стажировок) или проектной общественной деятельности"
         }
       />
+      <UserInfoItem title={"Имеет опыт работы"} value={userInfo.hasJobExperience ? 'да' : 'нет'} />
+      <UserInfoItem title={"Имеет опыт волонтерства или проектной общественной деятельности"} value={userInfo.hasVolunterrExperience ? 'да' : 'нет'} />
       <UserInfoItem title={"Место работы"} value={userInfo.jobExperience} />
       <UserInfoItem
-        title={"Статус"}
+        title={"Статус трудоустройства"}
         value={userInfo.jobStatus ? getJobStatusName(userInfo.jobStatus) : ""}
       />
       <UserInfoSectionTitle title={"Дополнительная информация"} />

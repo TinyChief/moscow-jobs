@@ -71,6 +71,9 @@ const LayoutTopbar = () => {
       case ROUTES.PROFILE:
         newPageTitle = "Профиль и настройка";
         break;
+      case ROUTES.APPLICATION:
+        newPageTitle = "Заявка на стажировку";
+        break;
       case ROUTES.CANDIDATES_APPLICATIONS:
         newPageTitle = "Заявки кандидатов";
         break;

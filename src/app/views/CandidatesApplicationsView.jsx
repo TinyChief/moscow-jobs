@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Button,
   ButtonGroup,
@@ -72,11 +73,20 @@ const ApplicationItemShort = ({
           <Grid container>
             <Grid item xs={12} md={6} marginBottom={{ xs: 1, md: 0 }}>
               <Box display={"flex"} alignItems={"center"} marginBottom={2}>
-                <LetterAvatar
+                <Avatar
+                  alt={`${name[0]}${surname[0]}`}
+                  src={`/assets/images/people/${id}.jpg`} 
+                  sx={{
+                    width: '50px',
+                    height: "50px",
+                    marginRight: 2
+                  }}
+                >{`${name[0]}${surname[0]}`}</Avatar>
+                {/* <LetterAvatar
                   name={name}
                   surname={surname}
                   sx={{ marginRight: 2 }}
-                />
+                /> */}
                 <Paragraph sx={{ fontSize: "16px" }}>
                   {surname} {name} {secondname}
                 </Paragraph>

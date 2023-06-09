@@ -128,7 +128,7 @@ export function getUserInitials(name, surname) {
 }
 
 export function getGenderName(gender) {
-  return { male: "Мужской", female: "Женский" }[gender];
+  return { MALE: "Мужской", FEMALE: "Женский" }[gender];
 }
 
 export function getJobStatusName(jobStatus) {
