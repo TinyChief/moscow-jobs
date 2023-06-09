@@ -9,6 +9,7 @@ export const NotifyBarProvider = ({ children }) => {
   const [message, setMessage] = useState("");
   const [expanded, setExpanded] = useState(false);
   const { status } = useUser();
+  console.log(status)
 
   const handleToggleExpand = () => {
     setExpanded(!expanded);
@@ -29,7 +30,7 @@ export const NotifyBarProvider = ({ children }) => {
     }
   }, [status]);
 
-  if (!status) return React.cloneElement(children);
+  if (!status) return children({});
 
   return (
     <>
