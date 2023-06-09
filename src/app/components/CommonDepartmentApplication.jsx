@@ -45,7 +45,7 @@ const CommonDepartmentApplication = ({
                   marginX: "auto",
                 }}
                 component={"img"}
-                src={'/assets/images/organizations/sport.svg'}
+                src={`/assets/images/organizations/${organization.id}.svg`}
               />
             </Grid>
             <Grid item>

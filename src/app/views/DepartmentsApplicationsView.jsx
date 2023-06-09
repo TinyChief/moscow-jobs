@@ -128,7 +128,7 @@ const DepartmentApplicationItem = ({ name, description, id, user }) => {
 };
 
 function getDepartmentPhotoUrl(id) {
-  return "/assets/images/organizations/sport.svg";
+  return `/assets/images/organizations/${id}.svg`;
 }
 
 export default DepartmentsApplicationsView;

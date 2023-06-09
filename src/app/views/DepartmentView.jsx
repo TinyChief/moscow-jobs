@@ -72,7 +72,7 @@ const DepartmentView = () => {
                 title={department.address}
                 email={department.email}
                 phone={department.phone}
-                photoUrl={"/assets/images/organizations/sport.svg"}
+                photoUrl={`/assets/images/organizations/${department.id}.svg`}
               ></UserCard>
             )}
           </Stack>
