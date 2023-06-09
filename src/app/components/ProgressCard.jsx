@@ -103,6 +103,7 @@ const steps = [
   "Тестирование",
   "Кейс-чемпионат",
   "Тестовое задание и собеседование с работодателями",
+  "Работа в выбранной организации",
 ];
 
 export const ProgressCard = () => {
@@ -126,10 +127,8 @@ export const ProgressCard = () => {
           actualStep = 3;
           break;
         case STAGES.CHOICE:
-          actualStep = 4;
-          break;
         default:
-          actualStep = 0;
+          actualStep = 4;
       }
 
       setActiveStep(actualStep);
@@ -252,7 +251,7 @@ const StepGuide = ({ stage }) => {
       const { data } = await apiService.getMyTestStatus();
       console.log(data);
 
-      if (data.status === "WAITING") {
+      if (data.testStatus === "WAITING") {
         setGuide(
           <>
             Тестирование проверит твои знания по русскому языку, анализу
@@ -273,7 +272,7 @@ const StepGuide = ({ stage }) => {
             .
           </>
         );
-      } else if (data.status === "FAIL") {
+      } else if (data.testStatus === "FAIL") {
         setGuide(
           <>
             Сожалеем, но набранных тобою баллов не хватает, чтобы мы пригласили
@@ -292,7 +291,7 @@ const StepGuide = ({ stage }) => {
       const { data } = await apiService.getMyCaseStatus();
       console.log(data);
 
-      if (data.status === "WAITING") {
+      if (data.caseStatus === "WAITING") {
         setGuide(
           <>
             Тебе предстоит решить реальные задачи от организаций Правительства
@@ -301,7 +300,7 @@ const StepGuide = ({ stage }) => {
             Карьеры Правительства Москвы.
           </>
         );
-      } else if (data.status === "FAIL") {
+      } else if (data.caseStatus === "FAIL") {
         setGuide(
           <>
             Сожалеем, что у тебя не получилось проявить себя в должной мере на
@@ -309,7 +308,7 @@ const StepGuide = ({ stage }) => {
             {'"Марафон работодателей"'}.
           </>
         );
-      } else if (data.status === "PASS") {
+      } else if (data.caseStatus === "PASS") {
         setGuide(
           <>
             Твой труд был высоко оценен жюри конкурса. Поздравляем тебя с
