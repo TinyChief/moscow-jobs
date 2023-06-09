@@ -251,7 +251,7 @@ const StepGuide = ({ stage }) => {
       const { data } = await apiService.getMyTestStatus();
       console.log(data);
 
-      if (data.testStatus === "WAITING") {
+      if (data.status === "WAITING") {
         setGuide(
           <>
             Тестирование проверит твои знания по русскому языку, анализу
@@ -272,7 +272,7 @@ const StepGuide = ({ stage }) => {
             .
           </>
         );
-      } else if (data.testStatus === "FAIL") {
+      } else if (data.status === "FAIL") {
         setGuide(
           <>
             Сожалеем, но набранных тобою баллов не хватает, чтобы мы пригласили
@@ -291,7 +291,7 @@ const StepGuide = ({ stage }) => {
       const { data } = await apiService.getMyCaseStatus();
       console.log(data);
 
-      if (data.caseStatus === "WAITING") {
+      if (data.status === "WAITING") {
         setGuide(
           <>
             Тебе предстоит решить реальные задачи от организаций Правительства
@@ -300,7 +300,7 @@ const StepGuide = ({ stage }) => {
             Карьеры Правительства Москвы.
           </>
         );
-      } else if (data.caseStatus === "FAIL") {
+      } else if (data.status === "FAIL") {
         setGuide(
           <>
             Сожалеем, что у тебя не получилось проявить себя в должной мере на
@@ -308,7 +308,7 @@ const StepGuide = ({ stage }) => {
             {'"Марафон работодателей"'}.
           </>
         );
-      } else if (data.caseStatus === "PASS") {
+      } else if (data.status === "PASS") {
         setGuide(
           <>
             Твой труд был высоко оценен жюри конкурса. Поздравляем тебя с
