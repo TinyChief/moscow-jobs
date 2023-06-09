@@ -254,7 +254,7 @@ export default function BasicTabs({ user, userInfo, onChange }) {
                   error={Boolean(errors.citizen && touched.citizen)}
                 />
                 <Grid container spacing={3}>
-                  <Grid xs={12} item>
+                  <Grid xs={12} md={6} item>
                     <CommonTextField
                       name="city"
                       label="Город проживания"
@@ -266,15 +266,55 @@ export default function BasicTabs({ user, userInfo, onChange }) {
                     />
                   </Grid>
                   <Grid xs={12} md={6} item>
-                    <CommonTextField
-                      name="district"
-                      label="Район проживания"
+                    <FormControl
+                      fullWidth
                       variant="standard"
-                      onBlur={handleBlur}
-                      value={values.district}
-                      onChange={handleChange}
-                      helperText="Указать, если город проживания - Москва"
-                    />
+                      error={Boolean(errors.district && touched.district)}
+                    >
+                      <InputLabel id="demo-simple-select-standard-label">
+                        Район проживания
+                      </InputLabel>
+                      <Select
+                        name="district"
+                        id="demo-simple-select-standard"
+                        value={values.district || ""}
+                        onChange={handleChange}
+                        size="small"
+                        variant="standard"
+                      >
+                        {[
+                          "ЦАО",
+                          "САО",
+                          "СВАО",
+                          "ЮВАО",
+                          "ЮАО",
+                          "ЮЗАО",
+                          "ЗАО",
+                          "СЗАО",
+                          "ЗелАО",
+                          "ТиНАО",
+                        ].map((dist) => {
+                          return (
+                            <MenuItem key={dist} value={dist}>
+                              {dist}
+                            </MenuItem>
+                          );
+                        })}
+                        {/* <MenuItem value="среднее профессиональное образование">
+                          среднее профессиональное образование
+                        </MenuItem>
+                        <MenuItem value="высшее образование - бакалавриат">
+                          высшее образование - бакалавриат
+                        </MenuItem>
+                        <MenuItem value="высшее образование - специалитет, магистратура">
+                          высшее образование - специалитет, магистратура
+                        </MenuItem> */}
+                      </Select>
+                      <FormHelperText>
+                        {(touched.district && errors.district) ||
+                          "Указать, если город проживания - Москва"}
+                      </FormHelperText>
+                    </FormControl>
                   </Grid>
                 </Grid>
                 {/* <CommonTextField
