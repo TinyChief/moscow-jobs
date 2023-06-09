@@ -11,13 +11,12 @@ import { CommonTextField } from "../components/CommonTextField";
 import PhoneNumberInput from "../components/PhoneNumberInput";
 import { departmentValidationSchema } from "../utils/validations";
 import { pickAll } from "ramda";
-import { ApiError } from "../utils/errors";
 import Loading from "../components/Loading";
 
 const DepartmentView = () => {
   const { showSnackbar } = useSnackbar();
   const { setError } = useError();
-  const [isDepartmentCreated, setIsDepartmentCreated] = useState(false);
+  const [isDepartmentCreated, setIsDepartmentCreated] = useState(null);
   const [department, setDepartment] = useState(null);
 
   const getDepartment = async () => {
@@ -26,6 +25,7 @@ const DepartmentView = () => {
       setDepartment(data);
       setIsDepartmentCreated(true);
     } catch (error) {
+      console.log(error)
       if (error.status === 404) {
         setIsDepartmentCreated(false);
       } else {
@@ -59,7 +59,7 @@ const DepartmentView = () => {
     getDepartment();
   }, []);
 
-  if (!department) return <Loading />;
+  if (!department && isDepartmentCreated === null) return <Loading />;
 
   return (
     <>
