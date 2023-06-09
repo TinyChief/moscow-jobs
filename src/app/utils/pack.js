@@ -159,7 +159,7 @@ function getRoleName(role) {
     CANDIDATE: "кандидат",
     INTERN: "стажер",
     CURATOR: "куратор",
-    STAFF: "сотрудник кадров",
+    STAFF: "кадровый специалист",
     MENTOR: "наставник",
   };
   return ROLES[role] || role;

@@ -187,7 +187,7 @@ const RoleSelect = ({ selectedRole, onRoleSelect }) => {
           Наставник
         </MenuItem>
         <MenuItem key={ROLES.STAF} value={ROLES.STAFF}>
-          Сотрудник кадров
+          Кадровый специалист
         </MenuItem>
       </Select>
     </FormControl>
