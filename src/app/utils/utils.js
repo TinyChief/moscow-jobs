@@ -168,10 +168,10 @@ export const DirectionsNicks = {
 
 export const DirectionsNames = {
   [DirectionsNicks.ГЭ]: "Городская экономика",
-  [DirectionsNicks.МГ]: "медийный город",
-  [DirectionsNicks.СГ]: "социальный город",
-  [DirectionsNicks.КГС]: "комфортная городская среда",
-  [DirectionsNicks.ПП]: "правовое пространство",
+  [DirectionsNicks.МГ]: "Vедийный город",
+  [DirectionsNicks.СГ]: "Социальный город",
+  [DirectionsNicks.КГС]: "Комфортная городская среда",
+  [DirectionsNicks.ПП]: "Правовое пространство",
   [DirectionsNicks.IT]: "IT город",
   [DirectionsNicks.HR]: "HR город",
 };

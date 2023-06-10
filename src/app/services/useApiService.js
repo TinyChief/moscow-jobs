@@ -50,20 +50,20 @@ axiosInstance.interceptors.response.use(
   async (err) => {
     const originalConfig = err.config;
 
-    if (originalConfig.url !== "/token/create/" && err.response) {
-      // Access Token was expired
-      if (err.response.status === 401 && !originalConfig._retry) {
-        originalConfig._retry = true;
+    // if (originalConfig.url !== "/token/create/" && err.response) {
+    //   // Access Token was expired
+    //   if (err.response.status === 401 && !originalConfig._retry) {
+    //     originalConfig._retry = true;
 
-        try {
-          await refreshToken();
+    //     try {
+    //       await refreshToken();
 
-          return axiosInstance(originalConfig);
-        } catch (_error) {
-          return Promise.reject(_error);
-        }
-      }
-    }
+    //       return axiosInstance(originalConfig);
+    //     } catch (_error) {
+    //       return Promise.reject(_error);
+    //     }
+    //   }
+    // }
 
     return Promise.reject(err);
   }
@@ -197,6 +197,101 @@ const getMySchoolStatus = async () =>
   fetchService.get("/candidates/me/school/");
 const getMyTestStatus = async () => fetchService.get("/candidates/me/test/");
 const getMyCaseStatus = async () => fetchService.get("/interns/me/case/");
+const getCandidatesStatistics = async () => {
+  return fetchService.get("/statistics/candidates/");
+};
+
+const getInternsStatistics = async () => {
+  // return {
+  //   data: {
+  //     people: {
+  //       total: 332,
+  //     },
+  //     age: {
+  //       between18And25: 5,
+  //       between25And35: 20,
+  //       average: 24,
+  //     },
+  //     gender: {
+  //       male: 800,
+  //       female: 123,
+  //     },
+  //     directions: [
+  //       { name: "HR", value: "231" },
+  //       { name: "IT", value: "255" },
+  //       { name: "ГЭ", value: "100" },
+  //       { name: "КГС", value: "143" },
+  //       { name: "МГ", value: "300" },
+  //       { name: "ПП", value: "234" },
+  //       { name: "СГ", value: "532" },
+  //     ],
+  //     education: [
+  //       { name: "среднее профессиональное образование", value: "231" },
+  //       { name: "высшее образование - бакалавриат", value: "255" },
+  //       {
+  //         name: "высшее образование - специалитет, магистратура",
+  //         value: "100",
+  //       },
+  //     ],
+  //     city: {
+  //       moscow: 80,
+  //       other: 20,
+  //     },
+  //     schedule: {
+  //       fullTime: 68,
+  //       partTime: 32,
+  //     },
+  //   },
+  // };
+
+  return fetchService.get("/statistics/interns/");
+};
+
+const getOrganizationsStatistics = async () => {
+  // return {
+  //   data: {
+  //     total_requests_count: 23,
+  //     waiting_requests_count: 30,
+  //     accepted_requests_count: 53,
+  //     declined_requests_count: 21,
+  //   },
+  // };
+
+  return fetchService.get("/requests/statistics/");
+};
+
+const getOrganizationsFullStatistics = async () => {
+  // return {
+  //   data: [
+  //     {
+  //       id: 0,
+  //       name: 'АНО "Московский спорт"',
+  //       total_requests_count: 13,
+  //       waiting_requests_count: 10,
+  //       accepted_requests_count: 3,
+  //       declined_requests_count: 0,
+  //     },
+  //     {
+  //       id: 1,
+  //       name: "ГБУ Мостранспроект",
+  //       total_requests_count: 9,
+  //       waiting_requests_count: 2,
+  //       accepted_requests_count: 7,
+  //       declined_requests_count: 0,
+  //     },
+  //     {
+  //       id: 2,
+  //       name: "Агенство инноваций",
+  //       total_requests_count: 15,
+  //       waiting_requests_count: 10,
+  //       accepted_requests_count: 4,
+  //       declined_requests_count: 1,
+  //     },
+  //   ],
+  // };
+
+  return fetchService.get("/organizations/statistics/");
+};
 
 export const apiService = {
   getProfile,
@@ -230,4 +325,8 @@ export const apiService = {
   getMySchoolStatus,
   getMyTestStatus,
   getMyCaseStatus,
+  getCandidatesStatistics,
+  getInternsStatistics,
+  getOrganizationsStatistics,
+  getOrganizationsFullStatistics,
 };

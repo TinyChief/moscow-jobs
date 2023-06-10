@@ -83,8 +83,14 @@ const LayoutTopbar = () => {
       case ROUTES.CURATOR_MENTORS:
         newPageTitle = "Наставники";
         break;
-      case ROUTES.CURATOR_STATISTICS:
-        newPageTitle = "Статистика";
+      case ROUTES.CURATOR_STATISTICS_CANDIDATES:
+        newPageTitle = "Статистика по заявкам кандидатов";
+        break;
+      case ROUTES.CURATOR_STATISTICS_INTERNS:
+        newPageTitle = "Статистика по стажерам";
+        break;
+      case ROUTES.CURATOR_STATISTICS_DEPARTMENTS:
+        newPageTitle = "Статистика по заявкам организаций";
         break;
       case ROUTES.DEPARTMENT:
         newPageTitle = "Моя организация";

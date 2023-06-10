@@ -28,6 +28,9 @@ import MyDepartmentApplication from "./views/MyDepartmentApplicationView";
 import InternJobApplicationView from "./views/InternJobApplicationView";
 import InternMyJobApplicationsView from "./views/InternMyApplications";
 import WorkInProgressView from "./views/WorkInProgressView";
+import CandidateStatiscView from "./views/CandidateStatisticsView";
+import InternsStatisticsView from "./views/InternsStatisticsView";
+import OrganizationStatisticsView from "./views/OrganizationStatisticsView";
 
 const router = createHashRouter(
   createRoutesFromElements(
@@ -53,7 +56,9 @@ const router = createHashRouter(
         />
         <Route
           path="/candidate/schedule"
-          element={<WorkInProgressView pageName={"Модуль «Расписание мероприятий»"} />}
+          element={
+            <WorkInProgressView pageName={"Модуль «Расписание мероприятий»"} />
+          }
         />
         <Route
           path="/curator/candidates/applications"
@@ -80,14 +85,21 @@ const router = createHashRouter(
         />
         {/* <Route path="/curator/mentors" element={<MentorsView />} end /> */}
         <Route
-          path="/curator/statistics"
-          element={
-            <WorkInProgressView
-              pageName={"Модуль «Статистика по кандидатам и их заявкам»"}
-            />
-          }
+          path="/curator/statistics/candidates"
+          element={<CandidateStatiscView />}
           exact
-          // element={<StatisticsView isIntern={false} />}
+          end
+        />
+        <Route
+          path="/curator/statistics/interns"
+          element={<InternsStatisticsView />}
+          exact
+          end
+        />
+        <Route
+          path="/curator/statistics/departments"
+          element={<OrganizationStatisticsView />}
+          exact
           end
         />
         <Route
@@ -137,7 +149,9 @@ const router = createHashRouter(
         />
         <Route
           path="/intern/schedule"
-          element={<WorkInProgressView pageName={"Модуль «Расписание мероприятий»"} />}
+          element={
+            <WorkInProgressView pageName={"Модуль «Расписание мероприятий»"} />
+          }
         />
         <Route
           path="/mentor/my-intern"
